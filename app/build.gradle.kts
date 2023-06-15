@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -14,7 +16,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.vproject.brushai.runner.CustomTestRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -63,12 +66,25 @@ dependencies {
 
     // Unit Testing Dependencies
     testImplementation ("junit:junit:4.13.2")
+    testImplementation(project(":shared-test"))
 
     // UI Testing Dependencies
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
     androidTestImplementation ("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(project(":shared-test"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    implementation("junit:junit:4.13.2")
+    implementation("androidx.test:core-ktx:1.5.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    implementation("androidx.test:rules:1.5.0")
+    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.dagger:hilt-android-testing:2.44")
+    implementation("androidx.test:runner:1.5.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     // Jetpack Compose Debug Dependencies
     debugImplementation ("androidx.compose.ui:ui-tooling")

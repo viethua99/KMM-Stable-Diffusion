@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BrushAI"
 include(":app")
+include(":shared-test")
