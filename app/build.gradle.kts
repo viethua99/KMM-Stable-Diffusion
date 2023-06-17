@@ -1,8 +1,8 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -52,41 +52,40 @@ android {
 
 dependencies {
     // Jetpack Compose Standard Dependencies
-    implementation("androidx.activity:activity-compose:1.5.1")
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    implementation ("androidx.compose.ui:ui")
-    implementation ("androidx.compose.ui:ui-graphics")
-    implementation ("androidx.compose.ui:ui-tooling-preview")
-    implementation ("androidx.compose.material3:material3")
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation (libs.androidx.compose.ui)
+    implementation (libs.androidx.compose.ui.graphics)
+    implementation (libs.androidx.compose.ui.tooling.preview)
+    implementation (libs.androidx.compose.material)
 
     // Android Kotlin Extension Dependencies
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-
+    implementation(libs.androidx.core.ktx)
+    implementation(platform(libs.kotlin.bom))
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     // Unit Testing Dependencies
-    testImplementation ("junit:junit:4.13.2")
+    testImplementation (libs.junit4)
     testImplementation(project(":shared-test"))
 
     // UI Testing Dependencies
-    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    androidTestImplementation ("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation (libs.androidx.test.ext)
+    androidTestImplementation (libs.androidx.test.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation (libs.androidx.compose.ui.test.junit)
     androidTestImplementation(project(":shared-test"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
-    implementation("junit:junit:4.13.2")
-    implementation("androidx.test:core-ktx:1.5.0")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
-    implementation("androidx.test:rules:1.5.0")
-    implementation("com.google.dagger:hilt-android:2.44")
-    implementation("com.google.dagger:hilt-android-testing:2.44")
-    implementation("androidx.test:runner:1.5.2")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.junit4)
+    implementation(libs.androidx.test.core.ktx)
+    implementation(libs.androidx.test.ext.ktx)
+    implementation(libs.androidx.test.rules)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.android.testing)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.test.runner)
 
     // Jetpack Compose Debug Dependencies
-    debugImplementation ("androidx.compose.ui:ui-tooling")
-    debugImplementation ("androidx.compose.ui:ui-test-manifest")
+    debugImplementation (libs.androidx.compose.ui.tooling)
+    debugImplementation (libs.androidx.compose.ui.test.manifest)
 }
