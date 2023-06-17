@@ -1,6 +1,8 @@
 [versions]
+androidDesugarJdkLibs = "1.2.2"
 androidGradlePlugin = "8.0.2"
 androidxCoreKtx = "1.8.0"
+androidxComposeCompiler = "1.4.5"
 androidxActivityCompose = "1.5.1"
 androidxComposeBom = "2022.10.00"
 androidxLifecycleRuntimeKtx = "2.3.1"
@@ -11,7 +13,9 @@ androidxTestRules = "1.5.0"
 androidxTestEspressoCore = "3.4.0"
 androidxTestRunner = "1.5.2"
 kotlinAndroid = "1.7.20"
-ksp = "1.8.10-1.0.9"
+kotlin = "1.8.20"
+kotlinKapt = "1.8.22"
+ksp = "1.8.20-1.0.11"
 kotlinxCoroutinesAndroid = "1.3.9"
 kotlinxCoroutinesTest = "1.7.1"
 kotlinBom = "1.8.0"
@@ -19,6 +23,7 @@ hiltAndroid = "2.44"
 junit4 = "4.13.2"
 
 [libraries]
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCoreKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
@@ -44,9 +49,15 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinAndroid" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinKapt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }

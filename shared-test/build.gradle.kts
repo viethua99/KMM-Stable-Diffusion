@@ -1,8 +1,6 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("brushai.android.library")
+    id("brushai.android.hilt")
 }
 
 android {
@@ -23,7 +21,4 @@ dependencies {
     implementation(libs.androidx.test.ext.ktx)
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.test.runner)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.android.testing)
-    ksp(libs.hilt.android.compiler)
 }
