@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -13,4 +14,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "BrushAI"
-include ':app'
+include(":app")
+include(":shared-test")
+include(":feature:home")
