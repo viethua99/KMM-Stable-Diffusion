@@ -29,19 +29,17 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:home"))
+
     // Jetpack Compose Standard Dependencies
     implementation(libs.androidx.activity.compose)
-    implementation (libs.androidx.compose.ui)
-    implementation (libs.androidx.compose.ui.graphics)
-    implementation (libs.androidx.compose.ui.tooling.preview)
-    implementation (libs.androidx.compose.material)
 
     // Android Kotlin Extension Dependencies
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.kotlin.bom))
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.hilt.navigation.compose)
     // Unit Testing Dependencies
-    testImplementation (libs.junit4)
     testImplementation(project(":shared-test"))
 
     // UI Testing Dependencies
@@ -50,15 +48,5 @@ dependencies {
     androidTestImplementation (libs.androidx.compose.ui.test.junit)
     androidTestImplementation(project(":shared-test"))
 
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.test)
     implementation(libs.junit4)
-    implementation(libs.androidx.test.core.ktx)
-    implementation(libs.androidx.test.ext.ktx)
-    implementation(libs.androidx.test.rules)
-    implementation(libs.androidx.test.runner)
-
-    // Jetpack Compose Debug Dependencies
-    debugImplementation (libs.androidx.compose.ui.tooling)
-    debugImplementation (libs.androidx.compose.ui.test.manifest)
 }

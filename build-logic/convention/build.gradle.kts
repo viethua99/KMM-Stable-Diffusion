@@ -49,5 +49,9 @@ gradlePlugin {
             id = "brushai.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
+        register("androidFeature") {
+            id = "brushai.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
     }
 }
