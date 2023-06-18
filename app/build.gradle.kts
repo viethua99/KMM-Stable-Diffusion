@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:home"))
+    implementation(project(":feature:prompt"))
 
     // Jetpack Compose Standard Dependencies
     implementation(libs.androidx.activity.compose)
