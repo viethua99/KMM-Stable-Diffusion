@@ -39,14 +39,11 @@ dependencies {
     implementation(platform(libs.kotlin.bom))
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.hilt.navigation.compose)
-    // Unit Testing Dependencies
-    testImplementation(project(":shared-test"))
 
     // UI Testing Dependencies
     androidTestImplementation (libs.androidx.test.ext)
     androidTestImplementation (libs.androidx.test.espresso.core)
     androidTestImplementation (libs.androidx.compose.ui.test.junit)
-    androidTestImplementation(project(":shared-test"))
 
     implementation(libs.junit4)
 }
