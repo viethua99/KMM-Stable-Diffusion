@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BrushAI"
 include(":app")
+include(":core:testing")
 include(":feature:prompt")

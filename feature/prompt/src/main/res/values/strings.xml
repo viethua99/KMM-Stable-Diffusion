@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_prompt_hint">Main Prompt Hint</string>
+    <string name="negative_prompt_hint">Negative Prompt Hint</string>
+    <string name="prompt_scale">Scale</string>
+    <string name="prompt_step">Step</string>
+    <string name="generate_image">Generate Image</string>
+    <string name="success_screen">Success Screen</string>
+    <string name="error_message">There is some problem occurred</string>
+</resources>

@@ -13,7 +13,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.vproject.brushai.runner.CustomTestRunner"
+        testInstrumentationRunner = "com.vproject.brushai.core.testing.BrushAiTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -31,6 +31,8 @@ android {
 dependencies {
     implementation(project(":feature:prompt"))
 
+    androidTestImplementation(project(":core:testing"))
+
     // Jetpack Compose Standard Dependencies
     implementation(libs.androidx.activity.compose)
 
@@ -41,7 +43,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     // UI Testing Dependencies
-    androidTestImplementation (libs.androidx.test.ext)
+    androidTestImplementation (libs.androidx.test.ext.ktx)
     androidTestImplementation (libs.androidx.test.espresso.core)
     androidTestImplementation (libs.androidx.compose.ui.test.junit)
 
