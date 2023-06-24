@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.vproject.brushai.feature.prompt"
+    namespace = "com.vproject.brushai.feature.generate"
 }
 
 dependencies {

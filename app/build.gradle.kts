@@ -29,8 +29,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:prompt"))
 
+    implementation(project(":feature:generate"))
     androidTestImplementation(project(":core:testing"))
 
     // Jetpack Compose Standard Dependencies

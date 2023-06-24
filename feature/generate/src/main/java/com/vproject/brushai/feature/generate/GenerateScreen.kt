@@ -1,4 +1,4 @@
-package com.vproject.brushai.feature.prompt
+package com.vproject.brushai.feature.generate
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,43 +23,41 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 
 @Composable
-internal fun PromptRoute(
+internal fun GenerateRoute(
     modifier: Modifier = Modifier,
-    viewModel: PromptViewModel = hiltViewModel()
+    viewModel: GenerateViewModel = hiltViewModel()
 ) {
     val promptUiState by viewModel.uiState.collectAsStateWithLifecycle()
-    PromptScreen(
-        promptUiState = promptUiState,
+    GenerateScreen(
+        generateUiState = promptUiState,
         modifier = modifier
     )
 }
 
 @Composable
-internal fun PromptScreen(
-    promptUiState: PromptUiState,
+internal fun GenerateScreen(
+    generateUiState: GenerateUiState,
     modifier: Modifier = Modifier,
 ) {
-    when (promptUiState) {
-        is PromptUiState.Loading -> {
-            PromptLoadingWheel(modifier)
+    when (generateUiState) {
+        is GenerateUiState.Loading -> {
+            GenerateLoadingWheel(modifier)
         }
 
-        is PromptUiState.Loaded -> {
-            PromptBody()
+        is GenerateUiState.Loaded -> {
+            GenerateBody()
         }
     }
 }
 
 @Composable
-internal fun PromptLoadingWheel(modifier: Modifier = Modifier) {
+internal fun GenerateLoadingWheel(modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier
             .fillMaxSize()
@@ -69,7 +67,7 @@ internal fun PromptLoadingWheel(modifier: Modifier = Modifier) {
 }
 
 @Composable
-internal fun PromptBody() {
+internal fun GenerateBody() {
     Column(
         Modifier
             .fillMaxWidth()
@@ -83,12 +81,12 @@ internal fun PromptBody() {
 //            model = "https://cdn.stablediffusionapi.com/generations/66e740df-031e-4ed7-a145-2dd90291d1e8-0.png",
 //        )
 
-        PromptEditor(Modifier.weight(4f))
+        GenerateEditor(Modifier.weight(4f))
     }
 }
 
 @Composable
-internal fun PromptEditor(modifier: Modifier = Modifier) {
+internal fun GenerateEditor(modifier: Modifier = Modifier) {
     var mainPromptValue by remember { mutableStateOf("Mario on the scooter") }
     var negativePromptValue by remember { mutableStateOf("Mario on the scooter") }
     var promptScale by remember { mutableStateOf(10f) }

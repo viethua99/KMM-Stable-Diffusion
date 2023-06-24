@@ -1,18 +1,18 @@
-package com.vproject.brushai.feature.prompt
+package com.vproject.brushai.feature.generate
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import org.junit.Rule
 import org.junit.Test
 
-class PromptScreenTest {
+class GenerateScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun prompt_whenGeneratingImageWithValidMainPrompt_displayResultImageScreen() {
-        val promptUiState = PromptUiState.Loaded
-        launchPromptScreen(composeTestRule, promptUiState) {
+        val generateUiState = GenerateUiState.Loaded
+        launchGenerateScreen(composeTestRule, generateUiState) {
             typeMainPrompt("Mario is driving on a scooter")
             leaveNegativePromptEmpty()
             useDefaultPromptScale()
@@ -25,8 +25,8 @@ class PromptScreenTest {
 
     @Test
     fun prompt_whenGeneratingImageWithValidNegativePrompt_displayResultImageScreen() {
-        val promptUiState = PromptUiState.Loaded
-        launchPromptScreen(composeTestRule, promptUiState) {
+        val generateUiState = GenerateUiState.Loaded
+        launchGenerateScreen(composeTestRule, generateUiState) {
             typeMainPrompt("Mario is driving on a scooter")
             typeNegativePrompt("Boring face")
             useDefaultPromptScale()
@@ -39,8 +39,8 @@ class PromptScreenTest {
 
     @Test
     fun prompt_whenGeneratingImageWithValidPromptScale_displayResultImageScreen() {
-        val promptUiState = PromptUiState.Loaded
-        launchPromptScreen(composeTestRule, promptUiState) {
+        val generateUiState = GenerateUiState.Loaded
+        launchGenerateScreen(composeTestRule, generateUiState) {
             typeMainPrompt("Mario is driving on a scooter")
             typeNegativePrompt("Boring face")
             setPromptScale(10.5f)
@@ -53,8 +53,8 @@ class PromptScreenTest {
 
     @Test
     fun prompt_whenGeneratingImageWithValidPromptStep_displayResultImageScreen() {
-        val promptUiState = PromptUiState.Loaded
-        launchPromptScreen(composeTestRule, promptUiState) {
+        val generateUiState = GenerateUiState.Loaded
+        launchGenerateScreen(composeTestRule, generateUiState) {
             typeMainPrompt("Mario is driving on a scooter")
             typeNegativePrompt("Boring face")
             useDefaultPromptScale()
@@ -67,8 +67,8 @@ class PromptScreenTest {
 
     @Test
     fun prompt_whenGeneratingImageWithEmptyMainPrompt_displayErrorMessage() {
-        val promptUiState = PromptUiState.Loaded
-        launchPromptScreen(composeTestRule, promptUiState) {
+        val generateUiState = GenerateUiState.Loaded
+        launchGenerateScreen(composeTestRule, generateUiState) {
             typeMainPrompt("")
             leaveNegativePromptEmpty()
             useDefaultPromptScale()

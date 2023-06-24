@@ -1,4 +1,4 @@
-package com.vproject.brushai.feature.prompt
+package com.vproject.brushai.feature.generate
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
@@ -12,21 +12,21 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 internal typealias ComponentActivityTestRule = AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity>
 
-internal fun launchPromptScreen(
+internal fun launchGenerateScreen(
     testRule: ComponentActivityTestRule,
-    uiState: PromptUiState,
-    block: PromptRobot.() -> Unit
-): PromptRobot {
+    uiState: GenerateUiState,
+    block: GenerateRobot.() -> Unit
+): GenerateRobot {
     testRule.setContent {
-        PromptScreen(promptUiState = uiState)
+        GenerateScreen(generateUiState = uiState)
     }
-    return PromptRobot(testRule).apply(block)
+    return GenerateRobot(testRule).apply(block)
 }
 
 const val DEFAULT_PROMPT_SCALE = 7.5f
 const val DEFAULT_PROMPT_STEP = 20
 
-internal class PromptRobot(private val testRule: ComponentActivityTestRule) {
+internal class GenerateRobot(private val testRule: ComponentActivityTestRule) {
 
     fun typeMainPrompt(content: String) {
         val mainPromptHint = testRule.activity.getString(R.string.main_prompt_hint)
@@ -65,12 +65,12 @@ internal class PromptRobot(private val testRule: ComponentActivityTestRule) {
         testRule.onNodeWithTag(generateImage).performClick()
     }
 
-    infix fun verify(block: PromptVerification.() -> Unit): PromptVerification {
-        return PromptVerification(testRule).apply(block)
+    infix fun verify(block: GenerateVerification.() -> Unit): GenerateVerification {
+        return GenerateVerification(testRule).apply(block)
     }
 }
 
-internal class PromptVerification(private val testRule: ComponentActivityTestRule) {
+internal class GenerateVerification(private val testRule: ComponentActivityTestRule) {
     fun imageResultScreenIsDisplayed() {
         val successScreen = testRule.activity.getString(R.string.success_screen)
         testRule.onNodeWithText(successScreen).assertExists()
