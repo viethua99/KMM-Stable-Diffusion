@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="generate">Generate</string>
     <string name="main_prompt_hint">Main Prompt Hint</string>
     <string name="negative_prompt_hint">Negative Prompt Hint</string>
     <string name="prompt_scale">Scale</string>

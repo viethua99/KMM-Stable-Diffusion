@@ -31,13 +31,20 @@ android {
 dependencies {
 
     implementation(project(":feature:generate"))
+
+    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
+
     androidTestImplementation(project(":core:testing"))
 
     // Jetpack Compose Standard Dependencies
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.windowSizeClass)
+    implementation(libs.accompanist.systemuicontroller)
 
     // Android Kotlin Extension Dependencies
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(platform(libs.kotlin.bom))
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.hilt.navigation.compose)

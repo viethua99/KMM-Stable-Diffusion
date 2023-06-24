@@ -122,9 +122,7 @@ internal fun GenerateEditor(modifier: Modifier = Modifier) {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = { },
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = Color.Blue)
-        ){
+            shape = RoundedCornerShape(50)){
             Text( text = stringResource(id = R.string.generate_image) )
         }
     }

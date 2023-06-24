@@ -8,7 +8,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material.windowSizeClass)
-    implementation(libs.androidx.compose.ui.tooling.preview)
 }
