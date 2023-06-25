@@ -18,6 +18,7 @@ androidxTestMonitor = "1.6.0"
 androidxTestRules = "1.5.0"
 androidxTestEspressoCore = "3.4.0"
 androidxTestRunner = "1.5.2"
+androidxNavigation = "2.5.3"
 kotlinAndroid = "1.7.20"
 kotlin = "1.8.20"
 kotlinKapt = "1.8.22"
@@ -62,6 +63,8 @@ androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.r
 androidx-test-monitor = { group = "androidx.test", name = "monitor", version.ref = "androidxTestMonitor" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxTestEspressoCore" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxNavigation" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroid" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltAndroid" }

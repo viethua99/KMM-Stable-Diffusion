@@ -13,6 +13,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.vproject.brushai.core.ui.TrackDisposableJank
+import com.vproject.brushai.feature.explore.navigation.exploreRoute
+import com.vproject.brushai.feature.explore.navigation.navigateToExplore
 import com.vproject.brushai.feature.generate.navigation.generateRoute
 import com.vproject.brushai.feature.generate.navigation.navigateToGenerate
 import com.vproject.brushai.navigation.TopLevelDestination
@@ -46,7 +48,7 @@ class BrushAiAppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
             generateRoute -> GENERATE
-            generateRoute -> EXPLORE
+            exploreRoute -> EXPLORE
             else -> null
         }
 
@@ -84,7 +86,7 @@ class BrushAiAppState(
 
         when (topLevelDestination) {
             GENERATE -> navController.navigateToGenerate(topLevelNavOptions)
-            EXPLORE -> navController.navigateToGenerate(topLevelNavOptions)
+            EXPLORE -> navController.navigateToExplore(topLevelNavOptions)
         }
     }
 }

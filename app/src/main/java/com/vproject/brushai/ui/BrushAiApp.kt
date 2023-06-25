@@ -67,7 +67,7 @@ fun BrushAiApp(
                         BrushAiTopAppBar(
                             titleRes = nonNullTopLevelDestination.titleTextId,
                             actionIcon = BrushAiIcons.RoundedSettings,
-                            actionIconContentDescription = null,
+                            actionIconContentDescription = "settings",
                             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                                 containerColor = Color.Transparent,
                             ),

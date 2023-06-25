@@ -31,6 +31,7 @@ android {
 dependencies {
 
     implementation(project(":feature:generate"))
+    implementation(project(":feature:explore"))
 
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
@@ -47,16 +48,13 @@ dependencies {
     // Android Kotlin Extension Dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-    implementation(platform(libs.kotlin.bom))
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // UI Testing Dependencies
-    androidTestImplementation (libs.androidx.test.ext.ktx)
-    androidTestImplementation (libs.androidx.test.espresso.core)
-    androidTestImplementation (libs.androidx.compose.ui.test.junit)
     androidTestImplementation(libs.accompanist.testharness)
-
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(kotlin("test"))
 
     implementation(libs.junit4)
 }
