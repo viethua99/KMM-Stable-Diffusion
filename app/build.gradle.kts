@@ -37,6 +37,8 @@ dependencies {
 
     androidTestImplementation(project(":core:testing"))
 
+    debugImplementation(project(":ui-test-hilt-manifest"))
+
     // Jetpack Compose Standard Dependencies
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material.windowSizeClass)
@@ -53,6 +55,8 @@ dependencies {
     androidTestImplementation (libs.androidx.test.ext.ktx)
     androidTestImplementation (libs.androidx.test.espresso.core)
     androidTestImplementation (libs.androidx.compose.ui.test.junit)
+    androidTestImplementation(libs.accompanist.testharness)
+
 
     implementation(libs.junit4)
 }
