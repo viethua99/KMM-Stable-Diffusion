@@ -15,5 +15,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BrushAI"
 include(":app")
-include(":shared-test")
-include(":feature:home")
+include(":core:testing")
+include(":feature:generate")
+include(":core:designsystem")
+include(":core:ui")
+include(":ui-test-hilt-manifest")
+include(":feature:explore")

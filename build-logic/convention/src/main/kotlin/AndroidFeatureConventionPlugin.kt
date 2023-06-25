@@ -5,6 +5,7 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.kotlin
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -15,18 +16,25 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
-//                    testInstrumentationRunner =
-//                        "com.google.samples.apps.nowinandroid.core.testing.NiaTestRunner"
+                    testInstrumentationRunner =
+                        "com.vproject.brushai.core.testing.BrushAiTestRunner"
                 }
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
+                add("implementation", project(":core:designsystem"))
+
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
                 add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+                add("implementation", libs.findLibrary("coil.kt").get())
+                add("implementation", libs.findLibrary("coil.kt.compose").get())
+                add("debugImplementation", libs.findLibrary("androidx.test.monitor").get())
+                add("testImplementation", project(":core:testing"))
+                add("androidTestImplementation", project(":core:testing"))
             }
         }
     }

@@ -13,7 +13,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.vproject.brushai.runner.CustomTestRunner"
+        testInstrumentationRunner = "com.vproject.brushai.core.testing.BrushAiTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -29,24 +29,32 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:home"))
+
+    implementation(project(":feature:generate"))
+    implementation(project(":feature:explore"))
+
+    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
+
+    androidTestImplementation(project(":core:testing"))
+
+    debugImplementation(project(":ui-test-hilt-manifest"))
 
     // Jetpack Compose Standard Dependencies
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.windowSizeClass)
+    implementation(libs.accompanist.systemuicontroller)
 
     // Android Kotlin Extension Dependencies
     implementation(libs.androidx.core.ktx)
-    implementation(platform(libs.kotlin.bom))
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.hilt.navigation.compose)
-    // Unit Testing Dependencies
-    testImplementation(project(":shared-test"))
+    implementation(libs.androidx.navigation.compose)
 
     // UI Testing Dependencies
-    androidTestImplementation (libs.androidx.test.ext)
-    androidTestImplementation (libs.androidx.test.espresso.core)
-    androidTestImplementation (libs.androidx.compose.ui.test.junit)
-    androidTestImplementation(project(":shared-test"))
+    androidTestImplementation(libs.accompanist.testharness)
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(kotlin("test"))
 
     implementation(libs.junit4)
 }
