@@ -1,47 +1,39 @@
-<h2 align="center"><b>Brush AI</b></h2>
-<h4 align="center">An Android app to generate high-quality images based on your text prompt.</h4>
+<img src="docs/images/brush-ai-readme-cover.png"/>
+<h1 align="center"><b>Brush AI</b></h1>
 <p align="center">
-<a href="https://github.com/mukul500/AnimeXStream" alt="GitHub release"><img src="https://img.shields.io/badge/version-0.0.0-blue.svg?style=for-the-badge" ></a>
-<a href="/LICENSE" alt="License: GPLv3"><img src="https://img.shields.io/badge/License-apache-orange.svg?style=for-the-badge"></a>
-<a href="https://github.com/mukul500/AnimeXStream" alt="Build Status"><img src="https://img.shields.io/badge/build-passing-yellowgreen.svg?style=for-the-badge"></a>
-</p>
+  <i align="center">🚀 Instantly generate high-quality images based on your text prompt 🚀</i>
 
-<hr>
+<h4 align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/apache%202.0-blue.svg?style=flat-square&label=license" alt="license">
+  </a>
+</h4>
 
-## Description
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-Brush AI generates images based on your prompt text. The app doesn't require account creation to use it.
+## 🎨 What Is Brush AI?
+Brush AI is an Android app project that generates and downloads images from your prompt using Stable Diffusion APIs. The project is entirely built with Jetpack Compose and MVVM Architecture combined with feature modularization.
+## 🎨 Showcase
+Add some videos and showcases images here.
 
-### Features
+## 🎨 Features
+- Type in your prompt and start generating images.
+- Multiple styles to customize your images.
+- You are able to download the generated images.
+- Support 2 languages (English and Vietnamese).
+- Support Light / Dark mode.
 
-- [ ] Text-to-image Generation
-- [ ] Art Style Selection
-- [ ] Art Download To Local
-- [ ] Add To Favourites
-- [ ] Dark Mode Support with system
 
-### Technologies used
-* Kotlin Coroutines / Flow
-* Android Jetpack Compose
-* MVVM Architecture
-* Retrofit
-* Room
-* Android Architecture Components
+## 🎨 Architecture
+- Android Jetpack Compose with Kotlin Coroutines / Flow.
+- Modularization and MVVM architecture.
+- Testing-driven development (TDD) with Unit Testing and Instrument Testing.
+- Retrofit Dependency for RESTful APIs.
+- Room Dependency for local database.
+- Version Catalogs and Convention Plugins to manage and share Gradle dependencies between modules. 
 
-## Contribution
-Your ideas, translations, design changes, code cleaning, real heavy code changes, or any help are always welcome. The more is the contribution, the better it gets.
 
 ## License
-    Copyright 2018 Fernando Cejas
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+**Brush AI** is distributed under the terms of the Apache License (Version 2.0). See the
+[license](LICENSE) for more information.
