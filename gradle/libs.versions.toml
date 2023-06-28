@@ -22,6 +22,7 @@ androidxNavigation = "2.5.3"
 kotlinAndroid = "1.7.20"
 kotlin = "1.8.20"
 kotlinKapt = "1.8.22"
+kotlinxSerializationJson = "1.5.1"
 ksp = "1.8.20-1.0.11"
 kotlinxCoroutinesAndroid = "1.3.9"
 kotlinxCoroutinesTest = "1.7.1"
@@ -29,6 +30,8 @@ kotlinBom = "1.8.0"
 hiltAndroid = "2.44"
 junit4 = "4.13.2"
 coil = "2.4.0"
+okhttp = "4.10.0"
+retrofit = "2.9.0"
 
 [libraries]
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
@@ -71,9 +74,13 @@ hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-comp
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
