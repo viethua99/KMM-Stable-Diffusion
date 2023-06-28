@@ -53,5 +53,9 @@ gradlePlugin {
             id = "brushai.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
+        register("androidRoom") {
+            id = "brushai.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
     }
 }
