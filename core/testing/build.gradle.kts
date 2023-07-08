@@ -20,5 +20,7 @@ dependencies {
 
     debugApi(libs.androidx.compose.ui.test.manifest)
     debugApi(libs.androidx.test.monitor)
+
+    implementation(project(":core:data"))
     implementation(project(":core:model"))
 }
