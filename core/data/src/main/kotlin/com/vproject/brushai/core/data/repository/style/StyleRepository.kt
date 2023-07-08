@@ -1,4 +1,4 @@
-package com.vproject.brushai.core.data.repository
+package com.vproject.brushai.core.data.repository.style
 
 import com.vproject.brushai.core.model.data.Style
 import kotlinx.coroutines.flow.Flow

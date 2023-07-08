@@ -15,13 +15,14 @@ dependencyResolutionManagement {
 }
 rootProject.name = "BrushAI"
 include(":app")
-include(":core:testing")
 include(":feature:generate")
-include(":core:designsystem")
-include(":core:ui")
-include(":ui-test-hilt-manifest")
 include(":feature:explore")
 include(":core:network")
 include(":core:database")
 include(":core:data")
 include(":core:model")
+include(":core:domain")
+include(":core:designsystem")
+include(":core:ui")
+include(":core:testing")
+include(":ui-test-hilt-manifest")
