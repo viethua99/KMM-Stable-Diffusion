@@ -19,10 +19,9 @@ class GetFavorableStyleListUseCase @Inject constructor(
             userDataRepository.userData,
             styleRepository.getStyles()
         ) { userData, styles ->
-            val favoriteStyles = styles.map { style ->
+            styles.map { style ->
                 FavorableStyle(style = style, isFavorite = style.id in userData.favoriteStyleIds)
             }
-            favoriteStyles.sortedBy { !it.isFavorite }
         }
     }
 }
