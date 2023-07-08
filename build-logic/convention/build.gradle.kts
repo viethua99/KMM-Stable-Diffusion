@@ -57,5 +57,9 @@ gradlePlugin {
             id = "brushai.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("jvmLibrary") {
+            id = "brushai.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }

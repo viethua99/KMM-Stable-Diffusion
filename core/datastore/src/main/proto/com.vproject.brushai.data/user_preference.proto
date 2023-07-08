@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.vproject.brushai.core.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  // Each map is used to store a set of string IDs. The bool has no meaning, but proto3 doesn't
+  // have a Set type so this is the closest we can get to a Set.
+  map<string, bool> favorite_style_ids = 1;
+}
