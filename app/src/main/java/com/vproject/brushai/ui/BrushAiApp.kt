@@ -36,7 +36,8 @@ fun BrushAiApp(
         windowSizeClass = windowSizeClass,
     )
 ) {
-    val shouldShowGradientBackground = appState.currentTopLevelDestination == TopLevelDestination.GENERATE
+    val shouldShowGradientBackground =
+        appState.currentTopLevelDestination == TopLevelDestination.GENERATE
     BrushAiBackground {
         BrushAiGradientBackground(
             gradientColors = if (shouldShowGradientBackground) {
@@ -56,7 +57,7 @@ fun BrushAiApp(
                             onNavigateToDestination = appState::navigateToTopLevelDestination,
                             currentDestination = appState.currentDestination,
                             modifier = Modifier.testTag("BrushAiBottomBar")
-                            )
+                        )
                     }
                 }
             ) { paddingValues ->
@@ -71,6 +72,7 @@ fun BrushAiApp(
                             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                                 containerColor = Color.Transparent,
                             ),
+                            onActionClick = { appState.navigateToSettings() }
                         )
                     }
                     BrushAiNavHost(appState = appState)
@@ -94,7 +96,7 @@ private fun BrushAiBottomBar(
             val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
             BrushAiNavigationBarItem(
                 selected = selected,
-                onClick = { onNavigateToDestination(destination)},
+                onClick = { onNavigateToDestination(destination) },
                 icon = {
                     Icon(
                         imageVector = destination.unselectedIcon,

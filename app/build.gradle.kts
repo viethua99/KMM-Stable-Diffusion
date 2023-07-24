@@ -32,6 +32,7 @@ dependencies {
 
     implementation(project(":feature:generate"))
     implementation(project(":feature:explore"))
+    implementation(project(":feature:settings"))
 
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))

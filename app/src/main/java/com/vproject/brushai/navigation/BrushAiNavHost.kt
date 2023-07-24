@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.vproject.brushai.feature.explore.navigation.exploreScreen
 import com.vproject.brushai.feature.generate.navigation.generateRoute
 import com.vproject.brushai.feature.generate.navigation.generateScreen
+import com.vproject.brushai.feature.settings.navigation.settingsScreen
 import com.vproject.brushai.ui.BrushAiAppState
 
 @Composable
@@ -23,5 +24,6 @@ fun BrushAiNavHost(
     ) {
         generateScreen()
         exploreScreen()
+        settingsScreen()
     }
 }
