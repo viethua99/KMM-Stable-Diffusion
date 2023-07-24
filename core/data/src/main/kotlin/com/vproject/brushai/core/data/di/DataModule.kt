@@ -1,5 +1,7 @@
 package com.vproject.brushai.core.data.di
 
+import com.vproject.brushai.core.data.repository.image.ImageRepository
+import com.vproject.brushai.core.data.repository.image.OfflineFirstImageRepository
 import com.vproject.brushai.core.data.repository.style.OfflineFirstStyleRepository
 import com.vproject.brushai.core.data.repository.style.StyleRepository
 import com.vproject.brushai.core.data.repository.userdata.OfflineFirstUserDataRepository
@@ -21,4 +23,9 @@ interface DataModule {
     fun bindsUserDataRepository(
         userDataRepository: OfflineFirstUserDataRepository,
     ): UserDataRepository
+
+    @Binds
+    fun bindsImageRepository(
+        imageRepository: OfflineFirstImageRepository,
+    ): ImageRepository
 }
