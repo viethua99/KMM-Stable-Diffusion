@@ -61,16 +61,25 @@ fun BrushAiTextField(
     }
 
     BasicTextField(
+        modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         textStyle = textStyle,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
         decorationBox = { innerTextField ->
             Box(
                 modifier = modifier
                     .height(BrushAiTextFieldDefaults.Height)
                     .background(MaterialTheme.colorScheme.background)
-                    .padding(BrushAiTextFieldDefaults.InnerPadding)
+                    .padding(
+                        top = BrushAiTextFieldDefaults.InnerTopPadding,
+                        bottom = BrushAiTextFieldDefaults.InnerBottomPadding,
+                        start = BrushAiTextFieldDefaults.InnerHorizontalPadding,
+                        end = BrushAiTextFieldDefaults.InnerHorizontalPadding
+                    )
             ) {
                 if (value.isEmpty()) {
                     val hintStyle = SpanStyle(
@@ -168,9 +177,11 @@ private fun BrushAiTextFieldCornerIcons(
  * Brush AI text field default values.
  */
 object BrushAiTextFieldDefaults {
-    val Height = 120.dp
-    val InnerPadding = 16.dp
-    val CornerIconsTopPadding = 5.dp
+    val Height = 160.dp
+    val InnerTopPadding = 16.dp
+    val InnerHorizontalPadding = 16.dp
+    val InnerBottomPadding = 10.dp
+    val CornerIconsTopPadding = 16.dp
     val MainHintFontSize = 18.sp
     val SubHintFontSize = 14.sp
     const val InnerContentWeight = 7f
