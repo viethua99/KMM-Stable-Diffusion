@@ -26,4 +26,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(project(":core:testing"))
+    testImplementation(project(":core:datastore-test"))
 }

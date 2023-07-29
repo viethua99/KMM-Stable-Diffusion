@@ -22,9 +22,9 @@ import com.vproject.brushai.core.designsystem.icon.BrushAiIcons
 fun BrushAiTopAppBar(
     @StringRes titleRes: Int,
     navigationIcon: ImageVector,
-    navigationIconContentDescription: String?,
-    actionIcon: ImageVector,
-    actionIconContentDescription: String?,
+    navigationIconContentDescription: String,
+    actionIcon: ImageVector? = null,
+    actionIconContentDescription: String? = null,
     modifier: Modifier = Modifier,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
     onNavigationClick: () -> Unit = {},
@@ -42,12 +42,14 @@ fun BrushAiTopAppBar(
             }
         },
         actions = {
-            IconButton(onClick = onActionClick) {
-                Icon(
-                    imageVector = actionIcon,
-                    contentDescription = actionIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
+            actionIcon?.let { nonNullActionIcon ->
+                IconButton(onClick = onActionClick) {
+                    Icon(
+                        imageVector = nonNullActionIcon,
+                        contentDescription = actionIconContentDescription,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         },
         colors = colors,

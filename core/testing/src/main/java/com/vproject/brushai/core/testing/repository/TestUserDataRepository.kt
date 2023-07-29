@@ -1,6 +1,7 @@
 package com.vproject.brushai.core.testing.repository
 
 import com.vproject.brushai.core.data.repository.userdata.UserDataRepository
+import com.vproject.brushai.core.model.data.DarkThemeConfig
 import com.vproject.brushai.core.model.data.UserData
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,24 @@ class TestUserDataRepository : UserDataRepository {
         }
     }
 
+    override suspend fun setPromptCfgScaleValue(promptCfgScaleValue: Float) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(promptCfgScaleValue = promptCfgScaleValue))
+        }
+    }
+
+    override suspend fun setPromptStepValue(promptStepValue: Float) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(promptStepValue = promptStepValue))
+        }
+    }
+
+    override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(darkThemeConfig = darkThemeConfig))
+        }
+    }
+
     /**
      * A test-only API to allow controlling the favorite style ids
      */
@@ -37,4 +56,9 @@ class TestUserDataRepository : UserDataRepository {
     }
 }
 
-val emptyUserData = UserData(favoriteStyleIds = emptySet())
+val emptyUserData = UserData(
+    favoriteStyleIds = emptySet(),
+    promptCfgScaleValue = 0f,
+    promptStepValue = 0f,
+    darkThemeConfig = DarkThemeConfig.LIGHT,
+)
