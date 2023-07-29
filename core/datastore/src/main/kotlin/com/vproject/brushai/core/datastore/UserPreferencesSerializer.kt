@@ -12,6 +12,11 @@ import javax.inject.Inject
  */
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
     override val defaultValue: UserPreferences = UserPreferences.getDefaultInstance()
+        .toBuilder()
+        .setPromptCfgScaleValue(10f)
+        .setPromptStepValue(25f)
+        .setDarkThemeConfig(DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT)
+        .build()
 
     override suspend fun readFrom(input: InputStream): UserPreferences {
         try {

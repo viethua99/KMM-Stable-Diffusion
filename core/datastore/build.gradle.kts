@@ -44,4 +44,5 @@ dependencies {
     implementation(libs.protobuf.kotlin.lite)
 
     testImplementation(project(":core:testing"))
+    testImplementation(project(":core:datastore-test"))
 }

@@ -36,8 +36,13 @@ dependencies {
 
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
 
     androidTestImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:datastore-test"))
+    androidTestImplementation(project(":core:network"))
+    androidTestImplementation(kotlin("test"))
 
     debugImplementation(project(":ui-test-hilt-manifest"))
 
@@ -55,7 +60,6 @@ dependencies {
     // UI Testing Dependencies
     androidTestImplementation(libs.accompanist.testharness)
     androidTestImplementation(libs.androidx.navigation.testing)
-    androidTestImplementation(kotlin("test"))
 
     implementation(libs.junit4)
 }

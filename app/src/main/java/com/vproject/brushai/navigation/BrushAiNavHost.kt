@@ -24,6 +24,8 @@ fun BrushAiNavHost(
     ) {
         generateScreen()
         exploreScreen()
-        settingsScreen()
+        settingsScreen(
+            onBackClick = navController::popBackStack,
+        )
     }
 }
