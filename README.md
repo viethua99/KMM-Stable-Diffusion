@@ -1,8 +1,4 @@
-<img src="docs/images/brush-ai-readme-cover.png"/>
-<h1 align="center"><b>Brush AI</b></h1>
-<p align="center">
-  <i align="center">🚀 Instantly generate high-quality images based on your text prompt 🚀</i>
-
+![BrushAi](https://socialify.git.ci/viethua99/BrushAi/image?description=1&descriptionEditable=%F0%9F%9A%80%20Instantly%20generate%20high-quality%20images%20based%20on%20your%20text%20prompt%20%F0%9F%9A%80&font=Inter&logo=https%3A%2F%2Ftabris.com%2Fwp-content%2Fuploads%2F2021%2F06%2Fjetpack-compose-icon_RGB.png&name=1&pattern=Brick%20Wall&theme=Dark)
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0">
      <img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/>
