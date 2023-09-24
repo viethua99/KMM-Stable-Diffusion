@@ -1,14 +1,14 @@
 plugins {
-    id("brushai.android.library")
-    id("brushai.android.hilt")
-    id("brushai.android.room")
+    id("texttoimage.android.library")
+    id("texttoimage.android.hilt")
+    id("texttoimage.android.room")
 }
 
 android {
     defaultConfig {
-        testInstrumentationRunner = "com.vproject.brushai.core.testing.BrushAiTestRunner"
+        testInstrumentationRunner = "com.vproject.texttoimage.core.testing.TextToImageTestRunner"
     }
-    namespace = "com.vproject.brushai.core.database"
+    namespace = "com.vproject.texttoimage.core.database"
 }
 
 dependencies {

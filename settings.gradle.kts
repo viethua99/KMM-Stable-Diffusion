@@ -13,7 +13,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "BrushAI"
+rootProject.name = "TextToImage"
 include(":app")
 include(":feature:generate")
 include(":feature:explore")

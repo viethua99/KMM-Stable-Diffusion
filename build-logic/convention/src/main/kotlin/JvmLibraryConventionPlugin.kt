@@ -1,4 +1,4 @@
-import com.vproject.brushai.configureKotlinJvm
+import com.vproject.texttoimage.configureKotlinJvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

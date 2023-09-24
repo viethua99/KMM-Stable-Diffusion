@@ -2,7 +2,7 @@ import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import com.vproject.brushai.configureKotlinAndroid
+import com.vproject.texttoimage.configureKotlinAndroid
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 

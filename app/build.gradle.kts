@@ -1,19 +1,19 @@
 plugins {
-    id("brushai.android.application")
-    id("brushai.android.application.compose")
-    id("brushai.android.hilt")
+    id("texttoimage.android.application")
+    id("texttoimage.android.application.compose")
+    id("texttoimage.android.hilt")
 }
 
 android {
-    namespace = "com.vproject.brushai"
+    namespace = "com.vproject.texttoimage"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.vproject.brushai"
+        applicationId = "com.vproject.texttotimage"
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.vproject.brushai.core.testing.BrushAiTestRunner"
+        testInstrumentationRunner = "com.vproject.texttoimage.core.testing.TextToImageTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true

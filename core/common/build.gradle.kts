@@ -1,10 +1,10 @@
 plugins {
-    id("brushai.android.library")
-    id("brushai.android.hilt")
+    id("texttoimage.android.library")
+    id("texttoimage.android.hilt")
 }
 
 android {
-    namespace = "com.vproject.brushai.core.common"
+    namespace = "com.vproject.texttoimage.core.common"
 }
 
 dependencies {

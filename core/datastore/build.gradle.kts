@@ -1,6 +1,6 @@
 plugins {
-    id("brushai.android.library")
-    id("brushai.android.hilt")
+    id("texttoimage.android.library")
+    id("texttoimage.android.hilt")
     alias(libs.plugins.protobuf)
 }
 
@@ -8,7 +8,7 @@ android {
     defaultConfig {
         consumerProguardFiles("consumer-proguard-rules.pro")
     }
-    namespace = "com.vproject.brushai.core.datastore"
+    namespace = "com.vproject.texttoimage.core.datastore"
 
     testOptions {
         unitTests {

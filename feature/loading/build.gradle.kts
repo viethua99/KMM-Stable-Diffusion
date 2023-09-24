@@ -1,8 +1,8 @@
 plugins {
-    id("brushai.android.feature")
-    id("brushai.android.library.compose")
+    id("texttoimage.android.feature")
+    id("texttoimage.android.library.compose")
 }
 
 android {
-    namespace = "com.vproject.brushai.feature.loading"
+    namespace = "com.vproject.texttoimage.feature.loading"
 }

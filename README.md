@@ -12,7 +12,7 @@
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
-<img src="docs/images/android-text-to-image-showcase.gif" width="280"/>
+<img src="docs/images/android-text-to-image-showcase.gif" align="right" width="280"/>
 
 ## Features
 

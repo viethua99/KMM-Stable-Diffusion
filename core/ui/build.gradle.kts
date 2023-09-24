@@ -1,13 +1,13 @@
 plugins {
-    id("brushai.android.library")
-    id("brushai.android.library.compose")
+    id("texttoimage.android.library")
+    id("texttoimage.android.library.compose")
 }
 
 android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    namespace = "com.vproject.brushai.core.ui"
+    namespace = "com.vproject.texttoimage.core.ui"
 }
 
 dependencies {

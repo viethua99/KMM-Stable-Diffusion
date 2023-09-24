@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".BrushAiApplication"
+        android:name=".TextToImageApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BrushAi.Splash"
+        android:theme="@style/Theme.TextToImage.Splash"
         tools:targetApi="31">
         <activity
             android:name=".main.MainActivity"

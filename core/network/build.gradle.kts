@@ -1,13 +1,13 @@
 plugins {
-    id("brushai.android.library")
-    id("brushai.android.hilt")
+    id("texttoimage.android.library")
+    id("texttoimage.android.hilt")
 }
 
 android {
     buildFeatures {
         buildConfig = true
     }
-    namespace = "com.vproject.brushai.core.network"
+    namespace = "com.vproject.texttoimage.core.network"
 
     testOptions {
         unitTests {

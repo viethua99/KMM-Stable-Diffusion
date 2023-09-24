@@ -11,13 +11,13 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("brushai.android.library")
-                apply("brushai.android.hilt")
+                apply("texttoimage.android.library")
+                apply("texttoimage.android.hilt")
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
                     testInstrumentationRunner =
-                        "com.vproject.brushai.core.testing.BrushAiTestRunner"
+                        "com.vproject.texttoimage.core.testing.TextToImageTestRunner"
                 }
             }
 
