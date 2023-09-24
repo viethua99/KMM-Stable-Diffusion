@@ -1,8 +1,8 @@
 plugins {
-    id("brushai.android.library")
-    id("brushai.android.hilt")
+    id("texttoimage.android.library")
+    id("texttoimage.android.hilt")
 }
 
 android {
-    namespace = "com.vproject.brushai.uitesthiltmanifest"
+    namespace = "com.vproject.texttoimage.uitesthiltmanifest"
 }

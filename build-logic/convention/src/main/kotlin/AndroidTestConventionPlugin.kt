@@ -1,5 +1,5 @@
 import com.android.build.gradle.TestExtension
-import com.vproject.brushai.configureKotlinAndroid
+import com.vproject.texttoimage.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure

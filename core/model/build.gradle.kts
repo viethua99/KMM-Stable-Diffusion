@@ -1,5 +1,5 @@
 plugins {
-    id("brushai.jvm.library")
+    id("texttoimage.jvm.library")
 }
 
 dependencies {

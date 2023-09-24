@@ -1,5 +1,5 @@
 import com.android.build.gradle.LibraryExtension
-import com.vproject.brushai.configureAndroidCompose
+import com.vproject.texttoimage.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType

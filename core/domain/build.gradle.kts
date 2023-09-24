@@ -1,10 +1,10 @@
 plugins {
-    id("brushai.android.library")
+    id("texttoimage.android.library")
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.vproject.brushai.core.domain"
+    namespace = "com.vproject.texttoimage.core.domain"
 }
 
 dependencies {

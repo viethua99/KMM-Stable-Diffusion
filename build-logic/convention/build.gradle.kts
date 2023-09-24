@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.vproject.brushai"
+group = "com.vproject.texttoimage"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -26,39 +26,39 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "brushai.android.application"
+            id = "texttoimage.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidApplicationCompose") {
-            id = "brushai.android.application.compose"
+            id = "texttoimage.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
         register("androidLibrary") {
-            id = "brushai.android.library"
+            id = "texttoimage.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidLibraryCompose") {
-            id = "brushai.android.library.compose"
+            id = "texttoimage.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidTest") {
-            id = "brushai.android.test"
+            id = "texttoimage.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
         register("androidHilt") {
-            id = "brushai.android.hilt"
+            id = "texttoimage.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidFeature") {
-            id = "brushai.android.feature"
+            id = "texttoimage.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidRoom") {
-            id = "brushai.android.room"
+            id = "texttoimage.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
         register("jvmLibrary") {
-            id = "brushai.jvm.library"
+            id = "texttoimage.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
     }
