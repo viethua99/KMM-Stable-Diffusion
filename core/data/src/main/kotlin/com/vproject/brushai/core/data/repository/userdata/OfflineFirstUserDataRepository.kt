@@ -6,7 +6,7 @@ import com.vproject.brushai.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class OfflineFirstUserDataRepository @Inject constructor(
+internal class OfflineFirstUserDataRepository @Inject constructor(
     private val brushAiPreferencesDataSource: BrushAiPreferencesDataSource
     ) : UserDataRepository {
     override val userData: Flow<UserData> = brushAiPreferencesDataSource.userData

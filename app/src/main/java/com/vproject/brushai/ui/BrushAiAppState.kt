@@ -17,6 +17,7 @@ import com.vproject.brushai.feature.explore.navigation.exploreRoute
 import com.vproject.brushai.feature.explore.navigation.navigateToExplore
 import com.vproject.brushai.feature.generate.navigation.generateRoute
 import com.vproject.brushai.feature.generate.navigation.navigateToGenerate
+import com.vproject.brushai.feature.result.navigation.navigateToResult
 import com.vproject.brushai.feature.settings.navigation.navigateToSettings
 import com.vproject.brushai.navigation.TopLevelDestination
 import com.vproject.brushai.navigation.TopLevelDestination.GENERATE
@@ -87,7 +88,7 @@ class BrushAiAppState(
 
         when (topLevelDestination) {
             GENERATE -> navController.navigateToGenerate(topLevelNavOptions)
-            EXPLORE -> navController.navigateToExplore(topLevelNavOptions)
+            EXPLORE -> navController.navigateToResult(topLevelNavOptions)
         }
     }
 

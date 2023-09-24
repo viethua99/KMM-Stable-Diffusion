@@ -19,15 +19,15 @@ class GenerateViewModel @Inject constructor(
     getFavorableStyleListUseCase: GetFavorableStyleListUseCase,
     private val toggleFavoriteStyleUseCase: ToggleFavoriteStyleUseCase,
     private val generateImageUseCase: GenerateImageUseCase,
-    ) : ViewModel() {
+) : ViewModel() {
     val generateUiState: StateFlow<GenerateUiState> =
         getFavorableStyleListUseCase()
             .map(GenerateUiState::Success)
             .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = GenerateUiState.Loading
-        )
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = GenerateUiState.Loading
+            )
 
     fun updateFavoriteStyle(styleId: String, isFavorite: Boolean) {
         viewModelScope.launch {
@@ -35,10 +35,12 @@ class GenerateViewModel @Inject constructor(
         }
     }
 
-    fun generateImage(prompt: String) {
+    fun generateImage(prompt: String, selectedStyleId: String) {
         viewModelScope.launch {
-           val url = generateImageUseCase(prompt)
-            Log.d("TEST", "Result = $url")
+            val flow = generateImageUseCase(prompt, selectedStyleId)
+            flow.collect { output ->
+                Log.d("TEST", "Result = $output")
+            }
         }
     }
 }

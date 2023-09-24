@@ -2,7 +2,7 @@ package com.vproject.brushai.core.network.model
 
 data class TextToImageRequestBody(
     val key: String = "MMtSXRAKSqEVqiVLIQfiU3HMO9iYz6KaypcrILGLeO2rPCkeKAc8PTmYNc8N",
-    val prompt: String = "ultra realistic close up portrait ((beautiful pale cyberpunk female with heavy black eyeliner))",
+    val prompt: String = "",
     val negative_prompt: String? = null,
     val width: String = "512",
     val height: String = "512",

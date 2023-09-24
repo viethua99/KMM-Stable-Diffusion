@@ -68,7 +68,7 @@ internal fun GenerateRoute(
     GenerateScreen(
         generateUiState = promptUiState,
         modifier = modifier.fillMaxSize(),
-        onStyleItemClick = viewModel::updateFavoriteStyle,
+        onToggleFavoriteStyleItem = viewModel::updateFavoriteStyle,
         onGenerateButtonClicked = viewModel::generateImage
     )
 }
@@ -77,14 +77,14 @@ internal fun GenerateRoute(
 internal fun GenerateScreen(
     generateUiState: GenerateUiState,
     modifier: Modifier = Modifier,
-    onStyleItemClick: (styleId: String, isFavorite: Boolean) -> Unit,
-    onGenerateButtonClicked: (prompt: String) -> Unit
+    onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
+    onGenerateButtonClicked: (prompt: String, selectedStyleId: String) -> Unit
 ) {
     if (generateUiState is GenerateUiState.Success) {
         GenerateContent(
             modifier.testTag(GenerateTestTags.GenerateContent),
             styleList = generateUiState.styles,
-            onStyleItemClick = onStyleItemClick,
+            onToggleFavoriteStyleItem = onToggleFavoriteStyleItem,
             onGenerateButtonClicked = onGenerateButtonClicked
         )
     }
@@ -94,10 +94,11 @@ internal fun GenerateScreen(
 private fun GenerateContent(
     modifier: Modifier = Modifier,
     styleList: List<FavorableStyle>,
-    onStyleItemClick: (styleId: String, isFavorite: Boolean) -> Unit,
-    onGenerateButtonClicked: (prompt: String) -> Unit
+    onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
+    onGenerateButtonClicked: (prompt: String, selectedStyleId: String) -> Unit
 ) {
     var promptValue by remember { mutableStateOf("") }
+    var selectedStyleId by remember { mutableStateOf("") }
 
     Column(modifier.padding(start = 10.dp, end = 10.dp)) {
         GeneratePromptTextField(
@@ -125,11 +126,12 @@ private fun GenerateContent(
         SelectStyleList(
             modifier = Modifier.fillMaxWidth(),
             styleList = styleList,
-            onStyleItemClick = onStyleItemClick
+            onToggleFavoriteStyleItem = onToggleFavoriteStyleItem,
+            onStyleSelected = { styleId -> selectedStyleId = styleId }
         )
         Spacer(Modifier.height(10.dp))
         GenerateButton(
-            onClick = { onGenerateButtonClicked(promptValue) },
+            onClick = { onGenerateButtonClicked(promptValue, selectedStyleId) },
             modifier = Modifier.testTag(GenerateTestTags.GenerateImageButton)
         )
     }
@@ -139,7 +141,8 @@ private fun GenerateContent(
 private fun SelectStyleList(
     modifier: Modifier = Modifier,
     styleList: List<FavorableStyle>,
-    onStyleItemClick: (styleId: String, isFavorite: Boolean) -> Unit
+    onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
+    onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
@@ -155,7 +158,8 @@ private fun SelectStyleList(
             StyleItem(
                 style = style,
                 modifier = Modifier.width(100.dp),
-                onStyleItemClick = onStyleItemClick
+                onToggleFavoriteStyleItem = onToggleFavoriteStyleItem,
+                onStyleSelected = onStyleSelected
             )
         }
     }
@@ -165,7 +169,8 @@ private fun SelectStyleList(
 private fun StyleItem(
     modifier: Modifier = Modifier,
     style: FavorableStyle,
-    onStyleItemClick: (styleId: String, isFavorite: Boolean) -> Unit
+    onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
+    onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
     Column {
         Box(
@@ -173,7 +178,7 @@ private fun StyleItem(
                 .fillMaxWidth()
                 .aspectRatio(1f)
                 .align(Alignment.CenterHorizontally)
-                .clickable { }
+                .clickable { onStyleSelected(style.style.id) }
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -188,7 +193,7 @@ private fun StyleItem(
             )
             FavoriteStyleButton(
                 isFavorite = style.isFavorite,
-                onClick = { onStyleItemClick(style.style.id, !style.isFavorite) },
+                onClick = { onToggleFavoriteStyleItem(style.style.id, !style.isFavorite) },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(end = 6.dp, bottom = 6.dp)
@@ -297,8 +302,8 @@ private fun GenerateScreenPreview() {
     GenerateScreen(
         generateUiState = successGenerateUiState,
         modifier = Modifier.fillMaxSize(),
-        onStyleItemClick = { _, _ -> },
-        onGenerateButtonClicked = {})
+        onToggleFavoriteStyleItem = { _, _ -> },
+        onGenerateButtonClicked = { _ , _ -> })
 }
 
 @Preview
@@ -306,8 +311,8 @@ private fun GenerateScreenPreview() {
 private fun GenerateContentPreview() {
     GenerateContent(
         styleList = listOf(),
-        onStyleItemClick = { _, _ -> },
-        onGenerateButtonClicked = {})
+        onToggleFavoriteStyleItem = { _, _ -> },
+        onGenerateButtonClicked = { _ , _ -> })
 }
 
 @Preview

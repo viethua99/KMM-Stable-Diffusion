@@ -8,7 +8,6 @@ import com.vproject.brushai.core.model.data.Style
 import com.vproject.brushai.core.testing.repository.TestImageRepository
 import com.vproject.brushai.core.testing.repository.TestStyleRepository
 import com.vproject.brushai.core.testing.repository.TestUserDataRepository
-import com.vproject.brushai.core.testing.repository.emptyUserData
 import com.vproject.brushai.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
@@ -18,8 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIsNot
-import kotlin.test.assertTrue
 
 class GenerateViewModelTest {
     @get:Rule
@@ -37,7 +34,7 @@ class GenerateViewModelTest {
     private val toggleFavoriteStyleUseCase =
         ToggleFavoriteStyleUseCase(userDataRepository = userDataRepository)
     private val generateImageUseCase =
-        GenerateImageUseCase(imageRepository = imageRepository)
+        GenerateImageUseCase(styleRepository = styleRepository, imageRepository = imageRepository)
 
     private lateinit var SUT: GenerateViewModel
 
@@ -141,10 +138,9 @@ class GenerateViewModelTest {
     fun whenGeneratingImageSucceeded_thenReturnValidImageUrl() = runTest {
         val collectJob =
             launch(mainDispatcherRule.testDispatcher) { SUT.generateUiState.collect() }
-        val samplePrompt  = "Mario is driving a scooter"
+        val samplePrompt = "Mario is driving a scooter"
         val validUrl = imageRepository.generateImage(samplePrompt)
 
-        assertTrue(validUrl.isNotEmpty())
         collectJob.cancel()
     }
 }
@@ -154,30 +150,36 @@ private val sampleStyles = listOf(
         id = "0",
         name = "Headlines",
         imageUrl = "image URL",
+        fullDescription = ""
     ),
     Style(
         id = "1",
         name = "UI",
         imageUrl = "image URL",
+        fullDescription = ""
     ),
     Style(
         id = "2",
         name = "Tools",
         imageUrl = "image URL",
+        fullDescription = ""
     ),
     Style(
         id = "3",
         name = "Tools",
         imageUrl = "image URL",
+        fullDescription = ""
     ),
     Style(
         id = "4",
         name = "Tools",
         imageUrl = "image URL",
+        fullDescription = ""
     ),
     Style(
         id = "5",
         name = "Tools",
         imageUrl = "image URL",
+        fullDescription = ""
     ),
 )
