@@ -62,7 +62,7 @@ class TextToImageAppState(
      * Map of top level destinations to be used in the TopBar, BottomBar. The key is the
      * route.
      */
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList().filter { it.name == GENERATE.name }
 
 
     /**

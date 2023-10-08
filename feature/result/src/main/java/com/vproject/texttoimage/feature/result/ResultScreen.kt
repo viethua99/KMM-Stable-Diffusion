@@ -21,10 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vproject.texttoimage.core.designsystem.component.TextToImageFilledButton
@@ -99,13 +102,21 @@ private fun ResultStyleRow(
     ) {
         Text(
             "Style:",
-            style = MaterialTheme.typography.titleMedium,
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp
+            )
         )
 
         Text(
             text,
             textAlign = TextAlign.End,
-            style = MaterialTheme.typography.bodyLarge,
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp
+            ),
             modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -121,11 +132,16 @@ private fun ResultPromptRow(modifier: Modifier = Modifier, content: String) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "Prompt:", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f)
+            "Prompt:", style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp
+            ), modifier = Modifier.weight(1f)
         )
         Icon(
             imageVector = Icons.Default.CopyAll,
             contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -133,7 +149,11 @@ private fun ResultPromptRow(modifier: Modifier = Modifier, content: String) {
     Text(
         overflow = TextOverflow.Ellipsis,
         text = content,
-        style = MaterialTheme.typography.bodyLarge,
+        style = TextStyle(
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp
+        ),
     )
 }
 

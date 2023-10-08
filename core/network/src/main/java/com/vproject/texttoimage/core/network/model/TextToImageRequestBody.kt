@@ -1,11 +1,11 @@
 package com.vproject.texttoimage.core.network.model
 
 data class TextToImageRequestBody(
-    val key: String = "MMtSXRAKSqEVqiVLIQfiU3HMO9iYz6KaypcrILGLeO2rPCkeKAc8PTmYNc8N",
+    val key: String = "",
     val prompt: String = "",
     val negative_prompt: String? = null,
-    val width: String = "512",
-    val height: String = "512",
+    val width: String = "1024",
+    val height: String = "1024",
     val samples: String = "1",
     val num_inference_steps: String = "20",
     val safety_checker: String = "no",

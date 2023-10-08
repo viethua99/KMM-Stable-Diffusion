@@ -15,31 +15,16 @@ import androidx.compose.ui.unit.dp
  */
 @VisibleForTesting
 val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    onPrimary = Color.White,
-    primaryContainer = Purple90,
-    onPrimaryContainer = Purple10,
-    secondary = Orange40,
-    onSecondary = Color.White,
-    secondaryContainer = Orange90,
-    onSecondaryContainer = Orange10,
-    tertiary = Blue40,
-    onTertiary = Color.White,
-    tertiaryContainer = Blue90,
-    onTertiaryContainer = Blue10,
-    error = Red40,
-    onError = Color.White,
-    errorContainer = Red90,
-    onErrorContainer = Red10,
-    background = DarkPurpleGray99,
-    onBackground = DarkPurpleGray10,
-    surface = DarkPurpleGray99,
-    onSurface = DarkPurpleGray10,
-    surfaceVariant = PurpleGray90,
-    onSurfaceVariant = PurpleGray30,
-    inverseSurface = DarkPurpleGray20,
-    inverseOnSurface = DarkPurpleGray95,
-    outline = PurpleGray50,
+    primary = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xffec4079),
+    onPrimaryContainer = Color(0XFFf06291),
+    secondary = Color(0xFFFFFFFF),
+    onSecondary = Color(0xFFd81b5f),
+    background = Color(0xFF9E9E9E),
+    onBackground = Color(0xFFAD1457),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFFAD1457),
 )
 
 /**
@@ -47,31 +32,16 @@ val LightColorScheme = lightColorScheme(
  */
 @VisibleForTesting
 val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    onPrimary = Purple20,
-    primaryContainer = Purple30,
-    onPrimaryContainer = Purple90,
-    secondary = Orange80,
-    onSecondary = Orange20,
-    secondaryContainer = Orange30,
-    onSecondaryContainer = Orange90,
-    tertiary = Blue80,
-    onTertiary = Blue20,
-    tertiaryContainer = Blue30,
-    onTertiaryContainer = Blue90,
-    error = Red80,
-    onError = Red20,
-    errorContainer = Red30,
-    onErrorContainer = Red90,
-    background = DarkPurpleGray10,
-    onBackground = DarkPurpleGray90,
-    surface = DarkPurpleGray10,
-    onSurface = DarkPurpleGray90,
-    surfaceVariant = PurpleGray30,
-    onSurfaceVariant = PurpleGray80,
-    inverseSurface = DarkPurpleGray90,
-    inverseOnSurface = DarkPurpleGray10,
-    outline = PurpleGray60,
+    primary = Color(0xFF0D47A1),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Purple90,
+    onPrimaryContainer = Purple10,
+    secondary = Color(0xFFFFFFFF),
+    onSecondary = Color(0xFFBDBDBD),
+    background = DarkPurpleGray99,
+    onBackground = DarkPurpleGray10,
+    surface = Color(0xFF212121),
+    onSurface = Color(0xFFBDBDBD),
 )
 
 /**
@@ -87,24 +57,13 @@ fun TextToImageTheme(
     // Color scheme
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
-    // Gradient colors
-    val gradientColors = GradientColors(
-        top = colorScheme.inverseOnSurface,
-        bottom = colorScheme.primaryContainer,
-        container = colorScheme.surface,
-    )
-
     // Background theme
-    val backgroundTheme = BackgroundTheme(
-        color = colorScheme.surface,
-        tonalElevation = 2.dp,
-    )
+    val backgroundTheme = BackgroundTheme(color = colorScheme.surface)
 
     val tintTheme = TintTheme()
 
     // Composition locals
     CompositionLocalProvider(
-        LocalGradientColors provides gradientColors,
         LocalBackgroundTheme provides backgroundTheme,
         LocalTintTheme provides tintTheme,
     ) {

@@ -3,12 +3,16 @@ package com.vproject.texttoimage.core.designsystem.component
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 
 /**
@@ -29,13 +33,22 @@ fun TextToImageSlider(
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         Slider(
             value = value,
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colorScheme.onSurface,
+                activeTrackColor = MaterialTheme.colorScheme.onSurface,
+                inactiveTrackColor = MaterialTheme.colorScheme.background,
+            ),
             onValueChange = onValueChange,
             valueRange = valueRange,
             modifier = Modifier.weight(9f)
         )
         Text(
             text = value.roundToInt().toString(),
-            style = MaterialTheme.typography.bodyLarge,
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp
+            ),
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f)
         )

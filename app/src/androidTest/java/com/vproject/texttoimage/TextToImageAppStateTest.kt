@@ -21,6 +21,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Ignore
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.junit.Rule
@@ -81,18 +82,6 @@ class TextToImageAppStateTest {
         assertEquals(2, SUT.topLevelDestinations.size)
         assertTrue(SUT.topLevelDestinations[0].name.contains("generate", true))
         assertTrue(SUT.topLevelDestinations[1].name.contains("explore", true))
-    }
-
-    @Test
-    fun givenAppState_whenSetContentInCompactSize_thenShouldShowBottomBarIsEnabled() = runTest {
-        composeTestRule.setContent {
-            SUT = rememberTextToImageAppState(
-                navController = NavHostController(LocalContext.current),
-                windowSizeClass = getCompactWindowClass(),
-            )
-        }
-
-        assertTrue(SUT.shouldShowBottomBar)
     }
 
     private fun getCompactWindowClass() = WindowSizeClass.calculateFromSize(DpSize(500.dp, 300.dp))

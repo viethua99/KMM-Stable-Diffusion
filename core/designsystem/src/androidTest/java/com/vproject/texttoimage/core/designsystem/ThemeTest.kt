@@ -7,10 +7,8 @@ import androidx.compose.ui.unit.dp
 import com.vproject.texttoimage.core.designsystem.theme.BackgroundTheme
 import com.vproject.texttoimage.core.designsystem.theme.TextToImageTheme
 import com.vproject.texttoimage.core.designsystem.theme.DarkColorScheme
-import com.vproject.texttoimage.core.designsystem.theme.GradientColors
 import com.vproject.texttoimage.core.designsystem.theme.LightColorScheme
 import com.vproject.texttoimage.core.designsystem.theme.LocalBackgroundTheme
-import com.vproject.texttoimage.core.designsystem.theme.LocalGradientColors
 import com.vproject.texttoimage.core.designsystem.theme.LocalTintTheme
 import com.vproject.texttoimage.core.designsystem.theme.TintTheme
 import org.junit.Rule
@@ -19,7 +17,7 @@ import kotlin.test.assertEquals
 
 /**
  * Tests [TextToImageTheme] using between light and dark theme:
- * It verifies that the various composition locals — [MaterialTheme], [LocalGradientColors] and
+ * It verifies that the various composition locals — [MaterialTheme] and
  * [LocalBackgroundTheme] — have the expected values for a given theme mode, as specified by the
  * design system.
  */
@@ -33,13 +31,6 @@ class ThemeTest {
             TextToImageTheme(darkTheme = false) {
                 val colorScheme = LightColorScheme
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-
-                val gradientColors = GradientColors(
-                    top = colorScheme.inverseOnSurface,
-                    bottom = colorScheme.primaryContainer,
-                    container = colorScheme.surface,
-                )
-                assertEquals(gradientColors, LocalGradientColors.current)
 
                 val backgroundTheme = BackgroundTheme(
                     color = colorScheme.surface,
@@ -59,13 +50,6 @@ class ThemeTest {
             TextToImageTheme(darkTheme = true) {
                 val colorScheme = DarkColorScheme
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-
-                val gradientColors = GradientColors(
-                    top = colorScheme.inverseOnSurface,
-                    bottom = colorScheme.primaryContainer,
-                    container = colorScheme.surface,
-                )
-                assertEquals(gradientColors, LocalGradientColors.current)
 
                 val backgroundTheme = BackgroundTheme(
                     color = colorScheme.surface,

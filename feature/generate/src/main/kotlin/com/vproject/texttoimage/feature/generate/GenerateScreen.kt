@@ -1,6 +1,7 @@
 package com.vproject.texttoimage.feature.generate
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -48,8 +50,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.vproject.texttoimage.core.designsystem.component.TextToImageFilledButton
+import com.vproject.texttoimage.core.designsystem.component.TextToImageTextButton
 import com.vproject.texttoimage.core.designsystem.component.TextToImageTextField
-import com.vproject.texttoimage .core.designsystem.icon.TextToImageIcons
+import com.vproject.texttoimage.core.designsystem.icon.TextToImageIcons
 import com.vproject.texttoimage.core.model.data.FavorableStyle
 
 private val randomList = listOf(
@@ -99,41 +102,59 @@ private fun GenerateContent(
     onGenerateButtonClicked: (prompt: String, selectedStyleId: String) -> Unit
 ) {
     var promptValue by remember { mutableStateOf("") }
-    var selectedStyleId by remember { mutableStateOf("") }
+    var selectedStyleId by remember { mutableStateOf("1") }
 
     Column(modifier.padding(start = 10.dp, end = 10.dp)) {
-        GeneratePromptTextField(
-            onValueChange = { promptValue = it }, value = promptValue,
-            modifier = Modifier.testTag(GenerateTestTags.GeneratePromptTextField)
-        )
-        Spacer(Modifier.height(10.dp))
-        TextToImageFilledButton(
+        TextToImageTextButton(
             modifier = Modifier.height(35.dp),
             onClick = {
                 promptValue = randomList.filter { it != promptValue }.random()
             },
-            text = { Text(text = "Surprise Me", style = TextStyle(fontSize = 12.sp)) },
+            text = {
+                Text(
+                    text = "Surprise Me",
+                    style = TextStyle(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp
+                    )
+                )
+            },
             leadingIcon = {
-                Icon(imageVector = TextToImageIcons.RoundedAutoFixNormal, contentDescription = null)
+                Icon(
+                    imageVector = TextToImageIcons.RoundedAutoFixNormal,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                )
             },
         )
+        GeneratePromptTextField(
+            onValueChange = { promptValue = it }, value = promptValue,
+            modifier = Modifier.testTag(GenerateTestTags.GeneratePromptTextField)
+        )
 
-        Spacer(Modifier.height(15.dp))
+        Spacer(Modifier.height(10.dp))
         Text(
             text = "Select Style",
-            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            ),
         )
         Spacer(Modifier.height(10.dp))
         SelectStyleList(
             modifier = Modifier.fillMaxWidth(),
             styleList = styleList,
+            selectedStyleId = selectedStyleId,
             onToggleFavoriteStyleItem = onToggleFavoriteStyleItem,
             onStyleSelected = { styleId -> selectedStyleId = styleId }
         )
         Spacer(Modifier.height(10.dp))
         GenerateButton(
-            onClick = { onGenerateButtonClicked(promptValue, selectedStyleId) },
-            modifier = Modifier.testTag(GenerateTestTags.GenerateImageButton)
+            modifier = Modifier.testTag(GenerateTestTags.GenerateImageButton),
+            enabled = promptValue.isNotEmpty() && selectedStyleId.isNotEmpty(),
+            onClick = { onGenerateButtonClicked(promptValue, selectedStyleId) }
         )
     }
 }
@@ -142,6 +163,7 @@ private fun GenerateContent(
 private fun SelectStyleList(
     modifier: Modifier = Modifier,
     styleList: List<FavorableStyle>,
+    selectedStyleId: String,
     onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
@@ -159,8 +181,11 @@ private fun SelectStyleList(
             StyleItem(
                 style = style,
                 modifier = Modifier.width(100.dp),
+                isSelected = selectedStyleId == style.style.id,
                 onToggleFavoriteStyleItem = onToggleFavoriteStyleItem,
-                onStyleSelected = onStyleSelected
+                onStyleSelected = {
+                    onStyleSelected(it)
+                }
             )
         }
     }
@@ -170,6 +195,7 @@ private fun SelectStyleList(
 private fun StyleItem(
     modifier: Modifier = Modifier,
     style: FavorableStyle,
+    isSelected: Boolean,
     onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
@@ -177,6 +203,7 @@ private fun StyleItem(
         Box(
             modifier
                 .fillMaxWidth()
+                .border(1.dp, MaterialTheme.colorScheme.onSurface, RoundedCornerShape(10))
                 .aspectRatio(1f)
                 .align(Alignment.CenterHorizontally)
                 .clickable { onStyleSelected(style.style.id) }
@@ -192,6 +219,15 @@ private fun StyleItem(
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium),
             )
+            if (isSelected) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .alpha(0.4f)
+                        .background(MaterialTheme.colorScheme.onSurface, RoundedCornerShape(10))
+                        .clip(MaterialTheme.shapes.medium)
+                )
+            }
             FavoriteStyleButton(
                 isFavorite = style.isFavorite,
                 onClick = { onToggleFavoriteStyleItem(style.style.id, !style.isFavorite) },
@@ -204,7 +240,7 @@ private fun StyleItem(
         Text(
             text = style.style.name,
             style = TextStyle(
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 12.sp
             ),
@@ -225,19 +261,19 @@ fun FavoriteStyleButton(
     IconButton(
         onClick = onClick,
         modifier = modifier
-            .size(20.dp)
+            .size(24.dp)
     ) {
         Icon(
-            imageVector = if (isFavorite) TextToImageIcons.FillStarRate else TextToImageIcons.OutlinedStarRate,
+            imageVector = if (isFavorite) TextToImageIcons.FilledFavorite else TextToImageIcons.OutlinedFavorite,
             contentDescription = null,
-            tint = Color.White,
+            tint = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .shadow(
                     elevation = 1.dp,
                     shape = CircleShape
                 )
                 .background(
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.surface,
                     shape = CircleShape
                 )
                 .padding(4.dp)
@@ -253,38 +289,40 @@ private fun GeneratePromptTextField(
 ) {
     TextToImageTextField(
         onValueChange = onValueChange,
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp),
         value = value,
         hint = stringResource(id = R.string.generate_main_hint),
         subHint = stringResource(id = R.string.generate_sub_hint),
         leadingIcon = {
             Icon(
+                tint = MaterialTheme.colorScheme.onSurface,
                 imageVector = TextToImageIcons.DefaultHistory,
                 contentDescription = null,
             )
         },
         trailingIcon = {
             Icon(
+                tint = MaterialTheme.colorScheme.onSurface,
                 imageVector = TextToImageIcons.DefaultClose,
                 contentDescription = null
             )
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(15))
+        modifier = modifier.fillMaxWidth()
     )
 }
 
 @Composable
-private fun GenerateButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun GenerateButton(modifier: Modifier = Modifier, enabled: Boolean, onClick: () -> Unit) {
     TextToImageFilledButton(
         modifier = modifier
             .fillMaxWidth()
             .height(50.dp),
         onClick = onClick,
+        enabled = enabled,
         text = {
             Text(
                 text = stringResource(id = R.string.generate),
-                style = TextStyle(fontWeight = FontWeight.SemiBold),
+                style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
             )
         }
     )
@@ -304,7 +342,7 @@ private fun GenerateScreenPreview() {
         generateUiState = successGenerateUiState,
         modifier = Modifier.fillMaxSize(),
         onToggleFavoriteStyleItem = { _, _ -> },
-        onGenerateButtonClicked = { _ , _ -> })
+        onGenerateButtonClicked = { _, _ -> })
 }
 
 @Preview
@@ -313,7 +351,7 @@ private fun GenerateContentPreview() {
     GenerateContent(
         styleList = listOf(),
         onToggleFavoriteStyleItem = { _, _ -> },
-        onGenerateButtonClicked = { _ , _ -> })
+        onGenerateButtonClicked = { _, _ -> })
 }
 
 @Preview
@@ -325,5 +363,5 @@ private fun GeneratePromptTextFieldPreview() {
 @Preview
 @Composable
 private fun GenerateImageButtonPreview() {
-    GenerateButton(onClick = {})
+    GenerateButton(onClick = {}, enabled = true)
 }
