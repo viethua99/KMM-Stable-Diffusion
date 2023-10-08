@@ -34,13 +34,11 @@ import com.vproject.texttoimage.core.designsystem.icon.TextToImageIcons
 
 @Composable
 internal fun ResultRoute(
-    modifier: Modifier = Modifier,
-    viewModel: ResultViewModel = hiltViewModel()
+    modifier: Modifier = Modifier, viewModel: ResultViewModel = hiltViewModel()
 ) {
     val resultUiState by viewModel.resultUiState.collectAsStateWithLifecycle()
     ResultScreen(
-        resultUiState = resultUiState,
-        modifier = modifier.fillMaxSize()
+        resultUiState = resultUiState, modifier = modifier.fillMaxSize()
     )
 }
 
@@ -51,15 +49,17 @@ internal fun ResultScreen(
 ) {
     Column(modifier = modifier) {
         ResultTopAppBar(onBackClick = {})
-        Column(
-            Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 80.dp)) {
-            Column(Modifier.weight(1f)) {
-                ResultImage()
-                ResultStyleRow(text = "Digital Art")
-                ResultPromptRow()
+        if (resultUiState is ResultUiState.ShowResult) {
+            Column(
+                Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 80.dp)
+            ) {
+                Column(Modifier.weight(1f)) {
+                    ResultImage(resultUiState.url)
+                    ResultStyleRow(text = resultUiState.style)
+                    ResultPromptRow(content = resultUiState.prompt)
+                }
+                ResultButtonRow()
             }
-            ResultButtonRow()
         }
     }
 }
@@ -76,15 +76,13 @@ private fun ResultTopAppBar(modifier: Modifier = Modifier, onBackClick: () -> Un
 }
 
 @Composable
-private fun ResultImage() {
+private fun ResultImage(imageUrl: String) {
     val imageModifier = Modifier
         .heightIn(min = 180.dp)
         .fillMaxWidth()
         .clip(shape = MaterialTheme.shapes.medium)
     DynamicAsyncImage(
-        imageUrl = "https://cdn.stablediffusionapi.com/generations/87e8bcf4-435d-4415-8a80-0b68e85da425-0.png",
-        contentDescription = null,
-        modifier = imageModifier
+        imageUrl = imageUrl, contentDescription = null, modifier = imageModifier
     )
 }
 
@@ -115,7 +113,7 @@ private fun ResultStyleRow(
 }
 
 @Composable
-private fun ResultPromptRow(modifier: Modifier = Modifier) {
+private fun ResultPromptRow(modifier: Modifier = Modifier, content: String) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -123,9 +121,7 @@ private fun ResultPromptRow(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "Prompt:",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.weight(1f)
+            "Prompt:", style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f)
         )
         Icon(
             imageVector = Icons.Default.CopyAll,
@@ -136,7 +132,7 @@ private fun ResultPromptRow(modifier: Modifier = Modifier) {
     }
     Text(
         overflow = TextOverflow.Ellipsis,
-        text = "Happy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chattingHappy charming googly-eyed potato walking around a cardboard diorama town chatting",
+        text = content,
         style = MaterialTheme.typography.bodyLarge,
     )
 }
@@ -147,7 +143,8 @@ private fun ResultButtonRow(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically) {
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         TextToImageFilledButton(
             modifier = Modifier.weight(1f),
             text = { Text(text = "Share") }, onClick = { /*TODO*/ },
@@ -173,5 +170,5 @@ internal object ResultTestTags {
 @Preview
 @Composable
 private fun ResultScreenPreview() {
-    ResultScreen(resultUiState = ResultUiState.Loading)
+    ResultScreen(resultUiState = ResultUiState.Empty)
 }

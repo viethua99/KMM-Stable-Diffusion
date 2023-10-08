@@ -1,6 +1,6 @@
 package com.vproject.texttoimage.core.network.retrofit
 
-import com.vproject.texttoimage.core.network.model.TextToImageResponse
+import com.vproject.texttoimage.core.network.model.TextToImageResponseBody
 import com.vproject.texttoimage.core.network.model.TextToImageRequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -12,5 +12,5 @@ interface RetrofitTextToImageApi {
     @POST(value = "api/v3/text2img")
     suspend fun postTextToImage(
         @Body textToImageRequestBody: TextToImageRequestBody,
-    ): TextToImageResponse
+    ): TextToImageResponseBody
 }

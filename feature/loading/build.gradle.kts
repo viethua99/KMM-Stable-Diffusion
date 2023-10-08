@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.vproject.texttoimage.feature.loading"
 }
+
+dependencies {
+    implementation(libs.lottie.compose)
+}
