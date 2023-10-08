@@ -1,5 +1,9 @@
 ![Android-Text-to-Image](https://socialify.git.ci/viethua99/Android-Text-to-Image/image?description=1&descriptionEditable=%F0%9F%9A%80%20Instantly%20generate%20high-quality%20images%20based%20on%20your%20text%20prompt%20%F0%9F%9A%80&font=Inter&logo=https%3A%2F%2Ftabris.com%2Fwp-content%2Fuploads%2F2021%2F06%2Fjetpack-compose-icon_RGB.png&name=1&pattern=Brick%20Wall&theme=Dark)
 <p align="center">
+  <a href="https://github.com/viethua99">
+     <img src="https://img.shields.io/github/downloads/viethua99/Android-Text-to-Image/total?color=3BB143" alt="Github - viethua99">
+  </a>
+
   <a href="https://opensource.org/licenses/Apache-2.0">
      <img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/>
   </a>
@@ -11,6 +15,8 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
+## Download
+Go to the [Releases](https://github.com/viethua99/Android-Text-to-Image/releases) to download the latest APK.
 
 <img src="docs/images/showcase_v1.gif" align="right" width="280"/>
 
