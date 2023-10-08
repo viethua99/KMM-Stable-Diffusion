@@ -12,15 +12,16 @@
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
-<img src="docs/images/android-text-to-image-showcase.gif" align="right" width="280"/>
+<img src="docs/images/showcase_v1.gif" align="right" width="280"/>
 
 ## Features
 
 - Type in your prompt and start generating images.
 - Multiple styles to customize your images.
-- You are able to download the generated images.
-- Support 2 languages (English and Vietnamese).
+> 🔞 **There is a style call [NSFW] (Not Safe For Work) that exposes nudity content. Please make sure you are older than 18 to use** 🔞
 - Support Light / Dark mode.
+- You are able to download the generated images. (In-progress)
+- Support 2 languages (English and Vietnamese). (In-progress)
 
 ## Technical Dependencies
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
@@ -89,6 +90,13 @@ So users don't need to be up-to-date on the network resources every time and it 
 
 Android Text-to-Image using the [Stable Diffusion API](https://stablediffusionapi.com/) for constructing RESTful API.<br>
 StableDiffusionAPI provides a RESTful API interface to highly detailed objects built from thousands of lines of data related to text to images.
+## Setup
+Step 1: Create an account and generate an API key at [Stable Diffusion API Key](https://stablediffusionapi.com/dashboard/apikeys)
+
+Step 2: Paste the API key to your project `gradle.properties` file:
+<pre><code class="lang-groovy">STABLE_DIFFUSION_API_KEY=YOUR_API_KEY_HERE</code></pre>
+
+Step 3: Sync project and run your app.
 
 ## Find this repository useful? :heart:
 Support it by joining __[stargazers](https://github.com/viethua99/Android-Text-to-Image/stargazers)__ for this repository. :star: <br>
