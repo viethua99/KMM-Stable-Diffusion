@@ -4,9 +4,15 @@ plugins {
 }
 
 android {
+
     buildFeatures {
         buildConfig = true
     }
+
+    defaultConfig {
+        buildConfigField("String", "STABLE_DIFFUSION_API_KEY", "\"${project.property("STABLE_DIFFUSION_API_KEY")}\"")
+    }
+
     namespace = "com.vproject.texttoimage.core.network"
 
     testOptions {

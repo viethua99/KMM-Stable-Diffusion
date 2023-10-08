@@ -1,6 +1,7 @@
 package com.vproject.texttoimage.core.designsystem.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -61,7 +63,6 @@ fun TextToImageTextField(
     }
 
     BasicTextField(
-        modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         textStyle = textStyle,
@@ -72,8 +73,9 @@ fun TextToImageTextField(
         decorationBox = { innerTextField ->
             Box(
                 modifier = modifier
+                    .border(2.dp, MaterialTheme.colorScheme.onSurface, RoundedCornerShape(10))
                     .height(TextToImageTextFieldDefaults.Height)
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(
                         top = TextToImageTextFieldDefaults.InnerTopPadding,
                         bottom = TextToImageTextFieldDefaults.InnerBottomPadding,
@@ -84,11 +86,11 @@ fun TextToImageTextField(
                 if (value.isEmpty()) {
                     val hintStyle = SpanStyle(
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = TextToImageTextFieldDefaults.MainHintFontSize
                     )
                     val subHintStyle = SpanStyle(
-                        color = MaterialTheme.colorScheme.outline,
+                        color = MaterialTheme.colorScheme.onSecondary,
                         fontSize = TextToImageTextFieldDefaults.SubHintFontSize
                     )
                     TextToImageTextFieldHint(

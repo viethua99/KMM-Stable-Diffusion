@@ -2,15 +2,16 @@ package com.vproject.texttoimage.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.StarRate
 import androidx.compose.material.icons.outlined.AutoFixNormal
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ReceiptLong
-import androidx.compose.material.icons.outlined.StarRate
 import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.VpnKey
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -31,12 +32,10 @@ object TextToImageIcons {
     val OutlinedLanguage = Icons.Outlined.Language
     val DefaultHistory = Icons.Default.History
     val DefaultClose = Icons.Default.Close
-    val FillStarRate = Icons.Filled.StarRate
-    val OutlinedStarRate = Icons.Outlined.StarRate
+    val FilledFavorite = Icons.Filled.Favorite
+    val OutlinedFavorite = Icons.Outlined.FavoriteBorder
     val OutlinedDarkMode = Icons.Outlined.DarkMode
     val OutlinedInfo = Icons.Outlined.Info
     val OutlinedReceiptLong = Icons.Outlined.ReceiptLong
     val OutlinedVpnKey = Icons.Outlined.VpnKey
-    val OutlinedPerson = Icons.Outlined.Person
-    val OutlinedTranslate = Icons.Outlined.Translate
 }

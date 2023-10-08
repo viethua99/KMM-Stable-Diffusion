@@ -9,26 +9,20 @@ internal class OfflineFirstStyleRepository @Inject constructor() : StyleReposito
     private val styleList = mutableListOf(
         Style(
             "1",
-            "Animal",
-            "https://cdn.stablediffusionapi.com/generations/29ce2157-a1eb-4356-81c6-e9a57002d5a4-0.png",
-            "wildlife photography, photograph, high quality, wildlife, f 1.8, soft focus, 8k, national geographic, award - winning photograph by nick nichols"
-        ),
-        Style(
-            "2",
-            "Archviz",
-            "https://cdn.stablediffusionapi.com/generations/b2229796-50de-4aec-ba2f-82a60635bc73-0.png",
-        "by James McDonald and Joarc Architects, home, interior, octane render, deviantart, cinematic, key art, hyperrealism, sun light, sunrays, canon eos c 300, ƒ 1.8, 35 mm, 8k, medium - format print"
+            "NSFW",
+            "https://cdn.stablediffusionapi.com/generations/de5977b7-3410-4199-8d96-00c82bd78f1b-0.png",
+            "nudity content, nsfw, boobs, sex, body, thick"
         ),
         Style(
             "3",
             "Building",
-            "https://cdn.stablediffusionapi.com/generations/781ad8c1-85bf-4ed7-99fa-bcbb6eb318ae-0.png",
+            "https://cdn.stablediffusionapi.com/generations/dea02ced-e94a-4f7e-b7cf-cfa0ed394796-0.png",
             "shot 35 mm, realism, octane render, 8k, trending on artstation, 35 mm camera, unreal engine, hyper detailed, photo - realistic maximum detail, volumetric light, realistic matte painting, hyper photorealistic, trending on artstation, ultra - detailed, realistic"
         ),
         Style(
             "4",
             "Cartoon Character",
-            "https://cdn.stablediffusionapi.com/generations/ee8b516d-74db-4e19-af8a-0c8d54a399a5-0.png",
+            "https://cdn.stablediffusionapi.com/generations/87e8bcf4-435d-4415-8a80-0b68e85da425-0.png",
             "anthro, very cute kid's film character, disney pixar zootopia character concept artwork, 3d concept, detailed fur, high detail iconic character for upcoming film, trending on artstation, character design, 3d artistic render, highly detailed, octane, blender, cartoon, shadows, lighting"
         ),
         Style(
@@ -52,7 +46,7 @@ internal class OfflineFirstStyleRepository @Inject constructor() : StyleReposito
         Style(
             "8",
             "Drawing",
-            "https://cdn.stablediffusionapi.com/generations/de5977b7-3410-4199-8d96-00c82bd78f1b-0.png",
+            "https://cdn.stablediffusionapi.com/generations/29ce2157-a1eb-4356-81c6-e9a57002d5a4-0.png",
             "cute, funny, centered, award winning watercolor pen illustration, detailed, disney, isometric illustration, drawing, by Stephen Hillenburg, Matt Groening, Albert Uderzo"
         ),
         Style(
@@ -76,13 +70,13 @@ internal class OfflineFirstStyleRepository @Inject constructor() : StyleReposito
         Style(
             "12",
             "Space",
-            "https://cdn.stablediffusionapi.com/generations/87e8bcf4-435d-4415-8a80-0b68e85da425-0.png",
+            "https://cdn.stablediffusionapi.com/generations/ee8b516d-74db-4e19-af8a-0c8d54a399a5-0.png",
             "by Andrew McCarthy, Navaneeth Unnikrishnan, Manuel Dietrich, photo realistic, 8 k, cinematic lighting, hd, atmospheric, hyperdetailed, trending on artstation, deviantart, photography, glow effect"
         ),
         Style(
             "13",
             "Steampunk",
-            "https://cdn.stablediffusionapi.com/generations/dea02ced-e94a-4f7e-b7cf-cfa0ed394796-0.png",
+            "https://cdn.stablediffusionapi.com/generations/781ad8c1-85bf-4ed7-99fa-bcbb6eb318ae-0.png",
             "steampunk cybernetic biomechanical, 3d model, very coherent symmetrical artwork, unreal engine realistic render, 8k, micro detail, intricate, elegant, highly detailed, centered, digital painting, artstation, smooth, sharp focus, illustration, artgerm, Caio Fantini, wlop"
         ),
         Style(
@@ -90,12 +84,6 @@ internal class OfflineFirstStyleRepository @Inject constructor() : StyleReposito
             "Vehicles",
             "https://pub-8b49af329fae499aa563997f5d4068a4.r2.dev/generations/95c0aac6-cfd5-467a-a3a3-d65808462f49-0.png",
             " photorealistic, vivid, sharp focus, reflection, refraction, sunrays, very detailed, intricate, intense cinematic composition"
-        ),
-        Style(
-            "15",
-            "No Style",
-            "https://cdn.stablediffusionapi.com/generations/29ce2157-a1eb-4356-81c6-e9a57002d5a4-0.png",
-            ""
         ),
     )
 

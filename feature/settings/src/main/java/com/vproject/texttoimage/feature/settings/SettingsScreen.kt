@@ -1,5 +1,7 @@
 package com.vproject.texttoimage.feature.settings
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,9 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vproject.texttoimage.core.designsystem.component.TextToImageSlider
@@ -102,7 +107,11 @@ private fun SettingTopAppBar(modifier: Modifier = Modifier, onBackClick: () -> U
 private fun SettingSectionTitle(text: String) {
     Text(
         text = text,
-        style = MaterialTheme.typography.titleMedium,
+        style = TextStyle(
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp
+        ),
         modifier = Modifier.padding(top = 16.dp, bottom = 10.dp),
     )
 }
@@ -116,6 +125,7 @@ private fun AdvancedPromptOptionSectionCard(
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onSecondary),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier.fillMaxWidth()
     ) {
@@ -155,7 +165,11 @@ private fun AdvancedPromptOptionItem(
 ) {
     Text(
         titleText,
-        style = MaterialTheme.typography.bodyLarge,
+        style = TextStyle(
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp
+        ),
         modifier = Modifier
     )
     TextToImageSlider(
@@ -166,7 +180,11 @@ private fun AdvancedPromptOptionItem(
     Spacer(modifier = Modifier.height(4.dp))
     Text(
         advancedExplanation,
-        style = MaterialTheme.typography.bodyMedium,
+        style = TextStyle(
+            color = MaterialTheme.colorScheme.background,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp
+        ),
         modifier = Modifier
     )
 }
@@ -179,6 +197,7 @@ private fun GeneralSectionCard(
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onSecondary),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier.fillMaxWidth()
     ) {
@@ -196,7 +215,11 @@ private fun GeneralSectionCard(
                                     GeneralSettingType.DISPLAY_LANGUAGE -> {
                                         Text(
                                             text = "English",
-                                            style = MaterialTheme.typography.bodyLarge,
+                                            style = TextStyle(
+                                                color = MaterialTheme.colorScheme.onSurface,
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 14.sp
+                                            ),
                                             textAlign = TextAlign.End,
                                         )
                                     }
@@ -238,13 +261,18 @@ private fun GeneralSettingRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
+            tint = MaterialTheme.colorScheme.onSurface,
             imageVector = leadingIcon,
             contentDescription = null
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text,
-            style = MaterialTheme.typography.bodyLarge,
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp
+            ),
             modifier = Modifier.weight(1f)
         )
 

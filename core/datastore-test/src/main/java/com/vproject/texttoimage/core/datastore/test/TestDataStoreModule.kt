@@ -14,24 +14,24 @@ import kotlinx.coroutines.CoroutineScope
 import org.junit.rules.TemporaryFolder
 import javax.inject.Singleton
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [DataStoreModule::class],
-)
+//@Module
+//@TestInstallIn(
+//    components = [SingletonComponent::class],
+//    replaces = [DataStoreModule::class],
+//)
 object TestDataStoreModule {
 
-    @Provides
-    @Singleton
-    fun providesUserPreferencesDataStore(
-        @ApplicationScope scope: CoroutineScope,
-        userPreferencesSerializer: UserPreferencesSerializer,
-        tmpFolder: TemporaryFolder,
-    ): DataStore<UserPreferences> =
-        tmpFolder.testUserPreferencesDataStore(
-            coroutineScope = scope,
-            userPreferencesSerializer = userPreferencesSerializer,
-        )
+//    @Provides
+//    @Singleton
+//    fun providesUserPreferencesDataStore(
+//        @ApplicationScope scope: CoroutineScope,
+//        userPreferencesSerializer: UserPreferencesSerializer,
+//        tmpFolder: TemporaryFolder,
+//    ): DataStore<UserPreferences> =
+//        tmpFolder.testUserPreferencesDataStore(
+//            coroutineScope = scope,
+//            userPreferencesSerializer = userPreferencesSerializer,
+//        )
 }
 
 fun TemporaryFolder.testUserPreferencesDataStore(

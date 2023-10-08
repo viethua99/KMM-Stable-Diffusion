@@ -35,9 +35,7 @@ internal class ResultArgs(val imageUrl: String, val prompt: String, val styleId:
 fun NavController.navigateToResult(imageUrl: String, prompt: String, styleId: String) {
     val encodedUrl = URLEncoder.encode(imageUrl, URL_CHARACTER_ENCODING)
     this.navigate("$resultRoute/$encodedUrl/$prompt/$styleId") {
-        popUpTo(graph.findStartDestination().id) {
-            saveState = true
-        }
+        popUpTo(graph.findStartDestination().id)
         launchSingleTop = true
     }
 }

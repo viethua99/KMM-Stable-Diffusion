@@ -3,6 +3,7 @@ package com.vproject.texttoimage.feature.loading.navigation
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -39,6 +40,7 @@ internal class LoadingArgs(val prompt: String, val styleId: String) {
 fun NavController.navigateToLoading(prompt: String, styleId: String) {
     val encodedPrompt = URLEncoder.encode(prompt, URL_CHARACTER_ENCODING)
     this.navigate("$loadingRoute/$encodedPrompt/$styleId") {
+        popUpTo(graph.findStartDestination().id)
         launchSingleTop = true
     }
 }

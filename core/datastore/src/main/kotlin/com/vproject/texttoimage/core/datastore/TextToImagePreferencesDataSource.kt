@@ -79,8 +79,8 @@ class TextToImagePreferencesDataSource @Inject constructor(
             userPreferences.updateData { currentUserPreferences ->
                 currentUserPreferences.copy {
                     this.darkThemeConfig = when (darkThemeConfig) {
-                        DarkThemeConfig.LIGHT -> com.vproject.texttoimage.core.datastore.DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT
-                        DarkThemeConfig.DARK -> com.vproject.texttoimage.core.datastore.DarkThemeConfigProto.DARK_THEME_CONFIG_DARK
+                        DarkThemeConfig.LIGHT -> DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT
+                        DarkThemeConfig.DARK -> DarkThemeConfigProto.DARK_THEME_CONFIG_DARK
                     }
                 }
             }
