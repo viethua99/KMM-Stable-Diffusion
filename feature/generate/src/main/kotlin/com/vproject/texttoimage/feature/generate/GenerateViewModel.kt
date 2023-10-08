@@ -17,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GenerateViewModel @Inject constructor(
     getFavorableStyleListUseCase: GetFavorableStyleListUseCase,
-    private val toggleFavoriteStyleUseCase: ToggleFavoriteStyleUseCase,
-    private val generateImageUseCase: GenerateImageUseCase,
+    private val toggleFavoriteStyleUseCase: ToggleFavoriteStyleUseCase
 ) : ViewModel() {
     val generateUiState: StateFlow<GenerateUiState> =
         getFavorableStyleListUseCase()
@@ -32,15 +31,6 @@ class GenerateViewModel @Inject constructor(
     fun updateFavoriteStyle(styleId: String, isFavorite: Boolean) {
         viewModelScope.launch {
             toggleFavoriteStyleUseCase(styleId, isFavorite)
-        }
-    }
-
-    fun generateImage(prompt: String, selectedStyleId: String) {
-        viewModelScope.launch {
-            val flow = generateImageUseCase(prompt, selectedStyleId)
-            flow.collect { output ->
-                Log.d("TEST", "Result = $output")
-            }
         }
     }
 }

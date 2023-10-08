@@ -13,8 +13,8 @@ fun NavController.navigateToGenerate(navOptions: NavOptions? = null) {
     this.navigate(generateRoute, navOptions)
 }
 
-fun NavGraphBuilder.generateScreen() {
+fun NavGraphBuilder.generateScreen(onGenerateButtonClicked: (prompt: String, selectedStyleId: String) -> Unit) {
     composable(route = generateRoute) {
-        GenerateRoute()
+        GenerateRoute(onGenerateButtonClicked = onGenerateButtonClicked)
     }
 }

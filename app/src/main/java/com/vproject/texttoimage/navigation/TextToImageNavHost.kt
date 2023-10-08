@@ -7,6 +7,8 @@ import com.vproject.texttoimage.feature.explore.navigation.exploreScreen
 import com.vproject.texttoimage.feature.generate.navigation.generateRoute
 import com.vproject.texttoimage.feature.generate.navigation.generateScreen
 import com.vproject.texttoimage.feature.loading.navigation.loadingScreen
+import com.vproject.texttoimage.feature.loading.navigation.navigateToLoading
+import com.vproject.texttoimage.feature.result.navigation.navigateToResult
 import com.vproject.texttoimage.feature.result.navigation.resultScreen
 import com.vproject.texttoimage.feature.settings.navigation.settingsScreen
 import com.vproject.texttoimage.ui.TextToImageAppState
@@ -23,12 +25,18 @@ fun TextToImageNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        generateScreen()
+        generateScreen(
+            onGenerateButtonClicked = { prompt, styleId ->
+                navController.navigateToLoading(prompt, styleId)
+            }
+        )
         exploreScreen()
         settingsScreen(
             onBackClick = navController::popBackStack,
         )
-        loadingScreen()
+        loadingScreen(
+            onImageGenerated = navController::navigateToResult
+        )
         resultScreen()
     }
 }

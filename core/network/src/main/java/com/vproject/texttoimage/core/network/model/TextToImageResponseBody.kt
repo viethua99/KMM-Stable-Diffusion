@@ -1,6 +1,6 @@
 package com.vproject.texttoimage.core.network.model
 
-data class TextToImageResponse(
+data class TextToImageResponseBody(
     val id: Long? = null,
     val status: String,
     val generateTime: Double,

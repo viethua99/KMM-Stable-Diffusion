@@ -13,7 +13,7 @@ class GenerateImageUseCase @Inject constructor(
     private val styleRepository: StyleRepository,
     private val imageRepository: ImageRepository,
 ) {
-    suspend operator fun invoke(prompt: String, styleId: String): Flow<String> {
+     operator fun invoke(prompt: String, styleId: String): Flow<String> {
        return styleRepository.getStyle(styleId).flatMapLatest { style ->
            imageRepository.generateImage("$prompt, ${style.fullDescription}")
        }

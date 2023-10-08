@@ -62,21 +62,22 @@ private val randomList = listOf(
 @Composable
 internal fun GenerateRoute(
     modifier: Modifier = Modifier,
-    viewModel: GenerateViewModel = hiltViewModel()
+    viewModel: GenerateViewModel = hiltViewModel(),
+    onGenerateButtonClicked: (prompt: String, selectedStyleId: String) -> Unit
 ) {
     val promptUiState by viewModel.generateUiState.collectAsStateWithLifecycle()
     GenerateScreen(
-        generateUiState = promptUiState,
         modifier = modifier.fillMaxSize(),
+        generateUiState = promptUiState,
         onToggleFavoriteStyleItem = viewModel::updateFavoriteStyle,
-        onGenerateButtonClicked = viewModel::generateImage
+        onGenerateButtonClicked = onGenerateButtonClicked
     )
 }
 
 @Composable
 internal fun GenerateScreen(
-    generateUiState: GenerateUiState,
     modifier: Modifier = Modifier,
+    generateUiState: GenerateUiState,
     onToggleFavoriteStyleItem: (styleId: String, isFavorite: Boolean) -> Unit,
     onGenerateButtonClicked: (prompt: String, selectedStyleId: String) -> Unit
 ) {
