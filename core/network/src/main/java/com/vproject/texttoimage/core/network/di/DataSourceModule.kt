@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DataSourceModule {
+internal interface DataSourceModule {
     @Binds
     fun RetrofitTextToImageNetwork.binds(): TextToImageNetworkDataSource
 }

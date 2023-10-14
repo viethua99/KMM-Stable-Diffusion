@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+internal class SettingsViewModel @Inject constructor(
     getUserEditableSettingsUseCase: GetUserEditableSettingsUseCase,
     private val setPromptCfgScaleValueUseCase: SetPromptCfgScaleValueUseCase,
     private val setPromptStepValueUseCase: SetPromptStepValueUseCase,

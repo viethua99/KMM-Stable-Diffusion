@@ -65,12 +65,12 @@ class TextToImageAppStateTest {
 
                 currentDestination = SUT.currentDestination?.route
 
-                // Navigate to test explore destination
+                // Navigate to test gallery destination
                 LaunchedEffect(Unit) {
-                    testNavController.setCurrentDestination("test_explore")
+                    testNavController.setCurrentDestination("test_gallery")
                 }
             }
-            assertEquals("test_explore", currentDestination)
+            assertEquals("test_gallery", currentDestination)
         }
 
     @Test
@@ -81,7 +81,7 @@ class TextToImageAppStateTest {
 
         assertEquals(2, SUT.topLevelDestinations.size)
         assertTrue(SUT.topLevelDestinations[0].name.contains("generate", true))
-        assertTrue(SUT.topLevelDestinations[1].name.contains("explore", true))
+        assertTrue(SUT.topLevelDestinations[1].name.contains("gallery", true))
     }
 
     private fun getCompactWindowClass() = WindowSizeClass.calculateFromSize(DpSize(500.dp, 300.dp))
@@ -95,7 +95,7 @@ private fun rememberTestNavController(): TestNavHostController {
             navigatorProvider.addNavigator(ComposeNavigator())
             graph = createGraph(startDestination = "test_generate") {
                 composable("test_generate") { }
-                composable("test_explore") { }
+                composable("test_gallery") { }
             }
         }
     }

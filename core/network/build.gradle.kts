@@ -23,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)

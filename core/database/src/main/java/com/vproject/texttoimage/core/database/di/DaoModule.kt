@@ -1,7 +1,7 @@
 package com.vproject.texttoimage.core.database.di
 
 import com.vproject.texttoimage.core.database.TextToImageDatabase
-import com.vproject.texttoimage.core.database.dao.TextToImageDao
+import com.vproject.texttoimage.core.database.dao.PromptDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +11,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object DaoModule {
     @Provides
-    fun providesTextToImageDao(
+    fun providesPromptDao(
         database: TextToImageDatabase,
-    ): TextToImageDao = database.textToImageDao()
+    ): PromptDao = database.promptDao()
 }

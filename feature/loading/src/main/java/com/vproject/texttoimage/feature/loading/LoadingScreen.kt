@@ -27,13 +27,15 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 internal fun LoadingRoute(
     modifier: Modifier = Modifier,
     viewModel: LoadingViewModel = hiltViewModel(),
-    onImageGenerated: (url: String, prompt: String, styleId: String) -> Unit = {_,_,_ ->}
+    onImageGenerated: (url: String, prompt: String, styleId: String) -> Unit = {_,_,_ ->},
+    onError: (message: String) -> Unit = {}
 ) {
     val loadingUiState by viewModel.loadingUiState.collectAsStateWithLifecycle()
     LoadingScreen(
         loadingUiState = loadingUiState,
         modifier = modifier.fillMaxSize(),
-        onImageGenerated = onImageGenerated
+        onImageGenerated = onImageGenerated,
+        onError = onError
     )
 }
 
@@ -41,7 +43,8 @@ internal fun LoadingRoute(
 internal fun LoadingScreen(
     modifier: Modifier = Modifier,
     loadingUiState: LoadingUiState,
-    onImageGenerated: (url: String, prompt: String, styleId: String) -> Unit = {_,_,_ ->}
+    onImageGenerated: (url: String, prompt: String, styleId: String) -> Unit = {_,_,_ ->},
+    onError: (message: String) -> Unit = {}
 ) {
     if (loadingUiState is LoadingUiState.Generating) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
@@ -51,7 +54,7 @@ internal fun LoadingScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LottieAnimation(
-                modifier = Modifier.size(150.dp),
+                modifier = Modifier.size(160.dp),
                 composition = composition, iterations = LottieConstants.IterateForever
             )
             Text(text = "Generating...",
@@ -63,6 +66,8 @@ internal fun LoadingScreen(
         }
     } else if (loadingUiState is LoadingUiState.Generated) {
         onImageGenerated(loadingUiState.url, loadingUiState.prompt, loadingUiState.styleId)
+    } else if (loadingUiState is LoadingUiState.Error) {
+        onError("Some unknown error just happen")
     }
 }
 

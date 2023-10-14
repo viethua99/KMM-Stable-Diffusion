@@ -2,6 +2,7 @@ package com.vproject.texttoimage.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.vproject.texttoimage.R
+import com.vproject.texttoimage.feature.gallery.R as galleryR
 import com.vproject.texttoimage.core.designsystem.icon.TextToImageIcons
 import com.vproject.texttoimage.feature.generate.R as generateR
 
@@ -18,15 +19,15 @@ enum class TopLevelDestination(
 ) {
     GENERATE(
         selectedIcon = TextToImageIcons.RoundedAutoFixNormal,
-        unselectedIcon = TextToImageIcons.OutlinedAutoFixNormal,
+        unselectedIcon = TextToImageIcons.RoundedAutoFixNormal,
         iconTextId = generateR.string.generate,
         titleTextId = R.string.app_name,
     ),
-    EXPLORE(
-        selectedIcon = TextToImageIcons.RoundedLanguage,
-        unselectedIcon = TextToImageIcons.OutlinedLanguage,
-        iconTextId = R.string.explore,
-        titleTextId = R.string.explore,
+    GALLERY(
+        selectedIcon = TextToImageIcons.PhotoLibrary,
+        unselectedIcon = TextToImageIcons.PhotoLibrary,
+        iconTextId = galleryR.string.gallery,
+        titleTextId = R.string.app_name,
     )
 
 }

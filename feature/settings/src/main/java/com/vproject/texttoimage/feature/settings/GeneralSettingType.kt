@@ -3,7 +3,7 @@ package com.vproject.texttoimage.feature.settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.vproject.texttoimage.core.designsystem.icon.TextToImageIcons
 
-enum class GeneralSettingType(
+internal enum class GeneralSettingType(
     val leadingIcon: ImageVector,
     val titleTextId: Int,
 ) {

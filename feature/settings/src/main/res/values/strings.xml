@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings">Settings</string>
-    <string name="advanced_prompt_option">Advanced Prompt Options</string>
-    <string name="cfg_scale">CFG Scale</string>
+    <string name="advanced_prompt_option">Advanced prompt options</string>
+    <string name="cfg_scale">CFG scale</string>
     <string name="cfg_scale_explanation">Higher values will keep your artwork more in line with your prompt</string>
     <string name="steps">Steps</string>
     <string name="steps_explanation">Running more steps means better image quality but generating may take more time</string>
     <string name="general">General</string>
-    <string name="display_language">Display Language</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="term_of_service">Term of Service</string>
+    <string name="display_language">Display language</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="term_of_service">Term of service</string>
     <string name="about_text_to_image">About Text To Image</string>
 </resources>

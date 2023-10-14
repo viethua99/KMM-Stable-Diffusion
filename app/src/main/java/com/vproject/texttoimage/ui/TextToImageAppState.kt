@@ -13,14 +13,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.vproject.texttoimage.core.ui.TrackDisposableJank
-import com.vproject.texttoimage.feature.explore.navigation.exploreRoute
-import com.vproject.texttoimage.feature.explore.navigation.navigateToExplore
+import com.vproject.texttoimage.feature.gallery.navigation.galleryRoute
+import com.vproject.texttoimage.feature.gallery.navigation.navigateToGallery
 import com.vproject.texttoimage.feature.generate.navigation.generateRoute
 import com.vproject.texttoimage.feature.generate.navigation.navigateToGenerate
 import com.vproject.texttoimage.feature.settings.navigation.navigateToSettings
 import com.vproject.texttoimage.navigation.TopLevelDestination
 import com.vproject.texttoimage.navigation.TopLevelDestination.GENERATE
-import com.vproject.texttoimage.navigation.TopLevelDestination.EXPLORE
+import com.vproject.texttoimage.navigation.TopLevelDestination.GALLERY
 
 @Composable
 fun rememberTextToImageAppState(
@@ -49,20 +49,20 @@ class TextToImageAppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
             generateRoute -> GENERATE
-            exploreRoute -> EXPLORE
+            galleryRoute -> GALLERY
             else -> null
         }
 
     val shouldShowBottomBar: Boolean
         @Composable get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact &&
-                (currentTopLevelDestination == GENERATE || currentTopLevelDestination == EXPLORE)
+                (currentTopLevelDestination == GENERATE || currentTopLevelDestination == GALLERY)
 
 
     /**
      * Map of top level destinations to be used in the TopBar, BottomBar. The key is the
      * route.
      */
-    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList().filter { it.name == GENERATE.name }
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
 
     /**
@@ -88,7 +88,7 @@ class TextToImageAppState(
 
         when (topLevelDestination) {
             GENERATE -> navController.navigateToGenerate(topLevelNavOptions)
-            EXPLORE -> navController.navigateToExplore(topLevelNavOptions)
+            GALLERY -> navController.navigateToGallery(topLevelNavOptions)
         }
     }
 

@@ -19,7 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.properties.ReadOnlyProperty
 import com.vproject.texttoimage.feature.generate.R as generateR
-import com.vproject.texttoimage.feature.explore.R as exploreR
+import com.vproject.texttoimage.feature.gallery.R as galleryR
 
 @HiltAndroidTest
 class NavigationTest {
@@ -46,7 +46,7 @@ class NavigationTest {
     // The strings used for matching in these tests
     private val appName by composeTestRule.stringResource(R.string.app_name)
     private val generate by composeTestRule.stringResource(generateR.string.generate)
-    private val explore by composeTestRule.stringResource(exploreR.string.explore)
+    private val gallery by composeTestRule.stringResource(galleryR.string.gallery)
 
     @Test
     fun whenAppStarted_thenFirstScreenIsGenerate() {
@@ -60,7 +60,7 @@ class NavigationTest {
         composeTestRule.apply {
             onNodeWithContentDescription("settings").assertExists()
 
-            onNodeWithText(explore).performClick()
+            onNodeWithText(gallery).performClick()
             onNodeWithContentDescription("settings").assertExists()
         }
     }
@@ -68,23 +68,23 @@ class NavigationTest {
     @Test(expected = NoActivityResumedException::class)
     fun givenAppStarted_whenPressingBackButton_thenQuittingApp() {
         composeTestRule.apply {
-            onNodeWithText(explore).performClick()
+            onNodeWithText(gallery).performClick()
             onNodeWithText(generate).performClick()
             Espresso.pressBack()
         }
     }
 
     @Test
-    fun whenSelectingExploreTab_thenShowExploreNavigationTab() {
+    fun whenSelectingGalleryTab_thenShowGalleryNavigationTab() {
         composeTestRule.apply {
             // Verify that the top bar contains the app name on the first screen.
             onNodeWithText(appName).assertExists()
 
-            // Go to the explore tab, verify that the top bar contains "Explore". This means
-            // we'll have 2 elements with the text "Explore" on screen. One in the top bar, and
+            // Go to the gallery tab, verify that the top bar contains "Gallery". This means
+            // we'll have 2 elements with the text "Gallery" on screen. One in the top bar, and
             // one in the bottom navigation.
-            onNodeWithText(explore).performClick()
-            onAllNodesWithText(explore).assertCountEquals(2)
+            onNodeWithText(gallery).performClick()
+            onAllNodesWithText(gallery).assertCountEquals(2)
         }
     }
 }

@@ -16,7 +16,7 @@ dependencyResolutionManagement {
 rootProject.name = "TextToImage"
 include(":app")
 include(":feature:generate")
-include(":feature:explore")
+include(":feature:gallery")
 include(":feature:settings")
 include(":feature:loading")
 include(":feature:result")
