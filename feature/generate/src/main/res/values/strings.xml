@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="generate">Generate</string>
-    <string name="generate_main_hint">Enter a prompt</string>
-    <string name="generate_sub_hint">Anything • Any detail • Add your dreams</string>
+    <string name="generate_main_hint">Describe your thoughts</string>
+    <string name="generate_sub_hint">Any detail of your image</string>
     <string name="error_message">There is some problem occurred</string>
 </resources>

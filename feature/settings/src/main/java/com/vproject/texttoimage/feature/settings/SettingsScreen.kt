@@ -125,7 +125,7 @@ private fun AdvancedPromptOptionSectionCard(
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onSecondary),
+        border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.primary),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier.fillMaxWidth()
     ) {
@@ -181,7 +181,7 @@ private fun AdvancedPromptOptionItem(
     Text(
         advancedExplanation,
         style = TextStyle(
-            color = MaterialTheme.colorScheme.background,
+            color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp
         ),
@@ -197,7 +197,7 @@ private fun GeneralSectionCard(
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onSecondary),
+        border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.primary),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier.fillMaxWidth()
     ) {

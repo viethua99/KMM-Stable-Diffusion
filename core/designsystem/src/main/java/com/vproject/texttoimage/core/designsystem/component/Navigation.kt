@@ -92,10 +92,10 @@ fun RowScope.TextToImageNavigationBarItem(
  */
 object TextToImageNavigationDefaults {
     @Composable
-    fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
+    fun navigationContentColor() = MaterialTheme.colorScheme.onSurface
 
     @Composable
-    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onSurface
+    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.primary
 
     @Composable
     fun navigationIndicatorColor() = MaterialTheme.colorScheme.surface

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -37,11 +38,14 @@ import com.vproject.texttoimage.core.designsystem.icon.TextToImageIcons
 
 @Composable
 internal fun ResultRoute(
-    modifier: Modifier = Modifier, viewModel: ResultViewModel = hiltViewModel()
+    modifier: Modifier = Modifier, viewModel: ResultViewModel = hiltViewModel(),
+    onBackClick: () -> Unit
 ) {
     val resultUiState by viewModel.resultUiState.collectAsStateWithLifecycle()
     ResultScreen(
-        resultUiState = resultUiState, modifier = modifier.fillMaxSize()
+        modifier.fillMaxSize(), resultUiState,
+        onBackClick = onBackClick,
+        onDownloadClick = viewModel::downloadImageFromUrl
     )
 }
 
@@ -49,9 +53,11 @@ internal fun ResultRoute(
 internal fun ResultScreen(
     modifier: Modifier = Modifier,
     resultUiState: ResultUiState,
+    onBackClick: () -> Unit = {},
+    onDownloadClick: (imageUrl: String) -> Unit = {}
 ) {
     Column(modifier = modifier) {
-        ResultTopAppBar(onBackClick = {})
+        ResultTopAppBar(onBackClick = onBackClick)
         if (resultUiState is ResultUiState.ShowResult) {
             Column(
                 Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 80.dp)
@@ -61,7 +67,9 @@ internal fun ResultScreen(
                     ResultStyleRow(text = resultUiState.style)
                     ResultPromptRow(content = resultUiState.prompt)
                 }
-                ResultButtonRow()
+                ResultButtonRow(onDownloadClick = {
+                    onDownloadClick(resultUiState.url)
+                })
             }
         }
     }
@@ -80,12 +88,13 @@ private fun ResultTopAppBar(modifier: Modifier = Modifier, onBackClick: () -> Un
 
 @Composable
 private fun ResultImage(imageUrl: String) {
-    val imageModifier = Modifier
-        .heightIn(min = 180.dp)
-        .fillMaxWidth()
-        .clip(shape = MaterialTheme.shapes.medium)
     DynamicAsyncImage(
-        imageUrl = imageUrl, contentDescription = null, modifier = imageModifier
+        modifier = Modifier
+            .height(450.dp)
+            .fillMaxWidth()
+            .clip(shape = MaterialTheme.shapes.medium),
+        imageUrl = imageUrl,
+        contentDescription = null
     )
 }
 
@@ -158,7 +167,10 @@ private fun ResultPromptRow(modifier: Modifier = Modifier, content: String) {
 }
 
 @Composable
-private fun ResultButtonRow(modifier: Modifier = Modifier) {
+private fun ResultButtonRow(
+    modifier: Modifier = Modifier,
+    onDownloadClick: () -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -167,6 +179,7 @@ private fun ResultButtonRow(modifier: Modifier = Modifier) {
     ) {
         TextToImageFilledButton(
             modifier = Modifier.weight(1f),
+            enabled = false,
             text = { Text(text = "Share") }, onClick = { /*TODO*/ },
             leadingIcon = {
                 Icon(imageVector = Icons.Default.Share, contentDescription = null)
@@ -175,7 +188,9 @@ private fun ResultButtonRow(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.width(10.dp))
         TextToImageFilledButton(
             modifier = Modifier.weight(1f),
-            text = { Text(text = "Save") }, onClick = { /*TODO*/ },
+            text = { Text(text = "Download") }, onClick = {
+                onDownloadClick()
+            },
             leadingIcon = {
                 Icon(imageVector = Icons.Default.Download, contentDescription = null)
             },

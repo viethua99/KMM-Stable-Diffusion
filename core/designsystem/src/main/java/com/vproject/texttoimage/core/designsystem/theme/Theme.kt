@@ -15,16 +15,12 @@ import androidx.compose.ui.unit.dp
  */
 @VisibleForTesting
 val LightColorScheme = lightColorScheme(
-    primary = Color(0xFFFFFFFF),
-    onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xffec4079),
-    onPrimaryContainer = Color(0XFFf06291),
-    secondary = Color(0xFFFFFFFF),
-    onSecondary = Color(0xFFd81b5f),
-    background = Color(0xFF9E9E9E),
-    onBackground = Color(0xFFAD1457),
-    surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFFAD1457),
+    primary = Blue800,
+    onPrimary = White50,
+    secondary = White50,
+    onSecondary = Grey300,
+    surface = White50,
+    onSurface = Black900,
 )
 
 /**
@@ -32,16 +28,12 @@ val LightColorScheme = lightColorScheme(
  */
 @VisibleForTesting
 val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF0D47A1),
-    onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Purple90,
-    onPrimaryContainer = Purple10,
-    secondary = Color(0xFFFFFFFF),
-    onSecondary = Color(0xFFBDBDBD),
-    background = DarkPurpleGray99,
-    onBackground = DarkPurpleGray10,
-    surface = Color(0xFF212121),
-    onSurface = Color(0xFFBDBDBD),
+    primary = Blue600,
+    onPrimary = White300,
+    secondary = White50,
+    onSecondary = Grey300,
+    surface = Black900,
+    onSurface = White300,
 )
 
 /**

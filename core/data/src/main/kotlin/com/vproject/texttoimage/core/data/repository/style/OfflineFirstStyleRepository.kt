@@ -9,81 +9,73 @@ internal class OfflineFirstStyleRepository @Inject constructor() : StyleReposito
     private val styleList = mutableListOf(
         Style(
             "1",
-            "NSFW",
-            "https://cdn.stablediffusionapi.com/generations/de5977b7-3410-4199-8d96-00c82bd78f1b-0.png",
-            "nudity content, nsfw, boobs, sex, body, thick"
+            "No Style",
+            "https://us.123rf.com/450wm/oksanaoo/oksanaoo1710/oksanaoo171000062/88555541-vector-icon-prohibiting-sign-impossible-stop-and-ban-sign-vector-black-icon-on-white-background.jpg?ver=6",
+            "",
+            ""
+        ),
+        Style(
+            "2",
+            "Anime",
+            "https://cdn2.stablediffusionapi.com/generations/535d2051-e532-46ca-ad28-202c3431b14f-0.png",
+            "anime artwork, anime style, key visual, vibrant, studio anime, highly detailed",
+            "photo, deformed, black and white, realism, disfigured, low contrast"
         ),
         Style(
             "3",
-            "Building",
-            "https://cdn.stablediffusionapi.com/generations/dea02ced-e94a-4f7e-b7cf-cfa0ed394796-0.png",
-            "shot 35 mm, realism, octane render, 8k, trending on artstation, 35 mm camera, unreal engine, hyper detailed, photo - realistic maximum detail, volumetric light, realistic matte painting, hyper photorealistic, trending on artstation, ultra - detailed, realistic"
+            "Photography",
+            "https://cdn2.stablediffusionapi.com/generations/10a983ac-ea22-4e58-bce7-388fa211cf62-0.png",
+            "cinematic photo . 35mm photograph, film, bokeh, professional, 4k, highly detailed",
+            "drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly"
         ),
         Style(
             "4",
-            "Cartoon Character",
-            "https://cdn.stablediffusionapi.com/generations/87e8bcf4-435d-4415-8a80-0b68e85da425-0.png",
-            "anthro, very cute kid's film character, disney pixar zootopia character concept artwork, 3d concept, detailed fur, high detail iconic character for upcoming film, trending on artstation, character design, 3d artistic render, highly detailed, octane, blender, cartoon, shadows, lighting"
+            "NSFW",
+            "https://cdn.stablediffusionapi.com/generations/de5977b7-3410-4199-8d96-00c82bd78f1b-0.png",
+            "nudity content, nsfw, boobs, sex, body, thick",
+            ""
         ),
         Style(
             "5",
-            "Concept Art",
-            "https://cdn.stablediffusionapi.com/generations/e120b52f-f8ef-4b00-8545-fe461903e935-0.png",
-            "character sheet, concept design, contrast, style by kim jung gi, zabrocki, karlkka, jayison devadas, trending on artstation, 8k, ultra wide angle, pincushion lens effect"
+            "Fantasy Art",
+            "https://cdn2.stablediffusionapi.com/generations/2464ede4-4538-438e-b364-9fcc858a43d4-0.png",
+            "ethereal fantasy concept art of. magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
+            "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white"
         ),
         Style(
             "6",
-            "Cyberpunk",
-            "https://cdn.stablediffusionapi.com/generations/f3e8ec1a-fa04-49f9-be00-d8cf477a3e99-0.png",
-            "cyberpunk, in heavy raining futuristic tokyo rooftop cyberpunk night, sci-fi, fantasy, intricate, very very beautiful, elegant, neon light, highly detailed, digital painting, artstation, concept art, soft light, hdri, smooth, sharp focus, illustration, art by tian zi and craig mullins and wlop and alphonse much"
+            "Concept Art",
+            "https://cdn2.stablediffusionapi.com/generations/b1478590-9382-42f6-b7e4-484669020d3d-0.png",
+            "concept art. digital artwork, illustrative, painterly, matte painting, highly detailed",
+            "photo, photorealistic, realism, ugly"
         ),
         Style(
             "7",
-            "Digital Art",
-            "https://cdn.stablediffusionapi.com/generations/39ced130-9d78-46be-8fa7-c29c78a16fed-0.png",
-            "ultra realistic, concept art, intricate details, highly detailed, photorealistic, octane render, 8k, unreal engine, sharp focus, volumetric lighting unreal engine. art by artgerm and alphonse mucha"
+            "Isometric",
+            "https://cdn2.stablediffusionapi.com/generations/a93655ef-a71f-4777-8471-195b78bf2330-0.png",
+            "isometric style . vibrant, beautiful, crisp, detailed, ultra detailed, intricate",
+            "deformed, mutated, ugly, disfigured, blur, blurry, noise, noisy, realistic, photographic"
         ),
         Style(
             "8",
-            "Drawing",
-            "https://cdn.stablediffusionapi.com/generations/29ce2157-a1eb-4356-81c6-e9a57002d5a4-0.png",
-            "cute, funny, centered, award winning watercolor pen illustration, detailed, disney, isometric illustration, drawing, by Stephen Hillenburg, Matt Groening, Albert Uderzo"
+            "Cyberpunk",
+            "https://cdn2.stablediffusionapi.com/generations/06324b56-9d94-40af-9ee0-04abbd86e4ba-0.png",
+            "vaporwave synthwave style . cyberpunk, neon, vibes, stunningly beautiful, crisp, detailed, sleek, ultramodern, high contrast, cinematic composition",
+            "illustration, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured"
         ),
         Style(
             "9",
-            "Fashion",
-            "https://cdn.stablediffusionapi.com/generations/048349f5-48e3-47b1-ac24-72f88a5f6277-0.png",
-            "photograph of a Fashion model, full body, highly detailed and intricate, golden ratio, vibrant colors, hyper maximalist, futuristic, city background, luxury, elite, cinematic, fashion, depth of field, colorful, glow, trending on artstation, ultra high detail, ultra realistic, cinematic lighting, focused, 8k,"
+            "Claymation",
+            "https://cdn2.stablediffusionapi.com/generations/29446c1a-99c1-4460-8e0d-beb101daf20e-0.png",
+            "claymation style. sculpture, clay art, centered composition, play-doh",
+            "sloppy, messy, grainy, highly detailed, ultra textured, photo, mutated"
         ),
         Style(
             "10",
-            "Landscape",
-            "https://cdn.stablediffusionapi.com/generations/58c227f3-7144-4a25-972b-087618f2c93c-0.png",
-            "birds in the sky, waterfall close shot 35 mm, realism, octane render, 8 k, exploration, cinematic, trending on artstation, 35 mm camera, unreal engine, hyper detailed, photo - realistic maximum detail, volumetric light, moody cinematic epic concept art, realistic matte painting, hyper photorealistic, epic, trending on artstation, movie concept art, cinematic composition, ultra - detailed, realistic"
-        ),
-        Style(
-            "11",
-            "Portrait",
-            "https://cdn.stablediffusionapi.com/generations/6e74a0b0-77d4-4f0e-b6ba-2754c741f955-0.png",
-            "portrait photo, photograph, highly detailed face, depth of field, moody light, golden hour, style by Dan Winters, Russell James, Steve McCurry, centered, extremely detailed, Nikon D850, award winning photography"
-        ),
-        Style(
-            "12",
-            "Space",
-            "https://cdn.stablediffusionapi.com/generations/ee8b516d-74db-4e19-af8a-0c8d54a399a5-0.png",
-            "by Andrew McCarthy, Navaneeth Unnikrishnan, Manuel Dietrich, photo realistic, 8 k, cinematic lighting, hd, atmospheric, hyperdetailed, trending on artstation, deviantart, photography, glow effect"
-        ),
-        Style(
-            "13",
-            "Steampunk",
-            "https://cdn.stablediffusionapi.com/generations/781ad8c1-85bf-4ed7-99fa-bcbb6eb318ae-0.png",
-            "steampunk cybernetic biomechanical, 3d model, very coherent symmetrical artwork, unreal engine realistic render, 8k, micro detail, intricate, elegant, highly detailed, centered, digital painting, artstation, smooth, sharp focus, illustration, artgerm, Caio Fantini, wlop"
-        ),
-        Style(
-            "14",
-            "Vehicles",
-            "https://pub-8b49af329fae499aa563997f5d4068a4.r2.dev/generations/95c0aac6-cfd5-467a-a3a3-d65808462f49-0.png",
-            " photorealistic, vivid, sharp focus, reflection, refraction, sunrays, very detailed, intricate, intense cinematic composition"
+            "Low Poly",
+            "https://cdn2.stablediffusionapi.com/generations/0592398c-2299-45bb-a5ad-dbce62fa8547-0.png",
+            "clow-poly style. ambient occlusion, low-poly game art, polygon mesh, jagged, blocky, wireframe edges, centered composition",
+            "noisy, sloppy, messy, grainy, highly detailed, ultra textured, photo"
         ),
     )
 

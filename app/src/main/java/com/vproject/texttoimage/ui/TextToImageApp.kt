@@ -3,6 +3,8 @@ package com.vproject.texttoimage.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +15,7 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
@@ -49,7 +52,7 @@ fun TextToImageApp(
                 }
             }
         ) { paddingValues ->
-            Column(Modifier.fillMaxSize()) {
+            Column(Modifier.fillMaxSize().padding(paddingValues)) {
                 // Show the top app bar on top level destinations.
                 val topLevelDestination = appState.currentTopLevelDestination
                 topLevelDestination?.let { nonNullTopLevelDestination ->

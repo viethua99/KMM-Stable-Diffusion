@@ -39,13 +39,10 @@ internal class LoadingArgs(val prompt: String, val styleId: String) {
 
 fun NavController.navigateToLoading(prompt: String, styleId: String) {
     val encodedPrompt = URLEncoder.encode(prompt, URL_CHARACTER_ENCODING)
-    this.navigate("$loadingRoute/$encodedPrompt/$styleId") {
-        popUpTo(graph.findStartDestination().id)
-        launchSingleTop = true
-    }
+    this.navigate("$loadingRoute/$encodedPrompt/$styleId")
 }
 
-fun NavGraphBuilder.loadingScreen(onImageGenerated: (url: String, prompt: String, styleId: String) -> Unit) {
+fun NavGraphBuilder.loadingScreen(onImageGenerated: (url: String, prompt: String, styleId: String) -> Unit, onError: (message: String) -> Unit) {
     composable(
         route = "$loadingRoute/{$promptArg}/{$styleIdArg}",
         arguments = listOf(
@@ -53,6 +50,6 @@ fun NavGraphBuilder.loadingScreen(onImageGenerated: (url: String, prompt: String
             navArgument(styleIdArg) { type = NavType.StringType },
         )
     ) {
-        LoadingRoute(onImageGenerated = onImageGenerated)
+        LoadingRoute(onImageGenerated = onImageGenerated, onError = onError)
     }
 }

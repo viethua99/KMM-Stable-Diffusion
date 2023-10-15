@@ -27,9 +27,20 @@ const val resultRoute = "result_route"
 
 internal class ResultArgs(val imageUrl: String, val prompt: String, val styleId: String) {
     constructor(savedStateHandle: SavedStateHandle) :
-            this(URLDecoder.decode(checkNotNull(savedStateHandle[imageUrlArg]), URL_CHARACTER_ENCODING),
-                URLDecoder.decode(checkNotNull(savedStateHandle[promptArg]), URL_CHARACTER_ENCODING),
-                URLDecoder.decode(checkNotNull(savedStateHandle[styleIdArg]), URL_CHARACTER_ENCODING))
+            this(
+                URLDecoder.decode(
+                    checkNotNull(savedStateHandle[imageUrlArg]),
+                    URL_CHARACTER_ENCODING
+                ),
+                URLDecoder.decode(
+                    checkNotNull(savedStateHandle[promptArg]),
+                    URL_CHARACTER_ENCODING
+                ),
+                URLDecoder.decode(
+                    checkNotNull(savedStateHandle[styleIdArg]),
+                    URL_CHARACTER_ENCODING
+                )
+            )
 }
 
 fun NavController.navigateToResult(imageUrl: String, prompt: String, styleId: String) {
@@ -40,15 +51,15 @@ fun NavController.navigateToResult(imageUrl: String, prompt: String, styleId: St
     }
 }
 
-fun NavGraphBuilder.resultScreen() {
+fun NavGraphBuilder.resultScreen(onBackClick: () -> Unit) {
     composable(
         route = "$resultRoute/{$imageUrlArg}/{$promptArg}/{$styleIdArg}",
         arguments = listOf(
             navArgument(imageUrlArg) { type = NavType.StringType },
             navArgument(promptArg) { type = NavType.StringType },
             navArgument(styleIdArg) { type = NavType.StringType },
-            )
+        )
     ) {
-        ResultRoute()
+        ResultRoute(onBackClick = onBackClick)
     }
 }

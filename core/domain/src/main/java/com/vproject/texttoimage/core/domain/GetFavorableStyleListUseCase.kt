@@ -21,7 +21,7 @@ class GetFavorableStyleListUseCase @Inject constructor(
         ) { userData, styles ->
             styles.map { style ->
                 FavorableStyle(style = style, isFavorite = style.id in userData.favoriteStyleIds)
-            }
+            }.sortedBy { !it.isFavorite }
         }
     }
 }

@@ -73,7 +73,7 @@ fun TextToImageTextField(
         decorationBox = { innerTextField ->
             Box(
                 modifier = modifier
-                    .border(2.dp, MaterialTheme.colorScheme.onSurface, RoundedCornerShape(10))
+                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(10))
                     .height(TextToImageTextFieldDefaults.Height)
                     .background(MaterialTheme.colorScheme.surface)
                     .padding(
@@ -90,7 +90,7 @@ fun TextToImageTextField(
                         fontSize = TextToImageTextFieldDefaults.MainHintFontSize
                     )
                     val subHintStyle = SpanStyle(
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = TextToImageTextFieldDefaults.SubHintFontSize
                     )
                     TextToImageTextFieldHint(
@@ -179,7 +179,7 @@ private fun TextToImageTextFieldCornerIcons(
  * Text To Image text field default values.
  */
 object TextToImageTextFieldDefaults {
-    val Height = 160.dp
+    val Height = 200.dp
     val InnerTopPadding = 16.dp
     val InnerHorizontalPadding = 16.dp
     val InnerBottomPadding = 10.dp
