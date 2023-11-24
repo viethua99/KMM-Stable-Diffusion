@@ -1,10 +1,12 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.buildKonfigPlugin)
 }
 
 kotlin {
@@ -101,3 +103,12 @@ compose.desktop {
         }
     }
 }
+
+buildkonfig {
+    packageName = "com.vproject.stablediffusion"
+
+    defaultConfigs {
+        buildConfigField(STRING, "STABLE_DIFFUSION_API_KEY", "${project.property("STABLE_DIFFUSION_API_KEY")}")
+    }
+}
+
