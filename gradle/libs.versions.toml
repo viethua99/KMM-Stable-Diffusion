@@ -1,5 +1,6 @@
 [versions]
 compose = "1.5.4"
+composeMaterial3 = "1.1.2"
 compose-plugin = "1.5.10"
 compose-compiler = "1.5.4"
 agp = "8.1.4"
@@ -21,7 +22,9 @@ koin-android = "3.5.0"
 koin-android-compose = "3.5.0"
 koin-compose-multiplatform = "1.1.0"
 koin-core = "3.5.0"
+voyager = "1.0.0-rc10"
 build-konfig = "0.13.3"
+kamel = "0.7.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -31,7 +34,7 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3"}
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
@@ -53,6 +56,10 @@ koin-compose-multiplatform = { module = "io.insert-koin:koin-compose", version.r
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-core" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-core" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin-core" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

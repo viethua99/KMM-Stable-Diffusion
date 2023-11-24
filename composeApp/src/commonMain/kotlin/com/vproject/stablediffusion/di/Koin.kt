@@ -4,10 +4,11 @@ import com.vproject.stablediffusion.network.KtorStableDiffusionApi
 import com.vproject.stablediffusion.network.StableDiffusionApi
 import com.vproject.stablediffusion.repository.DefaultImageRepository
 import com.vproject.stablediffusion.repository.ImageRepository
-import com.vproject.stablediffusion.repository.TestModel
+import com.vproject.stablediffusion.presentation.screen.generate.GenerateModel
+import com.vproject.stablediffusion.presentation.screen.gallery.GalleryModel
+import com.vproject.stablediffusion.presentation.screen.setting.SettingModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
@@ -38,5 +39,9 @@ fun coreModule() = module {
     // Repository Dependencies
     single<ImageRepository> { DefaultImageRepository(stableDiffusionApi = get())}
 
-    factoryOf(::TestModel)
+    // Screen Model Dependencies
+    factoryOf(::GenerateModel)
+    factoryOf(::GalleryModel)
+    factoryOf(::SettingModel)
+
 }

@@ -40,40 +40,47 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
 
-            // Ktor Dependencies
+            // Ktor Dependencies for API network
             implementation(libs.ktor.client.cio)
 
-            // Koin Dependencies
+            // Koin Dependencies for dependency injection
             implementation(libs.koin.android)
             implementation(libs.koin.workmanager)
         }
         iosMain.dependencies {
-            // Ktor Dependencies
+            // Ktor Dependencies for API network
             implementation(libs.ktor.client.darwin)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
 
-            // Ktor Dependencies
+            // Ktor Dependencies for API network
             implementation(libs.ktor.client.cio)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
 
-            // Ktor Dependencies
+            // Ktor Dependencies for API network
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
 
-            // Koin Dependencies
+            // Koin Dependencies for dependency injection
             implementation(libs.koin.core)
             implementation(libs.koin.compose.multiplatform)
 
+            // Voyager Dependencies for screen models
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.tab.navigator)
+            implementation(libs.voyager.koin)
+
+            // Kamel Dependencies for images loading
+            implementation(libs.kamel)
         }
     }
 }
