@@ -43,6 +43,10 @@ kotlin {
             // Ktor Dependencies
             implementation(libs.ktor.client.cio)
 
+            // Koin Dependencies
+            implementation(libs.koin.android)
+            implementation(libs.koin.workmanager)
+        }
         iosMain.dependencies {
             // Ktor Dependencies
             implementation(libs.ktor.client.darwin)
@@ -65,6 +69,10 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
+
+            // Koin Dependencies
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose.multiplatform)
 
         }
     }
