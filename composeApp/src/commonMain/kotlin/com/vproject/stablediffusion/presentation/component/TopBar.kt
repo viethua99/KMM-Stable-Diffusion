@@ -17,29 +17,31 @@ import androidx.compose.ui.platform.testTag
 @Composable
 fun StableDiffusionTopBar(
     title: String,
-    navigationIcon: ImageVector,
-    navigationIconContentDescription: String,
+    navigationIcon: ImageVector? = null,
+    navigationIconContentDescription: String? = null,
     actionIcon: ImageVector? = null,
     actionIconContentDescription: String? = null,
     modifier: Modifier = Modifier,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
-    onNavigationClick: () -> Unit = {},
-    onActionClick: () -> Unit = {},
+    onNavigationClicked: () -> Unit = {},
+    onActionClicked: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            IconButton(onClick = onNavigationClick) {
-                Icon(
-                    imageVector = navigationIcon,
-                    contentDescription = navigationIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
+            navigationIcon?.let { nonNullNavigationIcon ->
+                IconButton(onClick = onNavigationClicked) {
+                    Icon(
+                        imageVector = nonNullNavigationIcon,
+                        contentDescription = navigationIconContentDescription,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         },
         actions = {
             actionIcon?.let { nonNullActionIcon ->
-                IconButton(onClick = onActionClick) {
+                IconButton(onClick = onActionClicked) {
                     Icon(
                         imageVector = nonNullActionIcon,
                         contentDescription = actionIconContentDescription,
@@ -49,35 +51,6 @@ fun StableDiffusionTopBar(
             }
         },
         colors = colors,
-        modifier = modifier.testTag("textToImageTopAppBar"),
-    )
-}
-
-/**
- * Top bar with action, displayed on the right
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun StableDiffusionTopBar(
-    title: String,
-    actionIcon: ImageVector,
-    actionIconContentDescription: String?,
-    modifier: Modifier = Modifier,
-    colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
-    onActionClick: () -> Unit = {},
-) {
-    CenterAlignedTopAppBar(
-        title = { Text(text = title) },
-        actions = {
-            IconButton(onClick = onActionClick) {
-                Icon(
-                    imageVector = actionIcon,
-                    contentDescription = actionIconContentDescription,
-                    tint = MaterialTheme.colorScheme.onSurface,
-                )
-            }
-        },
-        colors = colors,
-        modifier = modifier.testTag("niaTopAppBar"),
+        modifier = modifier,
     )
 }

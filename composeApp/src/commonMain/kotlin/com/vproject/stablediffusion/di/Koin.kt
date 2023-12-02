@@ -5,8 +5,10 @@ import com.vproject.stablediffusion.network.StableDiffusionApi
 import com.vproject.stablediffusion.repository.DefaultImageRepository
 import com.vproject.stablediffusion.repository.ImageRepository
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateModel
-import com.vproject.stablediffusion.presentation.screen.gallery.GalleryModel
+import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
 import com.vproject.stablediffusion.presentation.screen.setting.SettingModel
+import com.vproject.stablediffusion.presentation.screen.home.HomeModel
+import com.vproject.stablediffusion.presentation.screen.detail.DetailModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
@@ -40,8 +42,10 @@ fun coreModule() = module {
     single<ImageRepository> { DefaultImageRepository(stableDiffusionApi = get())}
 
     // Screen Model Dependencies
+    factoryOf(::HomeModel)
+    factoryOf(::RecentModel)
     factoryOf(::GenerateModel)
-    factoryOf(::GalleryModel)
     factoryOf(::SettingModel)
+    factoryOf(::DetailModel)
 
 }
