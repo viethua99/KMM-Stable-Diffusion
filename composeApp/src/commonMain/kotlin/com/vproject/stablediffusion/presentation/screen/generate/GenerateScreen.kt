@@ -38,96 +38,89 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vproject.stablediffusion.model.FavorableStyle
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
+import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.model.Style
 import com.vproject.stablediffusion.presentation.component.AsyncImage
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.CustomTextField
 
+data class GenerateScreen(val stableDiffusionMode: StableDiffusionMode) : Screen {
+    @Composable
+    override fun Content() {
+        val screenModel: GenerateModel = getScreenModel()
+
+        GenerateContent()
+    }
+}
+
 @Composable
-fun GenerateContent() {
+private fun GenerateContent() {
     val styleList = listOf(
-        FavorableStyle(
-            Style(
-                "2",
-                "Anime",
-                "https://cdn2.stablediffusionapi.com/generations/535d2051-e532-46ca-ad28-202c3431b14f-0.png",
-                "anime artwork, anime style, key visual, vibrant, studio anime, highly detailed",
-                "photo, deformed, black and white, realism, disfigured, low contrast"
-            ), true
+        Style(
+            "2",
+            "Anime",
+            "https://cdn2.stablediffusionapi.com/generations/535d2051-e532-46ca-ad28-202c3431b14f-0.png",
+            "anime artwork, anime style, key visual, vibrant, studio anime, highly detailed",
+            "photo, deformed, black and white, realism, disfigured, low contrast"
         ),
-        FavorableStyle(
-            Style(
-                "3",
-                "Photography",
-                "https://cdn2.stablediffusionapi.com/generations/10a983ac-ea22-4e58-bce7-388fa211cf62-0.png",
-                "cinematic photo . 35mm photograph, film, bokeh, professional, 4k, highly detailed",
-                "drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly"
-            ), true
+        Style(
+            "3",
+            "Photography",
+            "https://cdn2.stablediffusionapi.com/generations/10a983ac-ea22-4e58-bce7-388fa211cf62-0.png",
+            "cinematic photo . 35mm photograph, film, bokeh, professional, 4k, highly detailed",
+            "drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly"
         ),
-        FavorableStyle(
-            Style(
-                "4",
-                "NSFW",
-                "https://cdn.stablediffusionapi.com/generations/de5977b7-3410-4199-8d96-00c82bd78f1b-0.png",
-                "nudity content, nsfw, boobs, sex, body, thick",
-                ""
-            ), true
+        Style(
+            "4",
+            "NSFW",
+            "https://cdn.stablediffusionapi.com/generations/de5977b7-3410-4199-8d96-00c82bd78f1b-0.png",
+            "nudity content, nsfw, boobs, sex, body, thick",
+            ""
         ),
-        FavorableStyle(
-            Style(
-                "5",
-                "Fantasy Art",
-                "https://cdn2.stablediffusionapi.com/generations/2464ede4-4538-438e-b364-9fcc858a43d4-0.png",
-                "ethereal fantasy concept art of. magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
-                "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white"
-            ), true
+        Style(
+            "5",
+            "Fantasy Art",
+            "https://cdn2.stablediffusionapi.com/generations/2464ede4-4538-438e-b364-9fcc858a43d4-0.png",
+            "ethereal fantasy concept art of. magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
+            "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white"
         ),
-        FavorableStyle(
-            Style(
-                "6",
-                "Concept Art",
-                "https://cdn2.stablediffusionapi.com/generations/b1478590-9382-42f6-b7e4-484669020d3d-0.png",
-                "concept art. digital artwork, illustrative, painterly, matte painting, highly detailed",
-                "photo, photorealistic, realism, ugly"
-            ), true
+        Style(
+            "6",
+            "Concept Art",
+            "https://cdn2.stablediffusionapi.com/generations/b1478590-9382-42f6-b7e4-484669020d3d-0.png",
+            "concept art. digital artwork, illustrative, painterly, matte painting, highly detailed",
+            "photo, photorealistic, realism, ugly"
         ),
-        FavorableStyle(
-            Style(
-                "7",
-                "Isometric",
-                "https://cdn2.stablediffusionapi.com/generations/a93655ef-a71f-4777-8471-195b78bf2330-0.png",
-                "isometric style . vibrant, beautiful, crisp, detailed, ultra detailed, intricate",
-                "deformed, mutated, ugly, disfigured, blur, blurry, noise, noisy, realistic, photographic"
-            ), true
+        Style(
+            "7",
+            "Isometric",
+            "https://cdn2.stablediffusionapi.com/generations/a93655ef-a71f-4777-8471-195b78bf2330-0.png",
+            "isometric style . vibrant, beautiful, crisp, detailed, ultra detailed, intricate",
+            "deformed, mutated, ugly, disfigured, blur, blurry, noise, noisy, realistic, photographic"
         ),
-        FavorableStyle(
-            Style(
-                "8",
-                "Cyberpunk",
-                "https://cdn2.stablediffusionapi.com/generations/06324b56-9d94-40af-9ee0-04abbd86e4ba-0.png",
-                "vaporwave synthwave style . cyberpunk, neon, vibes, stunningly beautiful, crisp, detailed, sleek, ultramodern, high contrast, cinematic composition",
-                "illustration, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured"
-            ), true
+        Style(
+            "8",
+            "Cyberpunk",
+            "https://cdn2.stablediffusionapi.com/generations/06324b56-9d94-40af-9ee0-04abbd86e4ba-0.png",
+            "vaporwave synthwave style . cyberpunk, neon, vibes, stunningly beautiful, crisp, detailed, sleek, ultramodern, high contrast, cinematic composition",
+            "illustration, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured"
         ),
-        FavorableStyle(
-            Style(
-                "9",
-                "Claymation",
-                "https://cdn2.stablediffusionapi.com/generations/29446c1a-99c1-4460-8e0d-beb101daf20e-0.png",
-                "claymation style. sculpture, clay art, centered composition, play-doh",
-                "sloppy, messy, grainy, highly detailed, ultra textured, photo, mutated"
-            ), true
+        Style(
+            "9",
+            "Claymation",
+            "https://cdn2.stablediffusionapi.com/generations/29446c1a-99c1-4460-8e0d-beb101daf20e-0.png",
+            "claymation style. sculpture, clay art, centered composition, play-doh",
+            "sloppy, messy, grainy, highly detailed, ultra textured, photo, mutated"
         ),
-        FavorableStyle(
-            Style(
-                "10",
-                "Low Poly",
-                "https://cdn2.stablediffusionapi.com/generations/0592398c-2299-45bb-a5ad-dbce62fa8547-0.png",
-                "clow-poly style. ambient occlusion, low-poly game art, polygon mesh, jagged, blocky, wireframe edges, centered composition",
-                "noisy, sloppy, messy, grainy, highly detailed, ultra textured, photo"
-            ), true
+        Style(
+            "10",
+            "Low Poly",
+            "https://cdn2.stablediffusionapi.com/generations/0592398c-2299-45bb-a5ad-dbce62fa8547-0.png",
+            "clow-poly style. ambient occlusion, low-poly game art, polygon mesh, jagged, blocky, wireframe edges, centered composition",
+            "noisy, sloppy, messy, grainy, highly detailed, ultra textured, photo"
         ),
     )
 
@@ -205,7 +198,7 @@ fun GenerateContent() {
 @Composable
 private fun StyleList(
     modifier: Modifier = Modifier,
-    styleList: List<FavorableStyle>,
+    styleList: List<Style>,
     selectedStyleId: String,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
@@ -218,12 +211,12 @@ private fun StyleList(
     ) {
         items(
             items = styleList,
-            key = { it.style.id },
+            key = { it.id },
         ) { style ->
             StyleItem(
                 style = style,
                 modifier = Modifier.width(110.dp),
-                isSelected = selectedStyleId == style.style.id,
+                isSelected = selectedStyleId == style.id,
                 onStyleSelected = {
                     onStyleSelected(it)
                 }
@@ -235,7 +228,7 @@ private fun StyleList(
 @Composable
 private fun StyleItem(
     modifier: Modifier = Modifier,
-    style: FavorableStyle,
+    style: Style,
     isSelected: Boolean,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
@@ -250,10 +243,10 @@ private fun StyleItem(
                 )
                 .aspectRatio(1f)
                 .align(Alignment.CenterHorizontally)
-                .clickable { onStyleSelected(style.style.id) }
+                .clickable { onStyleSelected(style.id) }
         ) {
             AsyncImage(
-                imageUrl = style.style.imageUrl,
+                imageUrl = style.imageUrl,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
@@ -262,7 +255,7 @@ private fun StyleItem(
         }
 
         Text(
-            text = style.style.name,
+            text = style.name,
             textAlign = TextAlign.Center,
             style = TextStyle(
                 color = MaterialTheme.colorScheme.onSurface,
@@ -281,7 +274,7 @@ private fun StyleItem(
 @Composable
 private fun CanvasList(
     modifier: Modifier = Modifier,
-    styleList: List<FavorableStyle>,
+    styleList: List<Style>,
     selectedStyleId: String,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
@@ -294,12 +287,12 @@ private fun CanvasList(
     ) {
         items(
             items = styleList,
-            key = { it.style.id },
+            key = { it.id },
         ) { style ->
             StyleItem(
                 style = style,
                 modifier = Modifier.width(80.dp),
-                isSelected = selectedStyleId == style.style.id,
+                isSelected = selectedStyleId == style.id,
                 onStyleSelected = {
                     onStyleSelected(it)
                 }

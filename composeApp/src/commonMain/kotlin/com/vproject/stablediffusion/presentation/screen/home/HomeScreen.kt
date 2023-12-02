@@ -42,12 +42,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.presentation.component.AsyncImage
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
-import com.vproject.stablediffusion.presentation.screen.generate.GenerateContent
+import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
+import com.vproject.stablediffusion.presentation.screen.generate.GenerateScreen
 import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
 
 object HomeTab : Tab {
@@ -66,195 +69,42 @@ object HomeTab : Tab {
 
     @Composable
     override fun Content() {
+        val parentNavigator = LocalNavigator.current?.parent
         val screenModel = getScreenModel<RecentModel>()
-        GenerateContent()
+        HomeContent(
+            onStableDiffusionModeClicked = { stableDiffusionMode ->
+                parentNavigator?.push(GenerateScreen(stableDiffusionMode))
+            },
+            onShowcaseClicked = {
+                parentNavigator?.push(DetailScreen())
+            }
+        )
     }
 }
 
 @Composable
-private fun HomeContent() {
+private fun HomeContent(
+    onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {},
+    onShowcaseClicked: () -> Unit = {},
+    ) {
     Column {
-        HomeTopBar { }
+        HomeTopBar()
         Column(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
-            SectionHeader("AI Creation", leadingIcon = {
-                Icon(
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    imageVector = CustomIcons.Home,
-                    contentDescription = null
-                )
-            })
-            Spacer(Modifier.height(10.dp))
-            AiCreationModeList(
-                modifier = Modifier.fillMaxWidth(),
-                modeList = listOf(
-                    CreationMode(
-                        "Text To Image",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png",
-                        "Write a captivating prompt to generate incredible image."
-                    ),
-                    CreationMode(
-                        "Image To Image",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png",
-                        "AI transforms your image to any style you desire"
-                    ),
-                    CreationMode(
-                        "Text To Video",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png",
-                        "Write a captivating prompt to generate incredible video."
-                    ),
-                ),
-                onModeSelected = { modeType ->
-
-                }
-            )
-            Spacer(Modifier.height(10.dp))
-            SectionHeader("Text To Image", leadingIcon = {
-                Icon(
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    imageVector = CustomIcons.Home,
-                    contentDescription = null
-                )
-            }, isSeeMoreEnabled = true)
-            ShowcaseList(
-                showcaseList = listOf(
-                    Showcase(
-                        "0",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "1",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "2",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "3",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "4",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "5",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "6",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "7",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                )
-            )
-            Spacer(Modifier.height(10.dp))
-            SectionHeader("Image to Image", leadingIcon = {
-                Icon(
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    imageVector = CustomIcons.Home,
-                    contentDescription = null
-                )
-            }, isSeeMoreEnabled = true)
-            ShowcaseList(
-                showcaseList = listOf(
-                    Showcase(
-                        "0",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "1",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "2",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "3",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "4",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "5",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "6",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "7",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                )
-            )
-            Spacer(Modifier.height(10.dp))
-            SectionHeader("Text To Video", leadingIcon = {
-                Icon(
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    imageVector = CustomIcons.Home,
-                    contentDescription = null
-                )
-            }, isSeeMoreEnabled = true)
-            ShowcaseList(
-                showcaseList = listOf(
-                    Showcase(
-                        "0",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "1",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "2",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "3",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "4",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "5",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "6",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                    Showcase(
-                        "7",
-                        "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-                    ),
-                )
-            )
+            AiCreateSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
+            TextToImageSection(onShowcaseClicked = onShowcaseClicked)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeTopBar(modifier: Modifier = Modifier, onBackClick: () -> Unit = {}) {
+private fun HomeTopBar(modifier: Modifier = Modifier) {
     StableDiffusionTopBar(
         modifier = modifier,
-        title = "",
-        navigationIcon = CustomIcons.Home,
-        navigationIconContentDescription = "Navigation icon",
-        onNavigationClick = onBackClick
+        title = "KMP Stable Diffusion",
     )
 }
 
@@ -300,10 +150,30 @@ private fun SectionHeader(
 }
 
 @Composable
+private fun AiCreateSection(
+    onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {}
+) {
+    SectionHeader("AI Creation", leadingIcon = {
+        Icon(
+            tint = MaterialTheme.colorScheme.onSurface,
+            imageVector = CustomIcons.Home,
+            contentDescription = null
+        )
+    })
+    Spacer(Modifier.height(10.dp))
+    AiCreationModeList(
+        modifier = Modifier.fillMaxWidth(),
+        modeList = StableDiffusionMode.values().asList(),
+        onStableDiffusionModeClicked = onStableDiffusionModeClicked
+    )
+    Spacer(Modifier.height(10.dp))
+}
+
+@Composable
 private fun AiCreationModeList(
     modifier: Modifier = Modifier,
-    modeList: List<CreationMode>,
-    onModeSelected: (modeType: String) -> Unit
+    modeList: List<StableDiffusionMode>,
+    onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
@@ -314,14 +184,12 @@ private fun AiCreationModeList(
     ) {
         items(
             items = modeList,
-            key = { it.type },
+            key = { it },
         ) { creationMode ->
             AiCreationModeItem(
                 modifier = Modifier.width(300.dp),
-                creationMode = creationMode,
-                onItemClick = {
-                    onModeSelected(creationMode.type)
-                }
+                stableDiffusionMode = creationMode,
+                onItemClicked = onStableDiffusionModeClicked
             )
         }
     }
@@ -330,8 +198,8 @@ private fun AiCreationModeList(
 @Composable
 private fun AiCreationModeItem(
     modifier: Modifier = Modifier,
-    creationMode: CreationMode,
-    onItemClick: () -> Unit = {}
+    stableDiffusionMode: StableDiffusionMode,
+    onItemClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {}
 ) {
     Column(
         modifier
@@ -340,11 +208,11 @@ private fun AiCreationModeItem(
             .clip(shape = RoundedCornerShape(20.dp, 20.dp, 20.dp, 20.dp))
             .background(Color.DarkGray)
             .clickable {
-                onItemClick()
+                onItemClicked(stableDiffusionMode)
             }
     ) {
         AsyncImage(
-            imageUrl = creationMode.imageUrl,
+            imageUrl = stableDiffusionMode.imageUrl,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -374,7 +242,7 @@ private fun AiCreationModeItem(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 ),
-                text = creationMode.type,
+                text = stableDiffusionMode.title,
                 maxLines = 1
             )
             Spacer(
@@ -412,18 +280,68 @@ private fun AiCreationModeItem(
             modifier = Modifier.fillMaxWidth()
                 .weight(1.5f)
                 .padding(vertical = 5.dp, horizontal = 10.dp),
-            text = creationMode.content,
+            text = stableDiffusionMode.explanation,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-
     }
+}
+
+@Composable
+private fun TextToImageSection(
+    onShowcaseClicked: () -> Unit,
+    ) {
+    SectionHeader(StableDiffusionMode.TEXT_TO_IMAGE.title, leadingIcon = {
+        Icon(
+            tint = MaterialTheme.colorScheme.onSurface,
+            imageVector = CustomIcons.Home,
+            contentDescription = null
+        )
+    }, isSeeMoreEnabled = true)
+    ShowcaseList(
+        showcaseList = listOf(
+            Showcase(
+                "0",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "1",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "2",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "3",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "4",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "5",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "6",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+            Showcase(
+                "7",
+                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
+            ),
+        ),
+        onShowcaseClicked = onShowcaseClicked,
+    )
 }
 
 @Composable
 private fun ShowcaseList(
     modifier: Modifier = Modifier,
-    showcaseList: List<Showcase>
+    showcaseList: List<Showcase>,
+    onShowcaseClicked: () -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
@@ -439,9 +357,7 @@ private fun ShowcaseList(
             ShowcaseItem(
                 modifier = Modifier.width(150.dp),
                 showcase = showcase,
-                onItemClick = {
-
-                }
+                onItemClicked = onShowcaseClicked
             )
         }
     }
@@ -451,14 +367,14 @@ private fun ShowcaseList(
 private fun ShowcaseItem(
     modifier: Modifier = Modifier,
     showcase: Showcase,
-    onItemClick: () -> Unit = {}
+    onItemClicked: () -> Unit = {}
 ) {
     Box(
         modifier
             .fillMaxWidth()
             .height(150.dp)
             .clickable {
-                onItemClick()
+                onItemClicked()
             }
     ) {
         AsyncImage(
@@ -470,7 +386,5 @@ private fun ShowcaseItem(
         )
     }
 }
-
-data class CreationMode(val type: String, val imageUrl: String, val content: String)
 
 data class Showcase(val id: String, val imageUrl: String)

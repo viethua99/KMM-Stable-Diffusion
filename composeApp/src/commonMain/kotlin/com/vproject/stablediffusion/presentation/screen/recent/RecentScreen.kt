@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.vproject.stablediffusion.model.PromptData
@@ -31,6 +32,7 @@ import com.vproject.stablediffusion.model.PromptStatus
 import com.vproject.stablediffusion.presentation.component.AsyncImage
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
+import com.vproject.stablediffusion.presentation.screen.setting.SettingScreen
 
 object RecentTab : Tab {
     override val options: TabOptions
@@ -49,15 +51,23 @@ object RecentTab : Tab {
 
     @Composable
     override fun Content() {
+        val parentNavigator = LocalNavigator.current?.parent
         val screenModel = getScreenModel<RecentModel>()
 
-        RecentContent()
+        RecentContent(
+            onSettingsClicked = {
+                parentNavigator?.push(SettingScreen)
+            }
+        )
     }
 }
 
 @Composable
-private fun RecentContent() {
-    val test =  listOf(
+private fun RecentContent(
+    onSettingsClicked: () -> Unit = {},
+    onMultipleDeleteClicked: () -> Unit = {}
+) {
+    val test = listOf(
         PromptData(
             status = PromptStatus.Success,
             imageUrl = "https://cdn2.stablediffusionapi.com/generations/1eed8268-ba30-4c70-afd6-ab6f2e8ad72f-0.png",
@@ -111,7 +121,10 @@ private fun RecentContent() {
     )
 
     Column {
-        RecentTopBar(onBackClick = {})
+        RecentTopBar(
+            onSettingsClicked = onSettingsClicked,
+            onMultipleDeleteClicked = onMultipleDeleteClicked
+        )
         LazyVerticalGrid(
             modifier = Modifier.padding(start = 10.dp, end = 10.dp),
             columns = GridCells.Fixed(2),
@@ -121,7 +134,7 @@ private fun RecentContent() {
             items(test) { promptData ->
                 GeneratedPromptItem(
                     promptData = promptData,
-                    onItemClick = {_,_ ->}
+                    onItemClick = { _, _ -> }
                 )
             }
         }
@@ -130,13 +143,19 @@ private fun RecentContent() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecentTopBar(modifier: Modifier = Modifier, onBackClick: () -> Unit = {}) {
+private fun RecentTopBar(
+    modifier: Modifier = Modifier, onSettingsClicked: () -> Unit = {},
+    onMultipleDeleteClicked: () -> Unit = {}
+) {
     StableDiffusionTopBar(
         modifier = modifier,
         title = "Recent",
-        navigationIcon = CustomIcons.Home,
-        navigationIconContentDescription = "Navigation icon",
-        onNavigationClick = onBackClick
+        navigationIcon = CustomIcons.Settings,
+        navigationIconContentDescription = "Settings Icon",
+        actionIcon = CustomIcons.Delete,
+        actionIconContentDescription = "Delete Icon",
+        onNavigationClicked = onSettingsClicked,
+        onActionClicked = onMultipleDeleteClicked
     )
 }
 
@@ -146,7 +165,7 @@ private fun GeneratedPromptItem(
     promptData: PromptData,
     onItemClick: (promptContent: String, imageUrl: String) -> Unit
 ) {
-    Column (
+    Column(
         modifier
             .fillMaxWidth()
             .height(300.dp)

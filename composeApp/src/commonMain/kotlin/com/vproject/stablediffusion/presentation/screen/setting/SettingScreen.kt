@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.model.DarkThemeConfig
 import com.vproject.stablediffusion.model.GeneralSettingType
 import com.vproject.stablediffusion.model.UserEditableSettings
@@ -39,43 +40,56 @@ import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
 object SettingScreen: Screen {
     @Composable
     override fun Content() {
-        val test = UserEditableSettings(
-            10f, 25f, DarkThemeConfig.DARK
-        )
-        Column(
-            modifier = Modifier,
-        ) {
-            SettingTopAppBar(onBackClick = {})
-            Column(
-                Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(start = 16.dp, end = 16.dp)
-            ) {
-                SettingSectionTitle(text = "Advanced prompt options")
-                AdvancedPromptOptionSectionCard(
-                    settings = test,
-                    onPromptCfgScaleValueChange = {},
-                    onPromptStepValueChange = {}
-                )
-                SettingSectionTitle(text = "General")
-                GeneralSectionCard(
-                    settings = test,
-                    onChangeDarkThemeConfig = {},
-                )
+        val navigator = LocalNavigator.current
+
+        SettingContent(
+            onBackClicked = {
+                navigator?.pop()
             }
+        )
+    }
+}
+
+@Composable
+private fun SettingContent(
+    onBackClicked: () -> Unit = {}
+) {
+    val test = UserEditableSettings(
+        10f, 25f, DarkThemeConfig.DARK
+    )
+    Column(
+        modifier = Modifier,
+    ) {
+        SettingTopBar(onBackClicked = onBackClicked)
+        Column(
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(start = 16.dp, end = 16.dp)
+        ) {
+            SettingSectionTitle(text = "Advanced prompt options")
+            AdvancedPromptOptionSectionCard(
+                settings = test,
+                onPromptCfgScaleValueChange = {},
+                onPromptStepValueChange = {}
+            )
+            SettingSectionTitle(text = "General")
+            GeneralSectionCard(
+                settings = test,
+                onChangeDarkThemeConfig = {},
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingTopAppBar(modifier: Modifier = Modifier, onBackClick: () -> Unit = {}) {
+private fun SettingTopBar(modifier: Modifier = Modifier, onBackClicked: () -> Unit = {}) {
     StableDiffusionTopBar(
         modifier = modifier,
         title = "Settings",
-        navigationIcon = CustomIcons.Home,
+        navigationIcon = CustomIcons.ArrowBack,
         navigationIconContentDescription = "Navigation icon",
-        onNavigationClick = onBackClick
+        onNavigationClicked = onBackClicked
     )
 }
 

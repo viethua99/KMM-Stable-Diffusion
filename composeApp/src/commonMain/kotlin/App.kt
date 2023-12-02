@@ -2,6 +2,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -10,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -22,32 +25,40 @@ import com.vproject.stablediffusion.presentation.component.theme.StableDiffusion
 import com.vproject.stablediffusion.presentation.screen.recent.RecentTab
 import com.vproject.stablediffusion.presentation.screen.home.HomeTab
 
-@OptIn(ExperimentalVoyagerApi::class)
 @Composable
 fun App() {
-    val tabs = listOf(HomeTab, RecentTab)
 
     StableDiffusionAppTheme(darkTheme = true) {
         StableDiffusionAppBackground {
-            TabNavigator(
-                tabs[0], tabDisposable = {
-                    TabDisposable(
-                        navigator = it,
-                        tabs = tabs
-                    )
+            Navigator(MainTabContainer())
+        }
+    }
+}
+
+private class MainTabContainer : Screen {
+    val tabs = listOf(HomeTab, RecentTab)
+
+    @OptIn(ExperimentalVoyagerApi::class)
+    @Composable
+    override fun Content() {
+        TabNavigator(
+            tabs[0], tabDisposable = {
+                TabDisposable(
+                    navigator = it,
+                    tabs = tabs
+                )
+            }
+        ) {
+            Scaffold(
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.onBackground,
+                contentWindowInsets = WindowInsets(0, 0, 0, 0),
+                bottomBar = {
+                    StableDiffusionBottomBar(tabs = tabs)
                 }
-            ) {
-                Scaffold(
-                    containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.onBackground,
-                    contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                    bottomBar = {
-                        StableDiffusionBottomBar(tabs = tabs)
-                    }
-                ) { paddingValues ->
-                    Column(Modifier.fillMaxSize().padding(paddingValues)) {
-                        CurrentTab()
-                    }
+            ) { paddingValues ->
+                Column(Modifier.fillMaxSize().padding(paddingValues)) {
+                    CurrentTab()
                 }
             }
         }
