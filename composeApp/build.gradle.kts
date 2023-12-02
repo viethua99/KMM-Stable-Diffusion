@@ -81,6 +81,8 @@ kotlin {
 
             // Kamel Dependencies for images loading
             implementation(libs.kamel)
+
+            implementation(libs.accompanist.systemuicontroller)
         }
     }
 }

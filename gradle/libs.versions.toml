@@ -1,4 +1,5 @@
 [versions]
+accompanist = "0.28.0"
 compose = "1.5.4"
 composeMaterial3 = "1.1.2"
 compose-plugin = "1.5.10"
@@ -27,6 +28,7 @@ build-konfig = "0.13.3"
 kamel = "0.7.3"
 
 [libraries]
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

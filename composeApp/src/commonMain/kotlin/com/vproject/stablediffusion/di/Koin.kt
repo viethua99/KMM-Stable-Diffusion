@@ -5,7 +5,7 @@ import com.vproject.stablediffusion.network.StableDiffusionApi
 import com.vproject.stablediffusion.repository.DefaultImageRepository
 import com.vproject.stablediffusion.repository.ImageRepository
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateModel
-import com.vproject.stablediffusion.presentation.screen.gallery.GalleryModel
+import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
 import com.vproject.stablediffusion.presentation.screen.setting.SettingModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -41,7 +41,7 @@ fun coreModule() = module {
 
     // Screen Model Dependencies
     factoryOf(::GenerateModel)
-    factoryOf(::GalleryModel)
+    factoryOf(::RecentModel)
     factoryOf(::SettingModel)
 
 }

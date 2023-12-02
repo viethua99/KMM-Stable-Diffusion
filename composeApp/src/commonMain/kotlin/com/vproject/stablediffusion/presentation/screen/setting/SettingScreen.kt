@@ -73,7 +73,7 @@ private fun SettingTopAppBar(modifier: Modifier = Modifier, onBackClick: () -> U
     StableDiffusionTopBar(
         modifier = modifier,
         title = "Settings",
-        navigationIcon = CustomIcons.RoundedArrowBack,
+        navigationIcon = CustomIcons.Home,
         navigationIconContentDescription = "Navigation icon",
         onNavigationClick = onBackClick
     )
