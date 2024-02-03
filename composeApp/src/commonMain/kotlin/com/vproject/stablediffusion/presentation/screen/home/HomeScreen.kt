@@ -47,7 +47,6 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.presentation.component.AsyncImage
 import com.vproject.stablediffusion.presentation.component.CustomIcons
@@ -94,7 +93,7 @@ private fun HomeContent(
     Column {
         HomeTopBar()
         Column(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
+            modifier = Modifier.padding(10.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
             AiCreateSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
@@ -167,7 +166,7 @@ private fun AiCreateSection(
     Spacer(Modifier.height(10.dp))
     AiCreationModeList(
         modifier = Modifier.fillMaxWidth(),
-        modeList = StableDiffusionMode.values().asList(),
+        modeList = StableDiffusionMode.entries,
         onStableDiffusionModeClicked = onStableDiffusionModeClicked
     )
     Spacer(Modifier.height(10.dp))
@@ -181,7 +180,7 @@ private fun AiCreationModeList(
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
-        modifier = modifier.height(450.dp),
+        modifier = modifier.height(360.dp),
         state = lazyGridState,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         rows = GridCells.Fixed(1)
@@ -191,7 +190,7 @@ private fun AiCreationModeList(
             key = { it },
         ) { creationMode ->
             AiCreationModeItem(
-                modifier = Modifier.width(300.dp),
+                modifier = Modifier.width(270.dp),
                 stableDiffusionMode = creationMode,
                 onItemClicked = onStableDiffusionModeClicked
             )
@@ -208,24 +207,15 @@ private fun AiCreationModeItem(
     Column(
         modifier
             .fillMaxWidth()
-            .height(400.dp)
             .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.DarkGray)
             .clickable {
                 onItemClicked(stableDiffusionMode)
             }
     ) {
-//        AsyncImage(
-//            imageUrl = stableDiffusionMode.imageUrl,
-//            contentDescription = null,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .weight(8f)
-//                .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
-//        )
         Image(
-            painterResource(SharedRes.images.img_ai_creation_tti),
-            contentDescription = "",
+            painterResource(stableDiffusionMode.imageResource),
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -246,9 +236,7 @@ private fun AiCreationModeItem(
                 imageVector = CustomIcons.Home,
                 contentDescription = null
             )
-            Spacer(
-                Modifier.width(5.dp).fillMaxHeight()
-            )
+            Spacer(Modifier.width(5.dp).fillMaxHeight())
             Text(
                 style = TextStyle(
                     color = MaterialTheme.colorScheme.secondary,
@@ -258,10 +246,7 @@ private fun AiCreationModeItem(
                 text = stableDiffusionMode.title,
                 maxLines = 1
             )
-            Spacer(
-                Modifier.weight(1f).fillMaxHeight()
-            )
-
+            Spacer(Modifier.weight(1f).fillMaxHeight())
             IconButton(
                 onClick = {},
                 modifier = modifier

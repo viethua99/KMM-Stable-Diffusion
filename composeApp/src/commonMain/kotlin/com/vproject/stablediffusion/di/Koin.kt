@@ -10,8 +10,10 @@ import com.vproject.stablediffusion.presentation.screen.setting.SettingModel
 import com.vproject.stablediffusion.presentation.screen.home.HomeModel
 import com.vproject.stablediffusion.presentation.screen.detail.DetailModel
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -33,6 +35,11 @@ fun coreModule() = module {
             install(ContentNegotiation) {
                 json( Json { ignoreUnknownKeys = true })
             }
+//            install(HttpTimeout) {
+//                requestTimeoutMillis = 120000
+//                connectTimeoutMillis = 120000
+//                socketTimeoutMillis = 120000
+//            }
         }
     }
 
