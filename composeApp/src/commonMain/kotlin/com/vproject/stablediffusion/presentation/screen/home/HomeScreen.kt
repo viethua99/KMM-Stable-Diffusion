@@ -1,5 +1,6 @@
 package com.vproject.stablediffusion.presentation.screen.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,6 +47,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.presentation.component.AsyncImage
 import com.vproject.stablediffusion.presentation.component.CustomIcons
@@ -52,6 +55,7 @@ import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
 import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateScreen
 import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
+import dev.icerock.moko.resources.compose.painterResource
 
 object HomeTab : Tab {
     override val options: TabOptions
@@ -205,15 +209,24 @@ private fun AiCreationModeItem(
         modifier
             .fillMaxWidth()
             .height(400.dp)
-            .clip(shape = RoundedCornerShape(20.dp, 20.dp, 20.dp, 20.dp))
+            .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.DarkGray)
             .clickable {
                 onItemClicked(stableDiffusionMode)
             }
     ) {
-        AsyncImage(
-            imageUrl = stableDiffusionMode.imageUrl,
-            contentDescription = null,
+//        AsyncImage(
+//            imageUrl = stableDiffusionMode.imageUrl,
+//            contentDescription = null,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .weight(8f)
+//                .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
+//        )
+        Image(
+            painterResource(SharedRes.images.img_ai_creation_tti),
+            contentDescription = "",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(8f)

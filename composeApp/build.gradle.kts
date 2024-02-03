@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.pluginSerialization)
     alias(libs.plugins.buildKonfigPlugin)
+    alias(libs.plugins.icerockMobilePlugin)
 }
 
 kotlin {
@@ -50,6 +51,8 @@ kotlin {
         iosMain.dependencies {
             // Ktor Dependencies for API network
             implementation(libs.ktor.client.darwin)
+            implementation(libs.moko.resources.core)
+
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -82,6 +85,9 @@ kotlin {
             // Kamel Dependencies for images loading
             implementation(libs.kamel)
 
+            // Moko Dependencies for resources
+            implementation(libs.moko.resources.compose)
+
             implementation(libs.accompanist.systemuicontroller)
         }
     }
@@ -94,6 +100,7 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].java.srcDirs("build/generated/moko/androidMain/src")
 
     defaultConfig {
         applicationId = "com.vproject.stablediffusion"
@@ -145,5 +152,10 @@ buildkonfig {
     defaultConfigs {
         buildConfigField(STRING, "STABLE_DIFFUSION_API_KEY", "${project.property("STABLE_DIFFUSION_API_KEY")}")
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.vproject.stablediffusion"
+    multiplatformResourcesClassName = "SharedRes"
 }
 
