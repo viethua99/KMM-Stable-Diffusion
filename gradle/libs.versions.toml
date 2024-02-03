@@ -26,6 +26,7 @@ koin-core = "3.5.0"
 voyager = "1.0.0-rc10"
 build-konfig = "0.13.3"
 kamel = "0.7.3"
+moko-resources = "0.23.0"
 
 [libraries]
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
@@ -62,6 +63,9 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 voyager-tab-navigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
+moko-resources-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "moko-resources" }
+moko-resources-core = { module = "dev.icerock.moko:resources", version.ref = "moko-resources" }
+moko-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resources" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
@@ -70,3 +74,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 pluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "plugin-serialization"}
 buildKonfigPlugin = { id = "com.codingfeline.buildkonfig", version.ref = "build-konfig" }
+icerockMobilePlugin = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }

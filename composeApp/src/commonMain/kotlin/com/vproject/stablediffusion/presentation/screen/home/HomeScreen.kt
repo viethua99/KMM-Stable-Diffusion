@@ -1,5 +1,6 @@
 package com.vproject.stablediffusion.presentation.screen.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,6 +54,7 @@ import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
 import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateScreen
 import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
+import dev.icerock.moko.resources.compose.painterResource
 
 object HomeTab : Tab {
     override val options: TabOptions
@@ -90,7 +93,7 @@ private fun HomeContent(
     Column {
         HomeTopBar()
         Column(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
+            modifier = Modifier.padding(10.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
             AiCreateSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
@@ -163,7 +166,7 @@ private fun AiCreateSection(
     Spacer(Modifier.height(10.dp))
     AiCreationModeList(
         modifier = Modifier.fillMaxWidth(),
-        modeList = StableDiffusionMode.values().asList(),
+        modeList = StableDiffusionMode.entries,
         onStableDiffusionModeClicked = onStableDiffusionModeClicked
     )
     Spacer(Modifier.height(10.dp))
@@ -177,7 +180,7 @@ private fun AiCreationModeList(
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
-        modifier = modifier.height(450.dp),
+        modifier = modifier.height(360.dp),
         state = lazyGridState,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         rows = GridCells.Fixed(1)
@@ -187,7 +190,7 @@ private fun AiCreationModeList(
             key = { it },
         ) { creationMode ->
             AiCreationModeItem(
-                modifier = Modifier.width(300.dp),
+                modifier = Modifier.width(270.dp),
                 stableDiffusionMode = creationMode,
                 onItemClicked = onStableDiffusionModeClicked
             )
@@ -204,16 +207,16 @@ private fun AiCreationModeItem(
     Column(
         modifier
             .fillMaxWidth()
-            .height(400.dp)
-            .clip(shape = RoundedCornerShape(20.dp, 20.dp, 20.dp, 20.dp))
+            .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.DarkGray)
             .clickable {
                 onItemClicked(stableDiffusionMode)
             }
     ) {
-        AsyncImage(
-            imageUrl = stableDiffusionMode.imageUrl,
+        Image(
+            painterResource(stableDiffusionMode.imageResource),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(8f)
@@ -233,9 +236,7 @@ private fun AiCreationModeItem(
                 imageVector = CustomIcons.Home,
                 contentDescription = null
             )
-            Spacer(
-                Modifier.width(5.dp).fillMaxHeight()
-            )
+            Spacer(Modifier.width(5.dp).fillMaxHeight())
             Text(
                 style = TextStyle(
                     color = MaterialTheme.colorScheme.secondary,
@@ -245,10 +246,7 @@ private fun AiCreationModeItem(
                 text = stableDiffusionMode.title,
                 maxLines = 1
             )
-            Spacer(
-                Modifier.weight(1f).fillMaxHeight()
-            )
-
+            Spacer(Modifier.weight(1f).fillMaxHeight())
             IconButton(
                 onClick = {},
                 modifier = modifier

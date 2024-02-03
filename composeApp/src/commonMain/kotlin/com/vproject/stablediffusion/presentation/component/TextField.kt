@@ -179,8 +179,8 @@ private object CustomTextFieldDefaults {
     val InnerHorizontalPadding = 16.dp
     val InnerBottomPadding = 10.dp
     val CornerIconsTopPadding = 16.dp
-    val MainHintFontSize = 18.sp
-    val SubHintFontSize = 14.sp
+    val MainHintFontSize = 16.sp
+    val SubHintFontSize = 12.sp
     const val InnerContentWeight = 7f
     const val CornerIconsWeight = 3f
 }
