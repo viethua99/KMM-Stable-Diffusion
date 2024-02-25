@@ -3,13 +3,17 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
+    alias(libs.plugins.cocoapods)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.pluginSerialization)
     alias(libs.plugins.buildKonfigPlugin)
     alias(libs.plugins.icerockMobilePlugin)
+    alias(libs.plugins.sqlDelight)
 }
+
+version = "1.0.0"
 
 kotlin {
     androidTarget {
@@ -47,18 +51,26 @@ kotlin {
             // Koin Dependencies for dependency injection
             implementation(libs.koin.android)
             implementation(libs.koin.workmanager)
+
+            // SQLDelight Dependencies for local database
+            implementation(libs.sqldelight.driver.android)
         }
         iosMain.dependencies {
             // Ktor Dependencies for API network
             implementation(libs.ktor.client.darwin)
             implementation(libs.moko.resources.core)
 
+            // SQLDelight Dependencies for local database
+            implementation(libs.sqldelight.driver.ios)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
 
             // Ktor Dependencies for API network
             implementation(libs.ktor.client.cio)
+
+            // SQLDelight Dependencies for local database
+            implementation(libs.sqldelight.driver.jvm)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -69,9 +81,14 @@ kotlin {
 
             // Ktor Dependencies for API network
             implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
+//            implementation(libs.ktor.client.okhttp)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.auth)
             implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.stately.common)
 
             // Koin Dependencies for dependency injection
             implementation(libs.koin.core)
@@ -88,8 +105,21 @@ kotlin {
             // Moko Dependencies for resources
             implementation(libs.moko.resources.compose)
 
+            // SQLDelight Dependencies for local database
+            implementation(libs.bundles.sqldelight.common)
+
             implementation(libs.accompanist.systemuicontroller)
         }
+    }
+
+    cocoapods {
+        framework {
+            isStatic = false // SwiftUI preview requires dynamic framework
+            linkerOpts("-lsqlite3")
+//            export(libs.touchlab.kermit.simple)
+            export(libs.moko.resources.core)
+        }
+//        podfile = project.file("../iosApp/Podfile")
     }
 }
 
@@ -151,6 +181,12 @@ buildkonfig {
 
     defaultConfigs {
         buildConfigField(STRING, "STABLE_DIFFUSION_API_KEY", "${project.property("STABLE_DIFFUSION_API_KEY")}")
+    }
+}
+
+sqldelight {
+    databases.create("StableDiffusionDatabase") {
+        packageName.set("com.vproject.stablediffusion.database")
     }
 }
 

@@ -26,20 +26,12 @@ fun StableDiffusionNavigationBar(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit,
 ) {
-    Column {
-        Divider (
-            color = Color.Gray,
-            modifier = Modifier
-                .height(0.4.dp)
-                .fillMaxWidth()
-        )
-        NavigationBar(
-            modifier = modifier,
-            contentColor = StableDiffusionNavigationDefaults.navigationContentColor(),
-            tonalElevation = 0.dp,
-            content = content,
-        )
-    }
+    NavigationBar(
+        modifier = modifier,
+        contentColor = StableDiffusionNavigationDefaults.navigationContentColor(),
+        tonalElevation = 0.dp,
+        content = content,
+    )
 }
 
 /**

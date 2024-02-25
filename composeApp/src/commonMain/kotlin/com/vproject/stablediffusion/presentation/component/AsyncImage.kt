@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.vproject.stablediffusion.presentation.component.theme.LocalTintTheme
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 
@@ -21,9 +20,10 @@ import io.kamel.image.asyncPainterResource
 fun AsyncImage(
     imageUrl: String,
     contentDescription: String?,
+    contentScale: ContentScale = ContentScale.Fit,
+    colorFilter: ColorFilter? = null,
     modifier: Modifier = Modifier
 ) {
-    val iconTint = LocalTintTheme.current.iconTint
     KamelImage(
         onLoading = {
             Box(modifier = Modifier.size(25.dp)) {
@@ -34,7 +34,7 @@ fun AsyncImage(
         resource = asyncPainterResource(data = imageUrl),
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        colorFilter = if (iconTint != null) ColorFilter.tint(iconTint) else null,
+        colorFilter = colorFilter,
         modifier = modifier,
     )
 }

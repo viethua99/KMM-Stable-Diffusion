@@ -46,6 +46,7 @@ fun CustomFilledButton(
         shape = RoundedCornerShape(8.dp),
         contentPadding = contentPadding,
         content = content,
+
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary
         )

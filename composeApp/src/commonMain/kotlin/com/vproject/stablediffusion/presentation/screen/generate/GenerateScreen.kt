@@ -19,6 +19,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
+import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.tab.ImageToImageTab
 import com.vproject.stablediffusion.presentation.screen.generate.tab.TextToImageTab
 
@@ -29,12 +30,12 @@ data class GenerateScreen(val stableDiffusionMode: StableDiffusionMode) : Screen
         val uiState by screenModel.state.collectAsState()
         val navigator = LocalNavigator.current
 
-        GenerateContent(uiState,
+        GenerateContent(uiState, stableDiffusionMode,
             onBackClicked = {
                 navigator?.pop()
             },
-            onDrawingClicked = {
-                screenModel.generateImage("Helo", "World")
+            onDrawClicked = { prompt, styleId, canvasId ->
+                navigator?.push(DetailScreen(prompt, styleId, canvasId))
             }
         )
     }
@@ -43,11 +44,12 @@ data class GenerateScreen(val stableDiffusionMode: StableDiffusionMode) : Screen
 @Composable
 private fun GenerateContent(
     uiState: GenerateUiState,
+    stableDiffusionMode: StableDiffusionMode,
     onBackClicked: () -> Unit = {},
-    onDrawingClicked: () -> Unit = {},
+    onDrawClicked: (prompt: String, styleId: String, canvasId: String) -> Unit = {_ , _, _ -> }
 ) {
-    var tabIndex by remember { mutableStateOf(0) }
-    val tabs = listOf("Txt to Img", "Img to Img")
+    var tabIndex by remember { mutableStateOf(StableDiffusionMode.entries.indexOf(stableDiffusionMode)) }
+    val tabs = listOf("Text to Image", "Image to Image")
 
     Column(modifier = Modifier.fillMaxWidth()) {
         GenerateTopBar(onBackClicked = onBackClicked)
@@ -60,7 +62,7 @@ private fun GenerateContent(
             }
         }
         when (tabIndex) {
-            0 -> TextToImageTab(onDrawingClicked = onDrawingClicked)
+            0 -> TextToImageTab(onDrawClicked = onDrawClicked)
             1 -> ImageToImageTab()
         }
     }

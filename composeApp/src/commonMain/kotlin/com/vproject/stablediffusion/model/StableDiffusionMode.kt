@@ -15,7 +15,7 @@ enum class StableDiffusionMode(val title: String, val imageResource: ImageResour
         "AI transforms your image to any style you desire."
     ),
     AI_INPAINT(
-        "AI Inpaint",
+        "AI Inpainting",
         SharedRes.images.img_ai_creation_ai_inpaint,
         "Command the AI to meticulously alter any segment of your image."
     )

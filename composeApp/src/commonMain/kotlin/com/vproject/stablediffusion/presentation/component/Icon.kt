@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
@@ -21,11 +22,14 @@ object CustomIcons {
     val Recent = Icons.Default.Done
     val Settings = Icons.Default.Settings
     val Delete = Icons.Default.Delete
+
     val ArrowBack = Icons.Default.ArrowBack
     val DefaultClose = Icons.Default.Close
     val FilledFavorite = Icons.Filled.ArrowForward
     val OutlinedInfo = Icons.Outlined.Info
     val DefaultHistory = Icons.Default.Check
+    val Search = Icons.Rounded.Search
+
     val Step1 = Icons.Default.Create
     val Step2 = Icons.Default.Create
     val Step3 = Icons.Default.Create

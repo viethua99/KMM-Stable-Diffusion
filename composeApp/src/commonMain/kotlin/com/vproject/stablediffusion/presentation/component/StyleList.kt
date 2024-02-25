@@ -30,19 +30,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vproject.stablediffusion.model.Style
+import com.vproject.stablediffusion.model.StylePreset
 import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun StyleList(
     modifier: Modifier = Modifier,
-    styleList: List<Style>,
+    styleList: List<StylePreset>,
     selectedStyleId: String,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
-        modifier = modifier.height(280.dp),
+        modifier = modifier.height(260.dp),
         state = lazyGridState,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         rows = GridCells.Fixed(2)
@@ -52,8 +52,8 @@ fun StyleList(
             key = { it.id },
         ) { style ->
             StyleItem(
-                style = style,
-                modifier = Modifier.width(110.dp),
+                stylePreset = style,
+                modifier = Modifier.width(90.dp),
                 isSelected = selectedStyleId == style.id,
                 onStyleSelected = {
                     onStyleSelected(it)
@@ -66,7 +66,7 @@ fun StyleList(
 @Composable
 private fun StyleItem(
     modifier: Modifier = Modifier,
-    style: Style,
+    stylePreset: StylePreset,
     isSelected: Boolean,
     onStyleSelected: (selectedStyleId: String) -> Unit
 ) {
@@ -75,16 +75,16 @@ private fun StyleItem(
             modifier
                 .fillMaxWidth()
                 .border(
-                    if (isSelected) 2.dp else 0.dp,
+                    if (isSelected) 3.dp else 0.dp,
                     if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
                     RoundedCornerShape(10)
                 )
                 .aspectRatio(1f)
                 .align(Alignment.CenterHorizontally)
-                .clickable { onStyleSelected(style.id) }
+                .clickable { onStyleSelected(stylePreset.id) }
         ) {
             Image(
-                painterResource(style.imageResource),
+                painterResource(stylePreset.imageResource),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -94,12 +94,12 @@ private fun StyleItem(
         }
 
         Text(
-            text = style.name,
+            text = stylePreset.displayName,
             textAlign = TextAlign.Center,
             style = TextStyle(
-                color = MaterialTheme.colorScheme.onSurface,
+                color = if (isSelected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 12.sp
+                fontSize = 10.sp
             ),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,

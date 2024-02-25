@@ -1,3 +1,4 @@
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -74,7 +75,7 @@ private fun StableDiffusionBottomBar(
     tabs: List<Tab>
 ) {
     StableDiffusionNavigationBar(
-        modifier = modifier,
+        modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant),
     ) {
         tabs.forEach { tab ->
             val tabNavigator = LocalTabNavigator.current

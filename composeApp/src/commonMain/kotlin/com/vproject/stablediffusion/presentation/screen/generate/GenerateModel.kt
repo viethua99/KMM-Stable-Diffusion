@@ -1,21 +1,25 @@
 package com.vproject.stablediffusion.presentation.screen.generate
 
-import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.vproject.stablediffusion.repository.ImageRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import com.vproject.stablediffusion.repository.image.ImageRepository
+import com.vproject.stablediffusion.util.TestUtil
+import com.vproject.stablediffusion.util.imageBitmapFromBytes
 import kotlinx.coroutines.launch
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
-class GenerateModel(private val imageRepository: ImageRepository) : StateScreenModel<GenerateUiState>(GenerateUiState.Initial) {
-    fun generateImage(prompt: String, negativePrompt: String) = screenModelScope.launch {
-        print("generateImage")
-        imageRepository.generateImage(prompt, negativePrompt).collect {
-            val data = it
-            print("hello world = $data")
-        }
+class GenerateModel(private val imageRepository: ImageRepository, private val testUtil: TestUtil) : StateScreenModel<GenerateUiState>(GenerateUiState.Initial) {
+    @OptIn(ExperimentalEncodingApi::class)
+    fun generateImage(prompt: String, styleId: String, canvasId: String) = screenModelScope.launch {
+        imageRepository.generateImage(prompt, styleId, canvasId)
+            .onSuccess { generatedImageInfo ->
+                val decodedImage = Base64.Default.decode(generatedImageInfo.base64)
+                val imageBitmap = imageBitmapFromBytes(decodedImage)
+                mutableState.value = GenerateUiState.Success(imageBitmap)
+            }
+            .onFailure {
+                mutableState.value = GenerateUiState.Error(it.message ?: "Unknown error")
+            }
     }
 }

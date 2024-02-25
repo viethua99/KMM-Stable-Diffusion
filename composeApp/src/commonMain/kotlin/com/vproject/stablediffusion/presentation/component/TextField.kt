@@ -174,12 +174,12 @@ private fun CustomTextFieldCornerIcons(
  * Custom text field default values.
  */
 private object CustomTextFieldDefaults {
-    val Height = 150.dp
+    val Height = 100.dp
     val InnerTopPadding = 16.dp
     val InnerHorizontalPadding = 16.dp
     val InnerBottomPadding = 10.dp
     val CornerIconsTopPadding = 16.dp
-    val MainHintFontSize = 16.sp
+    val MainHintFontSize = 14.sp
     val SubHintFontSize = 12.sp
     const val InnerContentWeight = 7f
     const val CornerIconsWeight = 3f
