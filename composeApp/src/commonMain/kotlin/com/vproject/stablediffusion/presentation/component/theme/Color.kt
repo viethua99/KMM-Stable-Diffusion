@@ -6,9 +6,10 @@ import androidx.compose.ui.graphics.Color
  * Color name convention of Stable Diffusion app is based on Color's number of Material Design.
  * Reference: https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
  */
-internal val Grey300 = Color(0xFF9CA3AF)
-internal val Blue600 = Color(0xFF2C83FF)
-internal val Blue800 = Color(0xFF005FE6)
-internal val Black900 = Color(0xFF111827)
-internal val White50 = Color(0xFFFFFFFF)
-internal val White300 = Color(0xFFE3E3E3)
+val Black = Color(0xFF090f0b)
+
+val Green400 = Color(0xFF145526)
+val Blue400 = Color(0xFF4572E8)
+val LightGray400 = Color(0xFFb8b6b3)
+val DarkGray400 = Color(0xFF3e4047)
+val Gray400 = Color(0xFF595C61)

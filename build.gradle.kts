@@ -14,4 +14,6 @@ plugins {
     alias(libs.plugins.pluginSerialization) apply false
     alias(libs.plugins.buildKonfigPlugin) apply false
     alias(libs.plugins.icerockMobilePlugin) apply false
+    alias(libs.plugins.sqlDelight) apply false
+    alias(libs.plugins.cocoapods) apply false
 }

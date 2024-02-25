@@ -1,11 +1,20 @@
 package com.vproject.stablediffusion.presentation.screen.home
 
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,29 +22,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -47,14 +58,19 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.vproject.stablediffusion.SharedRes
+import com.vproject.stablediffusion.model.ImageToImageSample
 import com.vproject.stablediffusion.model.StableDiffusionMode
-import com.vproject.stablediffusion.presentation.component.AsyncImage
+import com.vproject.stablediffusion.model.TextToImageSample
+import com.vproject.stablediffusion.model.imageToImageSampleList
+import com.vproject.stablediffusion.model.textToImageSampleList
+import com.vproject.stablediffusion.presentation.component.BeforeAfterLayout
 import com.vproject.stablediffusion.presentation.component.CustomIcons
-import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
 import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateScreen
 import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
 import dev.icerock.moko.resources.compose.painterResource
+import kotlin.math.absoluteValue
 
 object HomeTab : Tab {
     override val options: TabOptions
@@ -76,10 +92,12 @@ object HomeTab : Tab {
         val screenModel = getScreenModel<RecentModel>()
         HomeContent(
             onStableDiffusionModeClicked = { stableDiffusionMode ->
-                parentNavigator?.push(GenerateScreen(stableDiffusionMode))
+                if (stableDiffusionMode != StableDiffusionMode.AI_INPAINT) {
+                    parentNavigator?.push(GenerateScreen(stableDiffusionMode))
+                }
             },
-            onShowcaseClicked = {
-                parentNavigator?.push(DetailScreen())
+            onSampleClicked = {
+                parentNavigator?.push(DetailScreen("", "", ""))
             }
         )
     }
@@ -88,26 +106,51 @@ object HomeTab : Tab {
 @Composable
 private fun HomeContent(
     onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {},
-    onShowcaseClicked: () -> Unit = {},
-    ) {
+    onSampleClicked: () -> Unit = {},
+) {
     Column {
-        HomeTopBar()
+        HomeSearch()
         Column(
             modifier = Modifier.padding(10.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
-            AiCreateSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
-            TextToImageSection(onShowcaseClicked = onShowcaseClicked)
+            CreationSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
+            Spacer(modifier = Modifier.height(10.dp))
+            TextToImageSection(onSampleClicked = onSampleClicked)
+            Spacer(modifier = Modifier.height(10.dp))
+            ImageToImageSection(onSampleClicked = onSampleClicked)
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeTopBar(modifier: Modifier = Modifier) {
-    StableDiffusionTopBar(
-        modifier = modifier,
-        title = "KMP Stable Diffusion",
+private fun HomeSearch() {
+    val containerColor = MaterialTheme.colorScheme.surface.copy(alpha = .2f)
+    TextField(
+        value = "",
+        onValueChange = { },
+        placeholder = { Text(text = "Popular Searches: Dragon Year") },
+        leadingIcon = {
+            IconButton(onClick = {}) {
+                Icon(CustomIcons.Search, contentDescription = "Popular Search")
+            }
+        },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = containerColor,
+            unfocusedContainerColor = containerColor,
+            disabledContainerColor = containerColor,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedLeadingIconColor = MaterialTheme.colorScheme.surface,
+            unfocusedLeadingIconColor = MaterialTheme.colorScheme.surface,
+            focusedPlaceholderColor = MaterialTheme.colorScheme.surface,
+            unfocusedPlaceholderColor = MaterialTheme.colorScheme.surface,
+        ),
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .padding(horizontal = 8.dp, vertical = 8.dp)
     )
 }
 
@@ -115,8 +158,9 @@ private fun HomeTopBar(modifier: Modifier = Modifier) {
 private fun SectionHeader(
     title: String,
     leadingIcon: @Composable (() -> Unit)? = null,
-    isSeeMoreEnabled: Boolean = false,
-    onSeeMoreClicked: () -> Unit = {}
+    isTrailingButtonEnabled: Boolean = false,
+    trailingButtonTitle: String = "",
+    onTrailingButtonClicked: () -> Unit = {}
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         leadingIcon?.let { nonNullLeadingIcon ->
@@ -130,18 +174,18 @@ private fun SectionHeader(
                 style = TextStyle(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
+                    fontSize = 16.sp
                 ),
             )
         }
 
-        if (isSeeMoreEnabled) {
+        if (isTrailingButtonEnabled) {
             Spacer(
                 Modifier.weight(1f).fillMaxHeight()
             )
 
             Text(
-                "See more >",
+                trailingButtonTitle,
                 style = TextStyle(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Normal,
@@ -152,11 +196,14 @@ private fun SectionHeader(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun AiCreateSection(
+private fun CreationSection(
     onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {}
 ) {
-    SectionHeader("AI Creation", leadingIcon = {
+    val pagerState = rememberPagerState(pageCount = { StableDiffusionMode.entries.size })
+
+    SectionHeader("Creation", leadingIcon = {
         Icon(
             tint = MaterialTheme.colorScheme.onSurface,
             imageVector = CustomIcons.Home,
@@ -164,42 +211,30 @@ private fun AiCreateSection(
         )
     })
     Spacer(Modifier.height(10.dp))
-    AiCreationModeList(
-        modifier = Modifier.fillMaxWidth(),
-        modeList = StableDiffusionMode.entries,
-        onStableDiffusionModeClicked = onStableDiffusionModeClicked
-    )
-    Spacer(Modifier.height(10.dp))
-}
-
-@Composable
-private fun AiCreationModeList(
-    modifier: Modifier = Modifier,
-    modeList: List<StableDiffusionMode>,
-    onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit
-) {
-    val lazyGridState = rememberLazyGridState()
-    LazyHorizontalGrid(
-        modifier = modifier.height(360.dp),
-        state = lazyGridState,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        rows = GridCells.Fixed(1)
-    ) {
-        items(
-            items = modeList,
-            key = { it },
-        ) { creationMode ->
-            AiCreationModeItem(
-                modifier = Modifier.width(270.dp),
-                stableDiffusionMode = creationMode,
-                onItemClicked = onStableDiffusionModeClicked
-            )
-        }
+    HorizontalPager(
+        modifier = Modifier.height(400.dp),
+        state = pagerState,
+        pageSpacing = 8.dp,
+        contentPadding = PaddingValues(horizontal = 32.dp)
+    ) { index ->
+        val pageOffset = (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
+        val size by animateFloatAsState(
+            targetValue =  1 - pageOffset.absoluteValue * 0.1f,
+            animationSpec = tween(150)
+        )
+        CreationModeItem(
+            modifier = Modifier.width(270.dp).graphicsLayer {
+                scaleX = size
+                scaleY = size
+            },
+            stableDiffusionMode = StableDiffusionMode.entries[index],
+            onItemClicked = onStableDiffusionModeClicked
+        )
     }
 }
 
 @Composable
-private fun AiCreationModeItem(
+private fun CreationModeItem(
     modifier: Modifier = Modifier,
     stableDiffusionMode: StableDiffusionMode,
     onItemClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {}
@@ -207,6 +242,7 @@ private fun AiCreationModeItem(
     Column(
         modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .clip(shape = RoundedCornerShape(20.dp))
             .background(Color.DarkGray)
             .clickable {
@@ -223,161 +259,117 @@ private fun AiCreationModeItem(
                 .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
         )
 
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(2f)
                 .padding(vertical = 5.dp, horizontal = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-                imageVector = CustomIcons.Home,
-                contentDescription = null
-            )
-            Spacer(Modifier.width(5.dp).fillMaxHeight())
             Text(
                 style = TextStyle(
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 14.sp
                 ),
                 text = stableDiffusionMode.title,
                 maxLines = 1
             )
-            Spacer(Modifier.weight(1f).fillMaxHeight())
-            IconButton(
-                onClick = {},
-                modifier = modifier
-                    .size(24.dp).weight(0.3f)
-            ) {
-                Icon(
-                    imageVector = CustomIcons.FilledFavorite,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .shadow(
-                            elevation = 1.dp,
-                            shape = CircleShape
-                        )
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = CircleShape
-                        )
-                )
-            }
-        }
 
-        Text(
-            style = TextStyle(
-                color = MaterialTheme.colorScheme.secondary,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp
-            ),
-            modifier = Modifier.fillMaxWidth()
-                .weight(1.5f)
-                .padding(vertical = 5.dp, horizontal = 10.dp),
-            text = stableDiffusionMode.explanation,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
+            Text(
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp
+                ),
+                text = stableDiffusionMode.explanation,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
 @Composable
 private fun TextToImageSection(
-    onShowcaseClicked: () -> Unit,
-    ) {
+    onSampleClicked: () -> Unit,
+) {
     SectionHeader(StableDiffusionMode.TEXT_TO_IMAGE.title, leadingIcon = {
         Icon(
             tint = MaterialTheme.colorScheme.onSurface,
             imageVector = CustomIcons.Home,
             contentDescription = null
         )
-    }, isSeeMoreEnabled = true)
-    ShowcaseList(
-        showcaseList = listOf(
-            Showcase(
-                "0",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "1",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "2",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "3",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "4",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "5",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "6",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-            Showcase(
-                "7",
-                "https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png"
-            ),
-        ),
-        onShowcaseClicked = onShowcaseClicked,
+    }, isTrailingButtonEnabled = true, trailingButtonTitle = "See more >")
+    Spacer(Modifier.height(10.dp))
+    TextToImageList(
+        textToImageSampleList = textToImageSampleList,
+        onSampleClicked = onSampleClicked,
     )
 }
 
 @Composable
-private fun ShowcaseList(
+private fun ImageToImageSection(
+    onSampleClicked: () -> Unit,
+) {
+    SectionHeader(StableDiffusionMode.IMAGE_TO_IMAGE.title, leadingIcon = {
+        Icon(
+            tint = MaterialTheme.colorScheme.onSurface,
+            imageVector = CustomIcons.Home,
+            contentDescription = null
+        )
+    }, isTrailingButtonEnabled = true, trailingButtonTitle = "See more >")
+    Spacer(Modifier.height(10.dp))
+    ImageToImageList(
+        imageToImageSampleList = imageToImageSampleList,
+        onSampleClicked = onSampleClicked,
+    )
+}
+
+@Composable
+private fun TextToImageList(
     modifier: Modifier = Modifier,
-    showcaseList: List<Showcase>,
-    onShowcaseClicked: () -> Unit,
+    textToImageSampleList: List<TextToImageSample>,
+    onSampleClicked: () -> Unit,
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
-        modifier = modifier.height(200.dp),
+        modifier = modifier.height(170.dp),
         state = lazyGridState,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         rows = GridCells.Fixed(1)
     ) {
         items(
-            items = showcaseList,
+            items = textToImageSampleList,
             key = { it.id },
-        ) { showcase ->
-            ShowcaseItem(
-                modifier = Modifier.width(150.dp),
-                showcase = showcase,
-                onItemClicked = onShowcaseClicked
+        ) { sample ->
+            TextToImageSampleItem(
+                modifier = Modifier.width(120.dp),
+                textToImageSample = sample,
+                onItemClicked = onSampleClicked
             )
         }
     }
 }
 
 @Composable
-private fun ShowcaseItem(
+private fun TextToImageSampleItem(
     modifier: Modifier = Modifier,
-    showcase: Showcase,
+    textToImageSample: TextToImageSample,
     onItemClicked: () -> Unit = {}
 ) {
+
     Box(
         modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(170.dp)
             .clickable {
                 onItemClicked()
             }
     ) {
-        AsyncImage(
-            imageUrl = showcase.imageUrl,
+        Image(
+            painterResource(textToImageSample.imageResource),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(MaterialTheme.shapes.medium),
@@ -385,4 +377,70 @@ private fun ShowcaseItem(
     }
 }
 
-data class Showcase(val id: String, val imageUrl: String)
+@Composable
+private fun ImageToImageList(
+    modifier: Modifier = Modifier,
+    imageToImageSampleList: List<ImageToImageSample>,
+    onSampleClicked: () -> Unit,
+) {
+    val lazyGridState = rememberLazyGridState()
+    LazyHorizontalGrid(
+        modifier = modifier.height(170.dp),
+        state = lazyGridState,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        rows = GridCells.Fixed(1)
+    ) {
+        items(
+            items = imageToImageSampleList,
+            key = { it.id },
+        ) { sample ->
+            ImageToImageSampleItem(
+                imageToImageSample = sample,
+                onItemClicked = onSampleClicked
+            )
+        }
+    }
+}
+
+@Composable
+private fun ImageToImageSampleItem(
+    imageToImageSample: ImageToImageSample,
+    onItemClicked: () -> Unit = {}
+) {
+    val infiniteTransition = rememberInfiniteTransition("before-after")
+    val progress by infiniteTransition.animateFloat(
+        initialValue = 0.05f,
+        targetValue = 0.95f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2500, easing = CubicBezierEasing(0.9f, 0.0f, 0.1f, 1.0f)),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "before-after"
+    )
+
+    BeforeAfterLayout(
+        modifier = Modifier.clip(RoundedCornerShape(16.dp))
+            .width(120.dp).height(170.dp),
+        progress = { progress },
+        beforeLayout = {
+            Image(
+                modifier = Modifier.fillMaxSize().graphicsLayer(
+                    scaleX = 1 + progress * 0.18f,
+                    scaleY = 1 + progress * 0.18f
+                ),
+                painter = painterResource(imageToImageSample.originalImageResource),
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+
+        },
+        afterLayout = {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(imageToImageSample.generatedImageResource),
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
+        }
+    )
+}

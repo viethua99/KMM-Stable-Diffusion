@@ -6,29 +6,42 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 
 /**
  * Light theme color scheme
  */
-val LightColorScheme = lightColorScheme(
-    primary = Blue800,
-    onPrimary = White50,
-    secondary = White50,
-    onSecondary = Grey300,
-    surface = White50,
-    onSurface = Black900,
+private val LightColorScheme = lightColorScheme(
+    primary = Blue400,
+    secondary = Green400,
+    tertiary = Blue400,
+    background = Color.White,
+    surface = LightGray400,
+    surfaceVariant = Gray400,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Black,
+    onSurface = Black,
+    onSurfaceVariant = DarkGray400,
+    outline = LightGray400
 )
 
 /**
  * Dark theme color scheme
  */
-val DarkColorScheme = darkColorScheme(
-    primary = Blue600,
-    onPrimary = White300,
-    secondary = White50,
-    onSecondary = Grey300,
-    surface = Black900,
-    onSurface = White300,
+private val DarkColorScheme = darkColorScheme(
+    primary = Blue400,
+    secondary = Green400,
+    tertiary = Blue400,
+    background = Black,
+    surface = DarkGray400,
+    surfaceVariant = Gray400,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
+    onSurfaceVariant = LightGray400,
+    outline = LightGray400
 )
 
 /**
@@ -44,20 +57,10 @@ fun StableDiffusionAppTheme(
     // Color scheme
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
-    // Background theme
-    val backgroundTheme = BackgroundTheme(color = colorScheme.surface)
-
-    val tintTheme = TintTheme()
-
     // Composition locals
-    CompositionLocalProvider(
-        LocalBackgroundTheme provides backgroundTheme,
-        LocalTintTheme provides tintTheme,
-    ) {
-        MaterialTheme(
-            colorScheme = colorScheme,
-            typography = StableDiffusionAppTypography,
-            content = content,
-        )
-    }
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = StableDiffusionAppTypography,
+        content = content,
+    )
 }

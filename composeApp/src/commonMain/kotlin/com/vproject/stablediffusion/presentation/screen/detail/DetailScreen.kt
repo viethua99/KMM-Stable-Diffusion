@@ -1,20 +1,33 @@
 package com.vproject.stablediffusion.presentation.screen.detail
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,35 +36,80 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.presentation.component.AsyncImage
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
+import dev.icerock.moko.resources.compose.painterResource
 
-class DetailScreen : Screen {
+class DetailScreen(private val prompt: String, private val styleId: String, private val canvasId: String) : Screen {
     @Composable
     override fun Content() {
         val screenModel: DetailModel = getScreenModel()
+        val detailUiState by screenModel.state.collectAsState()
+        val localNavigator = LocalNavigator.current
 
-        DetailContent()
+        LaunchedEffect(Unit) {
+            screenModel.generateImage(prompt, styleId, canvasId)
+        }
+
+        DetailContent(
+            detailUiState
+        )
     }
 }
 
 @Composable
-private fun DetailContent() {
+private fun DetailContent(
+    detailUiState: DetailUiState,
+) {
+    when (detailUiState) {
+        DetailUiState.Initial -> {
+            // TODO
+        }
+        DetailUiState.Loading -> {
+            LoadingContent()
+        }
+        is DetailUiState.Success -> {
+            ResultContent(detailUiState)
+        }
+        is DetailUiState.Error -> {
+            Text(detailUiState.message)
+        }
+    }
+}
+
+@Composable
+private fun LoadingContent(modifier: Modifier = Modifier, onBackClick: () -> Unit = {}) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(modifier = Modifier.size(25.dp)) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center),
+                color = MaterialTheme.colorScheme.primary)
+        }
+        Text("Generating...")
+    }
+}
+
+@Composable
+private fun ResultContent(uiState: DetailUiState.Success, onBackClick: () -> Unit = {}) {
     Column(modifier = Modifier) {
         ResultTopAppBar(onBackClick = {})
         Column(
-            Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 80.dp)
+            Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 40.dp)
         ) {
             Column(Modifier.weight(1f)) {
-                ResultImage("https://pub-3626123a908346a7a8be8d9295f44e26.r2.dev/generations/8c253dc9-0bb0-4dd9-adec-f0223fc5299a-0.png")
-                ResultStyleRow(text = "Hello")
-                ResultPromptRow(content = "Hello")
+                ResultImage(uiState.imageBitmap)
+                ResultStyleRow(text = uiState.styleName)
+                ResultPromptRow(content = uiState.prompt)
             }
-            ResultButtonRow(onDownloadClick = {
-
-            })
+//            ResultButtonRow(onDownloadClick = {
+//
+//            })
         }
     }
 }
@@ -66,14 +124,15 @@ private fun ResultTopAppBar(modifier: Modifier = Modifier, onBackClick: () -> Un
 }
 
 @Composable
-private fun ResultImage(imageUrl: String) {
-    AsyncImage(
+private fun ResultImage(imageBitMap: ImageBitmap) {
+    Image(
         modifier = Modifier
-            .height(450.dp)
             .fillMaxWidth()
+            .height(450.dp)
             .clip(shape = MaterialTheme.shapes.medium),
-        imageUrl = imageUrl,
-        contentDescription = null
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        bitmap = imageBitMap
     )
 }
 

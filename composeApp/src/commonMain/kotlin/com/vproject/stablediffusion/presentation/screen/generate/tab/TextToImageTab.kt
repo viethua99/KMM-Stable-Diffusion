@@ -24,8 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vproject.stablediffusion.SharedRes
-import com.vproject.stablediffusion.model.Style
+import com.vproject.stablediffusion.model.CanvasPreset
+import com.vproject.stablediffusion.model.StylePreset
 import com.vproject.stablediffusion.presentation.component.CanvasList
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
 import com.vproject.stablediffusion.presentation.component.CustomIcons
@@ -35,75 +35,11 @@ import com.vproject.stablediffusion.presentation.component.StyleList
 
 @Composable
 fun TextToImageTab(
-    onDrawingClicked: () -> Unit = {}
+    onDrawClicked: (prompt: String, styleId: String, canvasId: String) -> Unit = {_ , _, _ -> }
 ) {
-    val styleList = listOf(
-        Style(
-            "2",
-            "Anime", SharedRes.images.img_style_anime,
-            "anime artwork, anime style, key visual, vibrant, studio anime, highly detailed",
-            "photo, deformed, black and white, realism, disfigured, low contrast"
-        ),
-        Style(
-            "3",
-            "Photography",
-            SharedRes.images.img_style_photography,
-            "cinematic photo . 35mm photograph, film, bokeh, professional, 4k, highly detailed",
-            "drawing, painting, crayon, sketch, graphite, impressionist, noisy, blurry, soft, deformed, ugly"
-        ),
-        Style(
-            "4",
-            "NSFW",
-            SharedRes.images.img_style_nsfw,
-            "nudity content, nsfw, boobs, sex, body, thick",
-            ""
-        ),
-        Style(
-            "5",
-            "Fantasy Art",
-            SharedRes.images.img_style_fantasy_art,
-            "ethereal fantasy concept art of. magnificent, celestial, ethereal, painterly, epic, majestic, magical, fantasy art, cover art, dreamy",
-            "photographic, realistic, realism, 35mm film, dslr, cropped, frame, text, deformed, glitch, noise, noisy, off-center, deformed, cross-eyed, closed eyes, bad anatomy, ugly, disfigured, sloppy, duplicate, mutated, black and white"
-        ),
-        Style(
-            "6",
-            "Concept Art",
-            SharedRes.images.img_style_concept_art,
-            "concept art. digital artwork, illustrative, painterly, matte painting, highly detailed",
-            "photo, photorealistic, realism, ugly"
-        ),
-        Style(
-            "7",
-            "Isometric",
-            SharedRes.images.img_style_isometric,
-            "isometric style . vibrant, beautiful, crisp, detailed, ultra detailed, intricate",
-            "deformed, mutated, ugly, disfigured, blur, blurry, noise, noisy, realistic, photographic"
-        ),
-        Style(
-            "8",
-            "Cyberpunk",
-            SharedRes.images.img_style_cyberpunk,
-            "vaporwave synthwave style . cyberpunk, neon, vibes, stunningly beautiful, crisp, detailed, sleek, ultramodern, high contrast, cinematic composition",
-            "illustration, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured"
-        ),
-        Style(
-            "9",
-            "Claymation",
-            SharedRes.images.img_style_claymation,
-            "claymation style. sculpture, clay art, centered composition, play-doh",
-            "sloppy, messy, grainy, highly detailed, ultra textured, photo, mutated"
-        ),
-        Style(
-            "10",
-            "Low Poly",
-            SharedRes.images.img_style_low_poly,
-            "clow-poly style. ambient occlusion, low-poly game art, polygon mesh, jagged, blocky, wireframe edges, centered composition",
-            "noisy, sloppy, messy, grainy, highly detailed, ultra textured, photo"
-        ),
-    )
-
     var promptValue by remember { mutableStateOf("") }
-    var selectedStyleId by remember { mutableStateOf("1") }
+    var selectedStyleId by remember { mutableStateOf(StylePreset.entries[0].id) }
+    var selectedCanvasId by remember { mutableStateOf(CanvasPreset.entries[0].id) }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -114,7 +50,7 @@ fun TextToImageTab(
         ) {
             StepSectionHeader("Enter Prompts", 1)
             Spacer(Modifier.height(10.dp))
-            UploadImageCard(
+            EnterPromptCard(
                 value = promptValue,
                 onValueChange = { promptValue = it },
                 onClearContentClick = { promptValue = "" }
@@ -125,33 +61,32 @@ fun TextToImageTab(
             Spacer(Modifier.height(10.dp))
             StyleList(
                 modifier = Modifier.fillMaxWidth(),
-                styleList = styleList,
+                styleList = StylePreset.entries.toList(),
                 selectedStyleId = selectedStyleId,
                 onStyleSelected = { styleId -> selectedStyleId = styleId }
             )
-            Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(5.dp))
             StepSectionHeader("Choose Canvas", 3)
-            Spacer(Modifier.height(10.dp))
             CanvasList(
                 modifier = Modifier.fillMaxWidth(),
-                styleList = styleList,
-                selectedStyleId = selectedStyleId,
-                onStyleSelected = { styleId -> selectedStyleId = styleId }
+                canvasList = CanvasPreset.entries.toList(),
+                selectedCanvasId = selectedCanvasId,
+                onCanvasSelected = { canvasId -> selectedCanvasId = canvasId }
             )
             Spacer(Modifier.height(80.dp))
         }
 
         DrawingButton(
             modifier = Modifier.align(Alignment.BottomCenter)
-                .padding(start = 30.dp, end = 30.dp, bottom = 40.dp),
+                .padding(start = 30.dp, end = 30.dp, bottom = 30.dp),
             enabled = promptValue.isNotEmpty() && selectedStyleId.isNotEmpty(),
-            onClick = { onDrawingClicked() }
+            onClick = { onDrawClicked(promptValue, selectedStyleId, selectedCanvasId ) }
         )
     }
 }
 
 @Composable
-private fun UploadImageCard(
+private fun EnterPromptCard(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
@@ -163,7 +98,6 @@ private fun UploadImageCard(
         textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp),
         value = value,
         hint = "Describe your thoughts",
-        subHint = "Any detail of your image",
         leadingIcon = {
             Icon(
                 tint = MaterialTheme.colorScheme.primary,
@@ -195,7 +129,7 @@ private fun DrawingButton(modifier: Modifier = Modifier, enabled: Boolean, onCli
         enabled = enabled,
         text = {
             Text(
-                text = "Start Drawing",
+                text = "Draw",
                 style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
             )
         }
