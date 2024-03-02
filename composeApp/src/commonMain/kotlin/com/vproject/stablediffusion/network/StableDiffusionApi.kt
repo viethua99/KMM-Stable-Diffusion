@@ -15,4 +15,14 @@ interface StableDiffusionApi {
      * @return text to image response body.
      */
     suspend fun postTextToImage(prompt: String, stylePreset: String): TextToImageResponse
+
+    /**
+     * Method to request generates and returns an image from an original image API.
+     *
+     * @param prompt Text prompt with description of the things you want in the image to be generated.
+     * @param stylePreset The selected style preset.
+     *
+     * @return text to image response body.
+     */
+     suspend fun postImageToImage(prompt: String, stylePreset: String): TextToImageResponse
 }

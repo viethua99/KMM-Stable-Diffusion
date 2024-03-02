@@ -44,7 +44,7 @@ fun TextToImageTab(
     Box(modifier = Modifier.fillMaxSize()) {
 
         Column(
-            Modifier.padding(horizontal = 10.dp, vertical = 10.dp).verticalScroll(
+            Modifier.padding(horizontal = 12.dp, vertical = 10.dp).verticalScroll(
                 rememberScrollState()
             )
         ) {
@@ -65,7 +65,6 @@ fun TextToImageTab(
                 selectedStyleId = selectedStyleId,
                 onStyleSelected = { styleId -> selectedStyleId = styleId }
             )
-            Spacer(Modifier.height(5.dp))
             StepSectionHeader("Choose Canvas", 3)
             CanvasList(
                 modifier = Modifier.fillMaxWidth(),
@@ -95,12 +94,12 @@ private fun EnterPromptCard(
 ) {
     CustomTextField(
         onValueChange = onValueChange,
-        textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp),
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 10.sp),
         value = value,
-        hint = "Describe your thoughts",
+        hint = "Enter Prompt (You can try to use descriptive statements)",
         leadingIcon = {
             Icon(
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onSecondary,
                 imageVector = CustomIcons.DefaultHistory,
                 contentDescription = null,
             )
@@ -109,7 +108,7 @@ private fun EnterPromptCard(
             if (value.isNotEmpty()) {
                 Icon(
                     modifier = Modifier.clickable { onClearContentClick() },
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSecondary,
                     imageVector = CustomIcons.DefaultClose,
                     contentDescription = null
                 )
@@ -130,7 +129,7 @@ private fun DrawingButton(modifier: Modifier = Modifier, enabled: Boolean, onCli
         text = {
             Text(
                 text = "Draw",
-                style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
+                style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 16.sp),
             )
         }
     )

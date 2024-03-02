@@ -12,5 +12,16 @@ interface ImageRepository {
      *
      * @return generated image information.
      */
-    suspend fun generateImage(prompt: String, styleId: String, canvasId: String): Result<GeneratedImageInfo>
+    suspend fun generateImageFromText(prompt: String, styleId: String, canvasId: String): Result<GeneratedImageInfo>
+
+    /**
+     * Method to request generating images from original image information.
+     *
+     * @param prompt Prompt content that need to generate.
+     * @param styleId The selected style preset.
+     * @param canvasId The selected canvas preset.
+     *
+     * @return generated image information.
+     */
+     suspend fun generateImageFromImage(prompt: String, styleId: String, canvasId: String): Result<GeneratedImageInfo>
 }

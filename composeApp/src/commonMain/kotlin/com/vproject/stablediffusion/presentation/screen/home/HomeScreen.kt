@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -31,10 +32,12 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -46,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -68,7 +72,6 @@ import com.vproject.stablediffusion.presentation.component.BeforeAfterLayout
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateScreen
-import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
 import dev.icerock.moko.resources.compose.painterResource
 import kotlin.math.absoluteValue
 
@@ -89,7 +92,7 @@ object HomeTab : Tab {
     @Composable
     override fun Content() {
         val parentNavigator = LocalNavigator.current?.parent
-        val screenModel = getScreenModel<RecentModel>()
+        val screenModel = getScreenModel<HomeModel>()
         HomeContent(
             onStableDiffusionModeClicked = { stableDiffusionMode ->
                 if (stableDiffusionMode != StableDiffusionMode.AI_INPAINT) {
@@ -108,11 +111,11 @@ private fun HomeContent(
     onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {},
     onSampleClicked: () -> Unit = {},
 ) {
-    Column {
+    Column(modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp)) {
         HomeSearch()
+        Spacer(modifier = Modifier.height(10.dp))
         Column(
-            modifier = Modifier.padding(10.dp)
-                .verticalScroll(rememberScrollState()),
+            modifier = Modifier.verticalScroll(rememberScrollState()),
         ) {
             CreationSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
             Spacer(modifier = Modifier.height(10.dp))
@@ -125,33 +128,63 @@ private fun HomeContent(
 
 @Composable
 private fun HomeSearch() {
-    val containerColor = MaterialTheme.colorScheme.surface.copy(alpha = .2f)
-    TextField(
-        value = "",
-        onValueChange = { },
-        placeholder = { Text(text = "Popular Searches: Dragon Year") },
-        leadingIcon = {
-            IconButton(onClick = {}) {
-                Icon(CustomIcons.Search, contentDescription = "Popular Search")
+    Row(
+        modifier = Modifier.fillMaxWidth().height(40.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BasicTextField(modifier = Modifier
+            .background(
+                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = .2f),
+                MaterialTheme.shapes.small,
+            )
+            .weight(1f)
+            .fillMaxHeight(),
+            value = "",
+            onValueChange = {
+
+            },
+            singleLine = true,
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+            textStyle = LocalTextStyle.current.copy(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 10.sp
+            ),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        imageVector = CustomIcons.Search,
+                        contentDescription = "Popular Search"
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Box(Modifier.weight(1f)) {
+                        if ("".isEmpty()) {
+                            Text(
+                                modifier = Modifier,
+                                text = "Popular Searches: Dragon Year",
+                                style = TextStyle(
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    fontWeight = FontWeight.Light,
+                                    fontSize = 12.sp
+                                ),
+                            )
+                        }
+                        innerTextField()
+                    }
+                }
             }
-        },
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = containerColor,
-            unfocusedContainerColor = containerColor,
-            disabledContainerColor = containerColor,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedLeadingIconColor = MaterialTheme.colorScheme.surface,
-            unfocusedLeadingIconColor = MaterialTheme.colorScheme.surface,
-            focusedPlaceholderColor = MaterialTheme.colorScheme.surface,
-            unfocusedPlaceholderColor = MaterialTheme.colorScheme.surface,
-        ),
-        shape = MaterialTheme.shapes.small,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-    )
+        )
+
+        Icon(
+            modifier = Modifier.size(30.dp).padding(start = 8.dp),
+            painter = painterResource(SharedRes.images.ic_dark_mode),
+            contentDescription = "actionIconContentDescription",
+            tint = MaterialTheme.colorScheme.primary,
+        )
+    }
 }
 
 @Composable
@@ -167,14 +200,14 @@ private fun SectionHeader(
             nonNullLeadingIcon()
         }
 
-        val leadingIconStartPadding = if (leadingIcon != null) ButtonDefaults.IconSpacing else 0.dp
+        val leadingIconStartPadding = if (leadingIcon != null) 4.dp else 0.dp
         Box(Modifier.padding(start = leadingIconStartPadding)) {
             Text(
                 title,
                 style = TextStyle(
                     color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 ),
             )
         }
@@ -189,7 +222,7 @@ private fun SectionHeader(
                 style = TextStyle(
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Normal,
-                    fontSize = 12.sp
+                    fontSize = 10.sp
                 ),
             )
         }
@@ -203,10 +236,11 @@ private fun CreationSection(
 ) {
     val pagerState = rememberPagerState(pageCount = { StableDiffusionMode.entries.size })
 
-    SectionHeader("Creation", leadingIcon = {
+    SectionHeader("AI Creation", leadingIcon = {
         Icon(
+            modifier = Modifier.size(16.dp),
             tint = MaterialTheme.colorScheme.onSurface,
-            imageVector = CustomIcons.Home,
+            painter = painterResource(SharedRes.images.ic_ai_creation),
             contentDescription = null
         )
     })
@@ -219,7 +253,7 @@ private fun CreationSection(
     ) { index ->
         val pageOffset = (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
         val size by animateFloatAsState(
-            targetValue =  1 - pageOffset.absoluteValue * 0.1f,
+            targetValue = 1 - pageOffset.absoluteValue * 0.1f,
             animationSpec = tween(150)
         )
         CreationModeItem(
@@ -244,20 +278,62 @@ private fun CreationModeItem(
             .fillMaxWidth()
             .fillMaxHeight()
             .clip(shape = RoundedCornerShape(20.dp))
-            .background(Color.DarkGray)
+            .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f))
             .clickable {
                 onItemClicked(stableDiffusionMode)
             }
     ) {
-        Image(
-            painterResource(stableDiffusionMode.imageResource),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(8f)
-                .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
-        )
+        if (stableDiffusionMode == StableDiffusionMode.IMAGE_TO_IMAGE) {
+            val infiniteTransition = rememberInfiniteTransition("image-to-image")
+            val progress by infiniteTransition.animateFloat(
+                initialValue = 0.05f,
+                targetValue = 0.95f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(2500, easing = CubicBezierEasing(0.9f, 0.0f, 0.1f, 1.0f)),
+                    repeatMode = RepeatMode.Reverse
+                ),
+                label = "image-to-image"
+            )
+            BeforeAfterLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(8f)
+                    .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
+                progress = { progress },
+                beforeLayout = {
+                    Image(
+                        modifier = Modifier.fillMaxSize().graphicsLayer(
+                            scaleX = 1 + progress * 0.18f,
+                            scaleY = 1 + progress * 0.18f
+                        ),
+                        painter = painterResource(stableDiffusionMode.beforeImageResource),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+
+                },
+                afterLayout = {
+                    stableDiffusionMode.afterImageResource?.let { nonNullImageResource ->
+                        Image(
+                            modifier = Modifier.fillMaxSize(),
+                            painter = painterResource(nonNullImageResource),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
+            )
+        } else {
+            Image(
+                painterResource(stableDiffusionMode.beforeImageResource),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(8f)
+                    .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)),
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -295,8 +371,9 @@ private fun TextToImageSection(
 ) {
     SectionHeader(StableDiffusionMode.TEXT_TO_IMAGE.title, leadingIcon = {
         Icon(
+            modifier = Modifier.size(16.dp),
             tint = MaterialTheme.colorScheme.onSurface,
-            imageVector = CustomIcons.Home,
+            painter = painterResource(SharedRes.images.ic_tti),
             contentDescription = null
         )
     }, isTrailingButtonEnabled = true, trailingButtonTitle = "See more >")
@@ -313,8 +390,9 @@ private fun ImageToImageSection(
 ) {
     SectionHeader(StableDiffusionMode.IMAGE_TO_IMAGE.title, leadingIcon = {
         Icon(
+            modifier = Modifier.size(16.dp),
             tint = MaterialTheme.colorScheme.onSurface,
-            imageVector = CustomIcons.Home,
+            painter = painterResource(SharedRes.images.ic_iti),
             contentDescription = null
         )
     }, isTrailingButtonEnabled = true, trailingButtonTitle = "See more >")

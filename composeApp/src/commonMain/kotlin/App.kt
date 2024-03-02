@@ -3,6 +3,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
@@ -23,7 +28,7 @@ import com.vproject.stablediffusion.presentation.component.StableDiffusionAppBac
 import com.vproject.stablediffusion.presentation.component.StableDiffusionNavigationBar
 import com.vproject.stablediffusion.presentation.component.StableDiffusionNavigationBarItem
 import com.vproject.stablediffusion.presentation.component.theme.StableDiffusionAppTheme
-import com.vproject.stablediffusion.presentation.screen.recent.RecentTab
+import com.vproject.stablediffusion.presentation.screen.project.ProjectTab
 import com.vproject.stablediffusion.presentation.screen.home.HomeTab
 
 @Composable
@@ -37,7 +42,7 @@ fun App() {
 }
 
 private class MainTabContainer : Screen {
-    val tabs = listOf(HomeTab, RecentTab)
+    val tabs = listOf(HomeTab, ProjectTab)
 
     @OptIn(ExperimentalVoyagerApi::class)
     @Composable
@@ -75,19 +80,18 @@ private fun StableDiffusionBottomBar(
     tabs: List<Tab>
 ) {
     StableDiffusionNavigationBar(
-        modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant),
+        modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)),
     ) {
         tabs.forEach { tab ->
             val tabNavigator = LocalTabNavigator.current
             val selected = tabNavigator.current.key == tab.key
             StableDiffusionNavigationBarItem(
+                title = tab.options.title,
                 selected = selected,
-                onClick = { tabNavigator.current = tab  },
-                icon = {
-                    Icon(painter = tab.options.icon!!, contentDescription = tab.options.title)
+                onClick = { tabNavigator.current = tab },
+                icon = tab.options.icon!!)
 
-                },
-                label = { Text(tab.options.title) })
+
         }
     }
 }

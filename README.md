@@ -20,43 +20,50 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-## Download
+## 💡 Download
 Go to the [Releases](https://github.com/viethua99/KMP-Stable-Diffusion/releases) to download the latest APK version.
 
-## Features
+## ️🎏 Features
 
-- Type in your prompt and start generating images.
-- Multiple styles to customize your images.
-> 🔞 **There is a style call [NSFW] (Not Safe For Work) that exposes nudity content. Please make sure you are older than 18 to use** 🔞
-- Support Light / Dark mode.
-- You are able to download the generated images.
-- Support 2 languages (English and Vietnamese).
+| Text To Image                                                 | Image To Image | AI Inpainting |
+|---------------------------------------------------------------|----------------|---------------|
+| <img width="320" src="docs/images/android_tti_feature.gif" /> | Coming soon    | Coming soon   | 
 
-## Showcase
+## 👀 Screenshots
 ### Android
 
-| <img width="240" src="docs/images/android_showcase_1.png" /> | <img width="240" src="docs/images/android_showcase_2.png" /> | <img width="240" src="docs/images/android_showcase_3.gif" /> |
-|--------------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|
+| <img width="320" src="docs/images/android_screenshot_1.png" /> | <img width="320" src="docs/images/android_screenshot_2.png" /> | <img width="320" src="docs/images/android_screenshot_3.png" /> | <img width="320" src="docs/images/android_screenshot_4.png" /> |
+|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|
 ### iOS
 
-| <img width="240" src="docs/images/ios_showcase_1.png" /> | <img width="240" src="docs/images/ios_showcase_2.png" /> | <img width="240" src="docs/images/ios_showcase_3.png" /> |
-|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-### Desktop
-<img src="docs/images/desktop_showcase_1.png" />
+| Comingsoon | Comingsoon  | Comingsoon |
+|------------|-------------|------------|
 
-## Setup
-### Stable Diffusion API
-<img src="https://media.licdn.com/dms/image/C560BAQHKCfkGo3NAFg/company-logo_200_200/0/1674489509554?e=2147483647&v=beta&t=gQQAyRwXUtoKjaxepavRkBsaxjY0L-qcXc9o-eykCYI" align="right" width="12%"/>
+## Support Styles:
 
-KMP-Stable-Diffusion using the [Stable Diffusion API](https://stablediffusionapi.com/) for constructing RESTful API.<br>
-StableDiffusionAPI provides a RESTful API interface to highly detailed objects built from thousands of lines of data related to text to images.
+| Style        | Sample                                                                        | Style        | Sample                                                                         |
+|--------------|-------------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------|
+| Anime        | <img width="120" height="120" src="docs/images/img_style_anime.png" />        | Origami      | <img width="120" height="120" src="docs/images/img_style_origami.png" />       |
+| 3D Model     | <img width="120" height="120" src="docs/images/img_style_model3d.png" />      | Line Art     | <img width="120" height="120" src="docs/images/img_style_line_art.png" />      |
+| Photographic | <img width="120" height="120" src="docs/images/img_style_photographic.png" /> | Analog Film  | <img width="120" height="120" src="docs/images/img_style_analog_film.png" />   |
+| Comic Book   | <img width="120" height="120" src="docs/images/img_style_comic_book.png" />   | Cinematic    | <img width="120" height="120" src="docs/images/img_style_cinematic.png" />     |
+| Pixel Art    | <img width="120" height="120" src="docs/images/img_style_pixel_art.png" />    | Isometric    | <img width="120" height="120" src="docs/images/img_style_isometric.png" />     |
+| Neon Punk    | <img width="120" height="120" src="docs/images/img_style_neon_punk.png" />    | Low Poly     | <img width="120" height="120" src="docs/images/img_style_low_poly.png" />      |
+| Fantasy Art  | <img width="120" height="120" src="docs/images/img_style_fantasy_art.png" />  | Tile Texture | <img width="120" height="120"  src="docs/images/img_style_tile_texture.png" /> |
+| Digital Art  | <img width="120" height="120" src="docs/images/img_style_digital_art.png" />  |
 
-Step 1: Create an account and generate an API key at [Stable Diffusion API Key](https://stablediffusionapi.com/dashboard/apikeys)
+## 🛠 Setup
+### Stability AI
+<img src="docs/images/img_stabilityai_logo.png" align="right" width="12%"/>
 
-Step 2: Paste the API key to your project `gradle.properties` file:
+This project using the [Stability AI API](https://stability.ai/) for constructing RESTful API. Stability AI provides a RESTful API interface to highly detailed objects built from thousands of lines of data related to text to images.
+
+- Step 1: Create an account and generate an API key at [Stability AI](https://platform.stability.ai/docs/getting-started)
+
+- Step 2: Paste the API key to your project `gradle.properties` file:
 <pre><code class="lang-groovy">STABLE_DIFFUSION_API_KEY=YOUR_API_KEY_HERE</code></pre>
 
-Step 3: Sync project and run your app
+- Step 3: Sync project and run your app
 ### Android
 Select `composeApp` configuration and run the project.
 <img width="120" src="docs/images/composeapp-run.png" />
@@ -65,30 +72,57 @@ Select `composeApp` configuration and run the project.
 Select `iOSApp` configuration and run the project.
 <img width="120" src="docs/images/iosapp-run.png" />
 
-### Desktop
-On your terminal, run this command to open:
-<pre><code class="lang-groovy">./gradlew :app-desktop:run</code></pre>
-
-## Technical Dependencies
+## 📂 Technical Dependencies
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
 - [Composable Multiplatform](https://jb.gg/compose) for building common UI. It simplifies and accelerates UI development on Android, iOS and Desktop.
 - [Koin](https://insert-koin.io/) for dependency injection.
-- [Ktor & Kotlin Serialization](https://ktor.io/)for constructing the REST APIs and paging network data.
-- [Kamel](https://github.com/Kamel-Media/Kamel) for loading images from network.
+- [Moko Resources](https://github.com/adrielcafe/voyager) for multiplatform string and images resources.
+- [Ktor & Kotlin Serialization](https://ktor.io/) for constructing the REST APIs and paging network data.
+- [SqlDelight](https://cashapp.github.io/sqldelight/2.0.1/) for local database.
 - [Voyager](https://github.com/adrielcafe/voyager) for navigation and screen models.
 
-- Architecture:
-  - MVVM Architecture (View - ViewModel - Model)
-  - Repository Pattern
 
-## Modularization
-KMP-Stable-Diffusion also has another version which is based on Android Modularization concept and architecture to develop. Please check out [compose-modularization](https://github.com/viethua99/KMP-Stable-Diffusion/tree/compose-modularization) branch for more details.
+## 📐 Project Structure
+### Common Structure
+```
+├── composeApp
+│   ├── androidMain
+│   ├── commonMain
+│   │   ├── kotlin/com/vproject/stablediffusion
+│   │   │   ├── database
+│   │   │   │   ├── dao                                      <––– Data Access Object (DAOs)
+│   │   │   │   └── ...
+│   │   │   ├── di                                           <––– Koin Depedenency Injection package
+│   │   │   ├── model
+│   │   │   ├── network
+│   │   │   │    ├── StableDiffusionApi.kt                   <––– RESTFul APIs
+│   │   │   │    └── ...
+│   │   │   ├── presentation
+│   │   │   │   ├── component
+│   │   │   │   ├── screen
+│   │   │   │   │   ├── generate                             <––– Generate Screen package
+│   │   │   │   │   │   ├── GenerateScreen.kt                <––– Composable Generate Screen UIs
+│   │   │   │   │   │   ├── GenerateModel.kt                 <––– Generate Screen View Model
+│   │   │   │   │   │   └── GenerateUiState.kt               <––– Generate Sealed class UI State
+│   │   │   │   │   └── ...
+│   │   │   ├── repository
+│   │   │   │   ├── ImageRepository.kt                       <––– Image repository to send requests
+│   │   │   │   └── ...
+│   │   │   └── util
+│   │   ├── resources                                        <––– Moko Resources to store local images and strings
+│   │   └── sqldelight/com/vproject/stablediffusion          <––– Local database entities
+│   ├── desktopMain
+│   └── iosMain
+└── ...
+```
+### System Design
+![System Design](docs/images/system-design.png)
 
-## Find this repository useful? :heart:
+## 😍 Find this repository useful?
 Support it by joining __[stargazers](https://github.com/viethua99/KMP-Stable-Diffusion/stargazers)__ for this repository. :star: <br>
 Also, __[follow me](https://github.com/viethua99)__ on GitHub for my next creations! 🤩
 
-## License
+## 🔓 License
 
 **KMP-Stable-Diffusion** is distributed under the terms of the Apache License (Version 2.0). See the
 [license](LICENSE) for more information.
