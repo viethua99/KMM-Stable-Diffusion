@@ -15,7 +15,7 @@ class DetailModel(private val imageRepository: ImageRepository) :
     @OptIn(ExperimentalEncodingApi::class)
     fun generateImage(prompt: String, styleId: String, canvasId: String) = screenModelScope.launch {
         mutableState.value = DetailUiState.Loading
-        imageRepository.generateImage(prompt, styleId, canvasId)
+        imageRepository.generateImageFromText(prompt, styleId, canvasId)
             .onSuccess { generatedImageInfo ->
                 val decodedImage = Base64.Default.decode(generatedImageInfo.base64)
                 val imageBitmap = imageBitmapFromBytes(decodedImage)
@@ -23,8 +23,8 @@ class DetailModel(private val imageRepository: ImageRepository) :
                     imageBitmap,
                     prompt,
                     StylePreset.entries.find { it.id == styleId }?.displayName ?: "",
-                    CanvasPreset.entries.find { it.id == canvasId }?.name ?: "",
-                    )
+                    CanvasPreset.entries.find { it.id == canvasId }?.id ?: "",
+                )
             }
             .onFailure {
                 mutableState.value = DetailUiState.Error(it.message ?: "Unknown error")

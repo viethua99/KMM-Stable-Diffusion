@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -65,10 +67,11 @@ fun CustomTextField(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Done
         ),
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         decorationBox = { innerTextField ->
             Box(
                 modifier = modifier
-                    .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(10))
+                    .clip(RoundedCornerShape(10.dp))
                     .height(CustomTextFieldDefaults.Height)
                     .background(MaterialTheme.colorScheme.surface)
                     .padding(
@@ -80,7 +83,7 @@ fun CustomTextField(
             ) {
                 if (value.isEmpty()) {
                     val hintStyle = SpanStyle(
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Light,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontSize = CustomTextFieldDefaults.MainHintFontSize
                     )
@@ -175,11 +178,11 @@ private fun CustomTextFieldCornerIcons(
  */
 private object CustomTextFieldDefaults {
     val Height = 100.dp
-    val InnerTopPadding = 16.dp
-    val InnerHorizontalPadding = 16.dp
+    val InnerTopPadding = 10.dp
+    val InnerHorizontalPadding = 10.dp
     val InnerBottomPadding = 10.dp
-    val CornerIconsTopPadding = 16.dp
-    val MainHintFontSize = 14.sp
+    val CornerIconsTopPadding = 12.dp
+    val MainHintFontSize = 10.sp
     val SubHintFontSize = 12.sp
     const val InnerContentWeight = 7f
     const val CornerIconsWeight = 3f

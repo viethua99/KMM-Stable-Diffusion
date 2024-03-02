@@ -1,7 +1,32 @@
 package com.vproject.stablediffusion.model
 
+import androidx.compose.ui.graphics.ImageBitmap
 import com.vproject.stablediffusion.SharedRes
 import dev.icerock.moko.resources.ImageResource
+
+sealed class TestSample(
+    open val id: Int,
+    open val prompt: String,
+    open val stylePreset: StylePreset,
+    open val canvasPreset: CanvasPreset
+) {
+    data class TextToImageSample(
+        override val id: Int,
+        override val prompt: String,
+        override val stylePreset: StylePreset,
+        override val canvasPreset: CanvasPreset,
+        val imageResource: ImageBitmap,
+    ) : TestSample(id, prompt, stylePreset, canvasPreset)
+
+    data class ImageToImageSample(
+        override val id: Int,
+        override val prompt: String,
+        override val stylePreset: StylePreset,
+        override val canvasPreset: CanvasPreset,
+        val beforeImageResource: ImageBitmap,
+        val afterImageResource: ImageBitmap
+    ) : TestSample(id, prompt, stylePreset, canvasPreset)
+}
 
 data class ImageToImageSample(
     val id: Int,
@@ -71,14 +96,6 @@ val imageToImageSampleList = listOf(
     ),
     ImageToImageSample(
         7,
-        "colorize, masterpiece, detail, outstanding, 1girl",
-        StylePreset.ANIME,
-        CanvasPreset.THREE_FOUR,
-        SharedRes.images.img_iti_sample8_before,
-        SharedRes.images.img_iti_sample8_after,
-    ),
-    ImageToImageSample(
-        8,
         "colorize, masterpiece, detail, outstanding, 1dog, super angry, barking",
         StylePreset.PIXEL_ART,
         CanvasPreset.THREE_FOUR,

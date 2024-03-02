@@ -34,13 +34,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.CanvasPreset
 import com.vproject.stablediffusion.model.StylePreset
 import com.vproject.stablediffusion.presentation.component.CanvasList
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
 import com.vproject.stablediffusion.presentation.component.CustomIcons
+import com.vproject.stablediffusion.presentation.component.CustomTextField
 import com.vproject.stablediffusion.presentation.component.StepSectionHeader
 import com.vproject.stablediffusion.presentation.component.StyleList
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun ImageToImageTab() {
@@ -48,11 +51,10 @@ fun ImageToImageTab() {
     var selectedCanvasId by remember { mutableStateOf(CanvasPreset.entries[0].id) }
 
     Box(modifier = Modifier.fillMaxSize()) {
-
         Column(
-            Modifier.padding(horizontal = 10.dp, vertical = 10.dp).verticalScroll(
-                rememberScrollState()
-            )
+            Modifier
+                .padding(horizontal = 12.dp, vertical = 10.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             StepSectionHeader("Reference Image", 1)
             Spacer(Modifier.height(10.dp))
@@ -66,13 +68,20 @@ fun ImageToImageTab() {
                 selectedStyleId = selectedStyleId,
                 onStyleSelected = { styleId -> selectedStyleId = styleId }
             )
-            Spacer(Modifier.height(5.dp))
             StepSectionHeader("Choose Canvas", 3)
             CanvasList(
                 modifier = Modifier.fillMaxWidth(),
                 canvasList = CanvasPreset.entries.toList(),
                 selectedCanvasId = selectedCanvasId,
                 onCanvasSelected = { canvasId -> selectedCanvasId = canvasId }
+            )
+
+            StepSectionHeader("Enter Prompts", 4)
+            Spacer(Modifier.height(10.dp))
+            EnterPromptCard2(
+                value = "promptValue",
+                onValueChange = { },
+                onClearContentClick = { }
             )
             Spacer(Modifier.height(80.dp))
         }
@@ -104,15 +113,15 @@ private fun EnterPromptCard(
             Icon(
                 modifier = Modifier.size(16.dp),
                 tint = MaterialTheme.colorScheme.onSurface,
-                imageVector = CustomIcons.Home,
+                painter = painterResource(SharedRes.images.ic_upload),
                 contentDescription = null
             )
             Spacer(Modifier.width(5.dp).fillMaxHeight())
             Text(
                 style = TextStyle(
-                    color = MaterialTheme.colorScheme.secondary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    color = MaterialTheme.colorScheme.onSecondary,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 ),
                 text = "UPLOAD IMAGE",
                 maxLines = 1
@@ -121,6 +130,38 @@ private fun EnterPromptCard(
     }
 }
 
+@Composable
+private fun EnterPromptCard2(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    onClearContentClick: () -> Unit
+) {
+    CustomTextField(
+        onValueChange = onValueChange,
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 10.sp),
+        value = value,
+        hint = "Enter Prompt (You can try to use descriptive statements)",
+        leadingIcon = {
+            Icon(
+                tint = MaterialTheme.colorScheme.onSecondary,
+                imageVector = CustomIcons.DefaultHistory,
+                contentDescription = null,
+            )
+        },
+        trailingIcon = {
+            if (value.isNotEmpty()) {
+                Icon(
+                    modifier = Modifier.clickable { onClearContentClick() },
+                    tint = MaterialTheme.colorScheme.onSecondary,
+                    imageVector = CustomIcons.DefaultClose,
+                    contentDescription = null
+                )
+            }
+        },
+        modifier = modifier.fillMaxWidth()
+    )
+}
 
 @Composable
 private fun DrawingButton(modifier: Modifier = Modifier, enabled: Boolean, onClick: () -> Unit) {
@@ -133,7 +174,7 @@ private fun DrawingButton(modifier: Modifier = Modifier, enabled: Boolean, onCli
         text = {
             Text(
                 text = "Draw",
-                style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp),
+                style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 16.sp),
             )
         }
     )

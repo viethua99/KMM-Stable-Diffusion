@@ -9,7 +9,7 @@ import com.vproject.stablediffusion.network.StableDiffusionApi
 import com.vproject.stablediffusion.repository.image.ImageRepositoryImpl
 import com.vproject.stablediffusion.repository.image.ImageRepository
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateModel
-import com.vproject.stablediffusion.presentation.screen.recent.RecentModel
+import com.vproject.stablediffusion.presentation.screen.project.ProjectModel
 import com.vproject.stablediffusion.presentation.screen.setting.SettingModel
 import com.vproject.stablediffusion.presentation.screen.home.HomeModel
 import com.vproject.stablediffusion.presentation.screen.detail.DetailModel
@@ -53,7 +53,7 @@ fun initKoin() = initKoin() {}
 
 fun viewModelModule() = module {
     factoryOf(::HomeModel)
-    factoryOf(::RecentModel)
+    factoryOf(::ProjectModel)
     factoryOf(::GenerateModel)
     factoryOf(::SettingModel)
     factoryOf(::DetailModel)
@@ -77,11 +77,11 @@ fun remoteModule() = module {
                 socketTimeoutMillis = 120000
             }
 
-            install(DefaultRequest) {
-                headers {
-                    append("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
-                }
-            }
+//            install(DefaultRequest) {
+//                headers {
+//                    append("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
+//                }
+//            }
         }
     }
 
