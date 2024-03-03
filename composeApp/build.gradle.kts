@@ -47,6 +47,7 @@ kotlin {
 
             // Ktor Dependencies for API network
             implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.okhttp)
 
             // Koin Dependencies for dependency injection
             implementation(libs.koin.android)

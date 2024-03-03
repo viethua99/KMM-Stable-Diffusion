@@ -163,7 +163,7 @@ private fun HomeSearch() {
                     Box(Modifier.weight(1f)) {
                         if ("".isEmpty()) {
                             Text(
-                                modifier = Modifier,
+                                modifier = Modifier.align(Alignment.CenterStart),
                                 text = "Popular Searches: Dragon Year",
                                 style = TextStyle(
                                     color = MaterialTheme.colorScheme.onSurface,
