@@ -30,16 +30,14 @@ Go to the [Releases](https://github.com/viethua99/KMP-Stable-Diffusion/releases)
 | <img width="320" src="docs/images/android_tti_feature.gif" /> | Coming soon    | Coming soon   | 
 
 ## 👀 Screenshots
-### Android
 
-| <img width="320" src="docs/images/android_screenshot_1.png" /> | <img width="320" src="docs/images/android_screenshot_2.png" /> | <img width="320" src="docs/images/android_screenshot_3.png" /> | <img width="320" src="docs/images/android_screenshot_4.png" /> |
-|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|
-### iOS
+| Platform | Home (1)                                                       | Home (2)                                                       | Generate                                                       | Detail                                                         |
+|----------|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|
+| Android  | <img width="320" src="docs/images/android_screenshot_1.png" /> | <img width="320" src="docs/images/android_screenshot_2.png" /> | <img width="320" src="docs/images/android_screenshot_3.png" /> | <img width="320" src="docs/images/android_screenshot_4.png" /> | 
+| iOS      | <img width="320" src="docs/images/ios_screenshot_1.png" />     | <img width="320" src="docs/images/ios_screenshot_2.png" />     | <img width="320" src="docs/images/ios_screenshot_3.png" />     | <img width="320" src="docs/images/ios_screenshot_4.png" />     | 
 
-| Comingsoon | Comingsoon  | Comingsoon |
-|------------|-------------|------------|
 
-## Support Styles:
+## 🎨 Support Styles
 
 | Style        | Sample                                                                        | Style        | Sample                                                                         |
 |--------------|-------------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------|
