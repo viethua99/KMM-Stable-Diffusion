@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS imageEntity (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  projectType TEXT NOT NULL,
+  originalImage BLOB,
+  generatedImage BLOB NOT NULL,
+  prompt TEXT NOT NULL,
+  styleId TEXT NOT NULL,
+  canvasId TEXT NOT NULL,
+  finishReason TEXT NOT NULL,
+  seed INTEGER NOT NULL
+);
+
+insert:
+INSERT OR REPLACE INTO imageEntity
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectImageById:
+SELECT *
+FROM imageEntity
+WHERE id = :id;
+
+selectAllGeneratedImages:
+SELECT *
+FROM imageEntity
+WHERE finishReason == "SUCCESS";

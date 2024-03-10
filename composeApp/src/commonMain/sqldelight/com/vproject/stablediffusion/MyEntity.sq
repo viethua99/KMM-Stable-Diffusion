@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS myEntity (
-  page INTEGER NOT NULL,
-  name TEXT NOT NULL PRIMARY KEY
-);
-
-insert:
-INSERT OR REPLACE INTO myEntity(page, name)
-VALUES ?;

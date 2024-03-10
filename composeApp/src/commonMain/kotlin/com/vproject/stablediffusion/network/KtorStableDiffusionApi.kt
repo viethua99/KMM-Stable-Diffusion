@@ -3,12 +3,16 @@ package com.vproject.stablediffusion.network
 import com.vproject.stablediffusion.BuildKonfig
 import com.vproject.stablediffusion.network.request.TextPrompt
 import com.vproject.stablediffusion.network.request.TextToImageRequest
-import com.vproject.stablediffusion.network.response.TextToImageResponse
+import com.vproject.stablediffusion.network.response.ImageResponse
 import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 
 /**
@@ -24,21 +28,29 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
      *
      * @param prompt Text prompt with description of the things you want in the image to be generated.
      * @param stylePreset The selected style preset.
+     * @param width width of the image
+     * @param height height of the image
      *
      * @return text to image response body.
      */
-    override suspend fun postTextToImage(prompt: String, stylePreset: String): TextToImageResponse {
+    override suspend fun postTextToImage(
+        prompt: String,
+        stylePreset: String,
+        width: Int,
+        height: Int
+    ): ImageResponse {
         return requestHandler {
             client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image") {
                 contentType(ContentType.Application.Json)
                 header("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
-
-                setBody(TextToImageRequest(
-                    text_prompts = listOf(TextPrompt(prompt, 1f)),
-                    style_preset = stylePreset,
-                    width = 1024,
-                    height = 1024
-                ))
+                setBody(
+                    TextToImageRequest(
+                        text_prompts = listOf(TextPrompt(prompt, 1f)),
+                        style_preset = stylePreset,
+                        width = width,
+                        height = height
+                    )
+                )
             }
         }
     }
@@ -51,15 +63,25 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
      *
      * @return text to image response body.
      */
-    override suspend fun postImageToImage(prompt: String, stylePreset: String): TextToImageResponse {
+    override suspend fun postImageToImage(
+        originalImage: ByteArray,
+        prompt: String,
+        stylePreset: String
+    ): ImageResponse {
         return requestHandler {
-            client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image") {
+            client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image") {
                 contentType(ContentType.Application.Json)
-                setBody(TextToImageRequest(
-                    text_prompts = listOf(TextPrompt(prompt, 1f)),
-                    style_preset = stylePreset,
-                    width = 1024,
-                    height = 1024
+                header("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
+                setBody(MultiPartFormDataContent(
+                    formData {
+                        append("init_image", originalImage, Headers.build {
+                            append(HttpHeaders.Accept, "application/json")
+                        })
+                        append("text_prompts[0][text]", prompt)
+                        append("text_prompts[0][weight]", 1)
+                        append("style_preset", stylePreset)
+                        append("image_strength", 0.45)
+                    }
                 ))
             }
         }

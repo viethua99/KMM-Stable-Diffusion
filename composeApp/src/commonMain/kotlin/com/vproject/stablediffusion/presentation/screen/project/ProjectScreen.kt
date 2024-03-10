@@ -42,6 +42,7 @@ import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.TestSample
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.beforeafter.BeforeAfterImage
+import com.vproject.stablediffusion.presentation.screen.generate.GenerateModel
 import dev.icerock.moko.resources.compose.painterResource
 
 object ProjectTab : Tab {
@@ -62,11 +63,12 @@ object ProjectTab : Tab {
     @Composable
     override fun Content() {
         val screenModel: ProjectModel = getScreenModel()
+
         val projectUiState by screenModel.state.collectAsState()
         val parentNavigator = LocalNavigator.current?.parent
 
         LaunchedEffect(Unit) {
-            screenModel.generateImage("prompt", "", "")
+            screenModel.getGeneratedImageList()
         }
 
         ProjectContent(
@@ -86,16 +88,20 @@ private fun ProjectContent(
         )
 
         when (projectUiState) {
-            ProjectUiState.Initial -> {
+            is ProjectUiState.Initial -> {
                 // TODO
             }
 
-            ProjectUiState.Loading -> {
+            is ProjectUiState.Loading -> {
 
             }
 
             is ProjectUiState.Success -> {
-                ProjectList(projectUiState)
+                if (projectUiState.projectList.isEmpty()) {
+                    Text("Your project list is empty")
+                } else {
+                    ProjectList(projectUiState)
+                }
             }
 
             is ProjectUiState.Error -> {

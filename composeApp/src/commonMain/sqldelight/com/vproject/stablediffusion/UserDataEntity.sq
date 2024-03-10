@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS userDataEntity (
+  id INTEGER PRIMARY KEY,
+  darkThemeConfig TEXT NOT NULL
+);
+
+insert:
+INSERT OR REPLACE INTO userDataEntity(id, darkThemeConfig)
+VALUES ?;
+
+selectUserDataById:
+SELECT *
+FROM userDataEntity
+WHERE id = :id;

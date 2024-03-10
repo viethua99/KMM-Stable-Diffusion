@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vproject.stablediffusion.model.CanvasPreset
+import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.model.StylePreset
 import com.vproject.stablediffusion.presentation.component.CanvasList
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
@@ -35,7 +36,7 @@ import com.vproject.stablediffusion.presentation.component.StyleList
 
 @Composable
 fun TextToImageTab(
-    onDrawClicked: (prompt: String, styleId: String, canvasId: String) -> Unit = {_ , _, _ -> }
+    onTextToImageDrawClicked: (prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _ -> },
 ) {
     var promptValue by remember { mutableStateOf("") }
     var selectedStyleId by remember { mutableStateOf(StylePreset.entries[0].id) }
@@ -50,7 +51,7 @@ fun TextToImageTab(
         ) {
             StepSectionHeader("Enter Prompts", 1)
             Spacer(Modifier.height(10.dp))
-            EnterPromptCard(
+            UploadImageCard(
                 value = promptValue,
                 onValueChange = { promptValue = it },
                 onClearContentClick = { promptValue = "" }
@@ -79,13 +80,19 @@ fun TextToImageTab(
             modifier = Modifier.align(Alignment.BottomCenter)
                 .padding(start = 30.dp, end = 30.dp, bottom = 30.dp),
             enabled = promptValue.isNotEmpty() && selectedStyleId.isNotEmpty(),
-            onClick = { onDrawClicked(promptValue, selectedStyleId, selectedCanvasId ) }
+            onClick = {
+                onTextToImageDrawClicked(
+                    promptValue,
+                    selectedStyleId,
+                    selectedCanvasId
+                )
+            }
         )
     }
 }
 
 @Composable
-private fun EnterPromptCard(
+private fun UploadImageCard(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,

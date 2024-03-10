@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.accompanist.permissions)
 
             // Ktor Dependencies for API network
             implementation(libs.ktor.client.cio)
@@ -98,6 +99,7 @@ kotlin {
             // Voyager Dependencies for screen models
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.tab.navigator)
+            implementation(libs.voyager.transitions)
             implementation(libs.voyager.koin)
 
             // Kamel Dependencies for images loading
