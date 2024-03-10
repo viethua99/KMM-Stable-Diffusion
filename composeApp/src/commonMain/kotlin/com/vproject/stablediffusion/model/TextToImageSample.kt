@@ -4,7 +4,7 @@ import com.vproject.stablediffusion.SharedRes
 import dev.icerock.moko.resources.ImageResource
 
 data class TextToImageSample(
-    val id: Int,
+    val id: Long,
     val prompt: String,
     val stylePreset: StylePreset,
     val canvasPreset: CanvasPreset,

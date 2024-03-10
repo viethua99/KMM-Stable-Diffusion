@@ -5,13 +5,13 @@ import com.vproject.stablediffusion.SharedRes
 import dev.icerock.moko.resources.ImageResource
 
 sealed class TestSample(
-    open val id: Int,
+    open val id: Long,
     open val prompt: String,
     open val stylePreset: StylePreset,
     open val canvasPreset: CanvasPreset
 ) {
     data class TextToImageSample(
-        override val id: Int,
+        override val id: Long,
         override val prompt: String,
         override val stylePreset: StylePreset,
         override val canvasPreset: CanvasPreset,
@@ -19,7 +19,7 @@ sealed class TestSample(
     ) : TestSample(id, prompt, stylePreset, canvasPreset)
 
     data class ImageToImageSample(
-        override val id: Int,
+        override val id: Long,
         override val prompt: String,
         override val stylePreset: StylePreset,
         override val canvasPreset: CanvasPreset,
@@ -29,7 +29,7 @@ sealed class TestSample(
 }
 
 data class ImageToImageSample(
-    val id: Int,
+    val id: Long,
     val prompt: String,
     val stylePreset: StylePreset,
     val canvasPreset: CanvasPreset,

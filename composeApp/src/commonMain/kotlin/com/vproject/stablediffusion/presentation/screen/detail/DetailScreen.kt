@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,10 +43,14 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.SharedRes
+import com.vproject.stablediffusion.model.StableDiffusionMode
+import com.vproject.stablediffusion.presentation.component.beforeafter.BeforeAfterImage
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 
 class DetailScreen(
+    private val stableDiffusionMode: StableDiffusionMode,
+    private val originalImageByteArray: ByteArray? = null,
     private val prompt: String,
     private val styleId: String,
     private val canvasId: String
@@ -57,7 +62,21 @@ class DetailScreen(
         val localNavigator = LocalNavigator.current
 
         LaunchedEffect(Unit) {
-            screenModel.generateImage(prompt, styleId, canvasId)
+            when (stableDiffusionMode) {
+                StableDiffusionMode.TEXT_TO_IMAGE -> {
+                    screenModel.generateTextToImage(prompt, styleId, canvasId)
+                }
+
+                StableDiffusionMode.IMAGE_TO_IMAGE -> {
+                    originalImageByteArray?.let { nonNullImageByteArray ->
+                        screenModel.generateImageToImage(nonNullImageByteArray, prompt, styleId, canvasId)
+                    }
+                }
+
+                StableDiffusionMode.AI_INPAINT -> {
+
+                }
+            }
         }
 
         DetailContent(
@@ -75,11 +94,11 @@ private fun DetailContent(
     onBackClicked: () -> Unit = {},
     ) {
     when (detailUiState) {
-        DetailUiState.Initial -> {
+        is DetailUiState.Initial -> {
             // TODO
         }
 
-        DetailUiState.Loading -> {
+        is DetailUiState.Loading -> {
             LoadingContent()
         }
 
@@ -100,13 +119,21 @@ private fun LoadingContent(modifier: Modifier = Modifier, onBackClick: () -> Uni
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.size(25.dp)) {
+        Box(modifier = Modifier.size(30.dp)) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
                 color = MaterialTheme.colorScheme.primary
             )
         }
-        Text("Generating...")
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = "Drawing...",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            ),
+        )
     }
 }
 
@@ -126,7 +153,7 @@ private fun ResultContent(
                         rememberScrollState()
                     )
                 ) {
-                    ResultImage(uiState.imageBitmap)
+                    ResultImage(uiState.projectType, uiState.originalImageBitmap, uiState.generatedImageBitmap, uiState.aspectRatio)
                     Spacer(modifier = Modifier.height(10.dp))
                     SectionHeader("Prompt", leadingIcon = {
                         Icon(
@@ -197,25 +224,31 @@ private fun DetailTopBar(
 }
 
 @Composable
-private fun ResultImage(imageBitMap: ImageBitmap) {
-    Image(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(450.dp)
-            .clip(shape = MaterialTheme.shapes.medium),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        bitmap = imageBitMap
-    )
-//    BeforeAfterImage(
-//        enableZoom = false,
-//        modifier = Modifier
-//            .clip(RoundedCornerShape(10.dp))
-//            .fillMaxWidth()
-//            .aspectRatio(1 / 1f),
-//        beforeImage = imageBitMap,
-//        afterImage = test,
-//    )
+private fun ResultImage(projectType: String, originalImageBitmap: ImageBitmap? = null, generatedImageBitmap: ImageBitmap, aspectRatio: Float) {
+    if (projectType == "tti") {
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(aspectRatio)
+                .clip(shape = MaterialTheme.shapes.medium),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            bitmap = generatedImageBitmap
+        )
+    } else {
+        if (originalImageBitmap != null) {
+            BeforeAfterImage(
+                enableZoom = false,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .fillMaxWidth()
+                    .aspectRatio(aspectRatio),
+                beforeImage = originalImageBitmap,
+                afterImage = generatedImageBitmap,
+            )
+        }
+    }
 }
 
 @Composable

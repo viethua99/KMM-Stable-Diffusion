@@ -3,7 +3,7 @@ package com.vproject.stablediffusion.network.response
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TextToImageResponse(
+data class ImageResponse(
     val artifacts: List<Artifact>
 )
 

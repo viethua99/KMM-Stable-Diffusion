@@ -35,6 +35,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -43,6 +44,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -63,6 +66,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.vproject.stablediffusion.SharedRes
+import com.vproject.stablediffusion.model.DarkThemeConfig
 import com.vproject.stablediffusion.model.ImageToImageSample
 import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.model.TextToImageSample
@@ -70,8 +74,10 @@ import com.vproject.stablediffusion.model.imageToImageSampleList
 import com.vproject.stablediffusion.model.textToImageSampleList
 import com.vproject.stablediffusion.presentation.component.BeforeAfterLayout
 import com.vproject.stablediffusion.presentation.component.CustomIcons
+import com.vproject.stablediffusion.presentation.screen.detail.DetailModel
 import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.GenerateScreen
+import com.vproject.stablediffusion.presentation.screen.sample.SampleScreen
 import dev.icerock.moko.resources.compose.painterResource
 import kotlin.math.absoluteValue
 
@@ -92,42 +98,62 @@ object HomeTab : Tab {
     @Composable
     override fun Content() {
         val parentNavigator = LocalNavigator.current?.parent
-        val screenModel = getScreenModel<HomeModel>()
+        val screenModel: HomeModel = getScreenModel()
+        val homeUiState by screenModel.state.collectAsState()
+
+        LaunchedEffect(Unit) {
+            screenModel.getMainData()
+        }
+
         HomeContent(
+            homeUiState = homeUiState,
             onStableDiffusionModeClicked = { stableDiffusionMode ->
                 if (stableDiffusionMode != StableDiffusionMode.AI_INPAINT) {
                     parentNavigator?.push(GenerateScreen(stableDiffusionMode))
                 }
             },
-            onSampleClicked = {
-                parentNavigator?.push(DetailScreen("", "", ""))
-            }
+            onSampleClicked = { id, stableDiffusionMode ->
+                parentNavigator?.push(SampleScreen(id, stableDiffusionMode))
+            },
+            onToggleDarkThemeConfig = screenModel::toggleDarkThemeConfig
         )
     }
 }
 
 @Composable
 private fun HomeContent(
+    homeUiState: HomeUiState,
     onStableDiffusionModeClicked: (stableDiffusionMode: StableDiffusionMode) -> Unit = {},
-    onSampleClicked: () -> Unit = {},
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
+    onToggleDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit = {}
 ) {
-    Column(modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp)) {
-        HomeSearch()
-        Spacer(modifier = Modifier.height(10.dp))
-        Column(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
-        ) {
-            CreationSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
-            Spacer(modifier = Modifier.height(10.dp))
-            TextToImageSection(onSampleClicked = onSampleClicked)
-            Spacer(modifier = Modifier.height(10.dp))
-            ImageToImageSection(onSampleClicked = onSampleClicked)
+    when (homeUiState) {
+        is HomeUiState.Initial -> {
+        }
+
+        is HomeUiState.Success -> {
+            Column(modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp)) {
+                HomeSearch(homeUiState.darkThemeConfig, onToggleDarkThemeConfig)
+                Spacer(modifier = Modifier.height(10.dp))
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                ) {
+                    CreationSection(onStableDiffusionModeClicked = onStableDiffusionModeClicked)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    TextToImageSection(onSampleClicked = onSampleClicked)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    ImageToImageSection(onSampleClicked = onSampleClicked)
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun HomeSearch() {
+private fun HomeSearch(
+    darkThemeConfig: DarkThemeConfig,
+    onToggleDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth().height(40.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -179,10 +205,14 @@ private fun HomeSearch() {
         )
 
         Icon(
-            modifier = Modifier.size(30.dp).padding(start = 8.dp),
+            modifier = Modifier.size(30.dp).padding(start = 8.dp).clickable {
+                val targetConfig =
+                    if (darkThemeConfig == DarkThemeConfig.DARK) DarkThemeConfig.LIGHT else DarkThemeConfig.DARK
+                onToggleDarkThemeConfig(targetConfig)
+            },
             painter = painterResource(SharedRes.images.ic_dark_mode),
             contentDescription = "actionIconContentDescription",
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
@@ -367,7 +397,7 @@ private fun CreationModeItem(
 
 @Composable
 private fun TextToImageSection(
-    onSampleClicked: () -> Unit,
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
 ) {
     SectionHeader(StableDiffusionMode.TEXT_TO_IMAGE.title, leadingIcon = {
         Icon(
@@ -386,7 +416,7 @@ private fun TextToImageSection(
 
 @Composable
 private fun ImageToImageSection(
-    onSampleClicked: () -> Unit,
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
 ) {
     SectionHeader(StableDiffusionMode.IMAGE_TO_IMAGE.title, leadingIcon = {
         Icon(
@@ -407,7 +437,7 @@ private fun ImageToImageSection(
 private fun TextToImageList(
     modifier: Modifier = Modifier,
     textToImageSampleList: List<TextToImageSample>,
-    onSampleClicked: () -> Unit,
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
@@ -423,7 +453,7 @@ private fun TextToImageList(
             TextToImageSampleItem(
                 modifier = Modifier.width(120.dp),
                 textToImageSample = sample,
-                onItemClicked = onSampleClicked
+                onSampleClicked = onSampleClicked
             )
         }
     }
@@ -433,7 +463,7 @@ private fun TextToImageList(
 private fun TextToImageSampleItem(
     modifier: Modifier = Modifier,
     textToImageSample: TextToImageSample,
-    onItemClicked: () -> Unit = {}
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
 ) {
 
     Box(
@@ -441,7 +471,7 @@ private fun TextToImageSampleItem(
             .fillMaxWidth()
             .height(170.dp)
             .clickable {
-                onItemClicked()
+                onSampleClicked(textToImageSample.id, StableDiffusionMode.TEXT_TO_IMAGE)
             }
     ) {
         Image(
@@ -459,7 +489,7 @@ private fun TextToImageSampleItem(
 private fun ImageToImageList(
     modifier: Modifier = Modifier,
     imageToImageSampleList: List<ImageToImageSample>,
-    onSampleClicked: () -> Unit,
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
 ) {
     val lazyGridState = rememberLazyGridState()
     LazyHorizontalGrid(
@@ -474,7 +504,7 @@ private fun ImageToImageList(
         ) { sample ->
             ImageToImageSampleItem(
                 imageToImageSample = sample,
-                onItemClicked = onSampleClicked
+                onSampleClicked = onSampleClicked
             )
         }
     }
@@ -483,7 +513,7 @@ private fun ImageToImageList(
 @Composable
 private fun ImageToImageSampleItem(
     imageToImageSample: ImageToImageSample,
-    onItemClicked: () -> Unit = {}
+    onSampleClicked: (id: Long, stableDiffusionMode: StableDiffusionMode) -> Unit = { _, _ -> },
 ) {
     val infiniteTransition = rememberInfiniteTransition("before-after")
     val progress by infiniteTransition.animateFloat(
@@ -498,7 +528,9 @@ private fun ImageToImageSampleItem(
 
     BeforeAfterLayout(
         modifier = Modifier.clip(RoundedCornerShape(16.dp))
-            .width(120.dp).height(170.dp),
+            .width(120.dp).height(170.dp).clickable {
+                onSampleClicked(imageToImageSample.id, StableDiffusionMode.IMAGE_TO_IMAGE)
+            },
         progress = { progress },
         beforeLayout = {
             Image(

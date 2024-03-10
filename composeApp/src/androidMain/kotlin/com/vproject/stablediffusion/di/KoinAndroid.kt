@@ -1,6 +1,5 @@
 package com.vproject.stablediffusion.di
 
-import com.vproject.stablediffusion.util.TestUtil
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpTimeout
@@ -10,8 +9,6 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
-    single { TestUtil(get()) }
-
     single {
         HttpClient(OkHttp) {
             install(ContentNegotiation) {

@@ -13,24 +13,22 @@ suspend inline fun <reified T> requestHandler(
     val result = try {
         response()
     } catch(e: IOException) {
-        throw StableDiffusionException(StableDiffusionError.ServiceUnavailable)
+        throw StableDiffusionException(StableDiffusionError.ServiceUnavailable, "")
     }
 
     when(result.status.value) {
         in 200..299 -> Unit
         in 400..499 -> {
-            val data = result.body<String>()
-            val test = data
-            throw StableDiffusionException(StableDiffusionError.ClientError)
+            throw StableDiffusionException(StableDiffusionError.ClientError, result.body<String>().toString())
         }
-        500 -> throw StableDiffusionException(StableDiffusionError.ServerError)
-        else -> throw StableDiffusionException(StableDiffusionError.UnknownError)
+        500 -> throw StableDiffusionException(StableDiffusionError.ServerError, "")
+        else -> throw StableDiffusionException(StableDiffusionError.UnknownError, "")
     }
 
     return@withContext try {
         result.body()
     } catch(e: Exception) {
-        throw StableDiffusionException(StableDiffusionError.ServerError)
+        throw StableDiffusionException(StableDiffusionError.ServerError, "")
     }
 }
 enum class StableDiffusionError {
@@ -40,6 +38,6 @@ enum class StableDiffusionError {
     UnknownError
 }
 
-class StableDiffusionException(error: StableDiffusionError): Exception(
-    "Something goes wrong: $error"
+class StableDiffusionException(error: StableDiffusionError, message: String): Exception(
+    "Something goes wrong: $error $message"
 )
