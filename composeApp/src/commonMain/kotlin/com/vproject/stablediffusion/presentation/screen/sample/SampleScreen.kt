@@ -2,6 +2,7 @@ package com.vproject.stablediffusion.presentation.screen.sample
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,8 +49,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.presentation.component.beforeafter.BeforeAfterImage
+import com.vproject.stablediffusion.util.rememberClipboardManager
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
+import kotlinx.coroutines.launch
 
 class SampleScreen(
     private val id: Long,
@@ -83,6 +90,22 @@ private fun ResultContent(
     sampleUiState: SampleUiState,
     onBackClicked: () -> Unit = {},
 ) {
+    val clipboardManager = rememberClipboardManager()
+    val coroutineScope = rememberCoroutineScope()
+
+    val promptContent = when (sampleUiState) {
+        is SampleUiState.Initial -> {
+            ""
+        }
+
+        is SampleUiState.TextToImageLoaded -> {
+            sampleUiState.prompt
+        }
+
+        is SampleUiState.ImageToImageLoaded -> {
+            sampleUiState.prompt
+        }
+    }
     Column(modifier = Modifier) {
         SampleTopBar(onBackClicked = onBackClicked)
 
@@ -104,9 +127,20 @@ private fun ResultContent(
                             painter = painterResource(SharedRes.images.ic_star),
                             contentDescription = null
                         )
+                    }, trailingIcon = {
+                        Icon(
+                            modifier = Modifier.size(14.dp).clickable {
+                                coroutineScope.launch {
+                                    clipboardManager.setText(promptContent)
+                                }
+                            },
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            painter = painterResource(SharedRes.images.ic_copy),
+                            contentDescription = null,
+                        )
                     })
                     Spacer(modifier = Modifier.height(5.dp))
-                    PromptCard(sampleUiState)
+                    PromptCard(promptContent)
 
                     Spacer(modifier = Modifier.height(10.dp))
                     SectionHeader("Information", leadingIcon = {
@@ -127,17 +161,18 @@ private fun ResultContent(
                 modifier = Modifier.align(Alignment.BottomCenter)
                     .padding(start = 30.dp, end = 30.dp, bottom = 30.dp),
                 enabled = false,
-                onClick = { }
+                onClick = {
+                    coroutineScope.launch {
+                        clipboardManager.share()
+                    }
+                }
             )
         }
     }
 }
 
 @Composable
-private fun SampleTopBar(
-    modifier: Modifier = Modifier,
-    onBackClicked: () -> Unit = {},
-) {
+private fun SampleTopBar(onBackClicked: () -> Unit = {}) {
     Box(
         modifier = Modifier.height(50.dp).fillMaxWidth(),
     ) {
@@ -167,20 +202,21 @@ private fun SampleTopBar(
 
 @Composable
 private fun ResultImage(sampleUiState: SampleUiState) {
-   when (sampleUiState) {
-       is SampleUiState.Initial -> {}
-       is SampleUiState.TextToImageLoaded -> {
-           Image(
-               modifier = Modifier
-                   .fillMaxWidth()
-                   .aspectRatio(sampleUiState.aspectRatio)
-                   .clip(shape = MaterialTheme.shapes.medium),
-               contentDescription = null,
-               contentScale = ContentScale.Crop,
-               painter = painterResource(sampleUiState.generatedImageResource)
-           )
-       }
-       is SampleUiState.ImageToImageLoaded -> {
+    when (sampleUiState) {
+        is SampleUiState.Initial -> {}
+        is SampleUiState.TextToImageLoaded -> {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(sampleUiState.aspectRatio)
+                    .clip(shape = MaterialTheme.shapes.medium),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                painter = painterResource(sampleUiState.generatedImageResource)
+            )
+        }
+
+        is SampleUiState.ImageToImageLoaded -> {
 //           BeforeAfterImage(
 //               enableZoom = false,
 //               modifier = Modifier
@@ -190,14 +226,15 @@ private fun ResultImage(sampleUiState: SampleUiState) {
 //               beforeImage =  painterResource(sampleUiState.originalImageResource).,
 //               afterImage = generatedImageBitmap,
 //           )
-       }
-   }
+        }
+    }
 }
 
 @Composable
 private fun SectionHeader(
     title: String,
-    leadingIcon: @Composable (() -> Unit)? = null
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         leadingIcon?.let { nonNullLeadingIcon ->
@@ -218,28 +255,41 @@ private fun SectionHeader(
         Spacer(
             Modifier.weight(1f).fillMaxHeight()
         )
-        Icon(
-            modifier = Modifier.size(14.dp),
-            tint = MaterialTheme.colorScheme.onSurface,
-            painter = painterResource(SharedRes.images.ic_copy),
-            contentDescription = null
-        )
 
+        trailingIcon?.let { nonNullTrailingIcon ->
+            nonNullTrailingIcon()
+        }
     }
 }
 
 @Composable
 private fun InformationCard(sampleUiState: SampleUiState) {
     val style = when (sampleUiState) {
-        is SampleUiState.Initial -> { "" }
-        is SampleUiState.TextToImageLoaded -> { sampleUiState.styleName }
-        is SampleUiState.ImageToImageLoaded -> { sampleUiState.styleName }
+        is SampleUiState.Initial -> {
+            ""
+        }
+
+        is SampleUiState.TextToImageLoaded -> {
+            sampleUiState.styleName
+        }
+
+        is SampleUiState.ImageToImageLoaded -> {
+            sampleUiState.styleName
+        }
     }
 
     val canvas = when (sampleUiState) {
-        is SampleUiState.Initial -> { "" }
-        is SampleUiState.TextToImageLoaded -> { sampleUiState.canvasName }
-        is SampleUiState.ImageToImageLoaded -> { sampleUiState.canvasName }
+        is SampleUiState.Initial -> {
+            ""
+        }
+
+        is SampleUiState.TextToImageLoaded -> {
+            sampleUiState.canvasName
+        }
+
+        is SampleUiState.ImageToImageLoaded -> {
+            sampleUiState.canvasName
+        }
     }
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -264,12 +314,7 @@ private fun InformationCard(sampleUiState: SampleUiState) {
 }
 
 @Composable
-private fun PromptCard(sampleUiState: SampleUiState) {
-    val content = when (sampleUiState) {
-        is SampleUiState.Initial -> { "" }
-        is SampleUiState.TextToImageLoaded -> { sampleUiState.prompt }
-        is SampleUiState.ImageToImageLoaded -> { sampleUiState.prompt }
-    }
+private fun PromptCard(promptContent: String) {
     Card(
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.surface),
@@ -278,7 +323,7 @@ private fun PromptCard(sampleUiState: SampleUiState) {
     ) {
         Text(
             modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 8.dp, end = 6.dp),
-            text = content,
+            text = promptContent,
             style = TextStyle(
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Light,
@@ -344,7 +389,7 @@ private fun ActionButtonRow(modifier: Modifier = Modifier, enabled: Boolean, onC
 private fun ActionButton(title: String, icon: ImageResource, onClick: () -> Unit) {
     Column(
         modifier = Modifier
-            .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp),
+            .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp).clickable { onClick() },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

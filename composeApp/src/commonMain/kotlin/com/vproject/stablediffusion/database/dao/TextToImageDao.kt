@@ -1,26 +1,26 @@
 package com.vproject.stablediffusion.database.dao
 
 import app.cash.sqldelight.coroutines.asFlow
-import com.vproject.stablediffusion.ImageEntity
+import com.vproject.stablediffusion.TextToImageEntity
 import com.vproject.stablediffusion.database.StableDiffusionDatabase
 import com.vproject.stablediffusion.stableDiffusionDispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class ImageDao(private val stableDiffusionDatabase: StableDiffusionDatabase) {
-    private val query get() = stableDiffusionDatabase.imageEntityQueries
+class TextToImageDao(private val stableDiffusionDatabase: StableDiffusionDatabase) {
+    private val query get() = stableDiffusionDatabase.textToImageEntityQueries
 
-    suspend fun insert(imageEntity: ImageEntity) = withContext(stableDiffusionDispatchers.io) {
+    suspend fun insert(textToImageEntity: TextToImageEntity) = withContext(stableDiffusionDispatchers.io) {
         query.insert(
             null,
-            imageEntity.projectType,
-            imageEntity.originalImage,
-            imageEntity.generatedImage,
-            imageEntity.prompt,
-            imageEntity.styleId,
-            imageEntity.canvasId,
-            imageEntity.finishReason,
-            imageEntity.seed
+            textToImageEntity.generatedImage,
+            textToImageEntity.prompt,
+            textToImageEntity.styleId,
+            textToImageEntity.width,
+            textToImageEntity.height,
+            textToImageEntity.finishReason,
+            textToImageEntity.seed,
+            textToImageEntity.timestamp
         )
     }
 

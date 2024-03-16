@@ -36,8 +36,8 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
     override suspend fun postTextToImage(
         prompt: String,
         stylePreset: String,
-        width: Int,
-        height: Int
+        width: Long,
+        height: Long
     ): ImageResponse {
         return requestHandler {
             client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image") {
@@ -58,13 +58,16 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
     /**
      * Method to request generates and returns an image from an original image API.
      *
+     * @param originalImageByteArray original image byte array that need to generate.
      * @param prompt Text prompt with description of the things you want in the image to be generated.
+     * @param imageStrength How much influence the image has on the diffusion process.
      * @param stylePreset The selected style preset.
      *
-     * @return text to image response body.
+     * @return image to image response body.
      */
     override suspend fun postImageToImage(
-        originalImage: ByteArray,
+        originalImageByteArray: ByteArray,
+        imageStrength: Double,
         prompt: String,
         stylePreset: String
     ): ImageResponse {
@@ -74,7 +77,7 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
                 header("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
                 setBody(MultiPartFormDataContent(
                     formData {
-                        append("init_image", originalImage, Headers.build {
+                        append("init_image", originalImageByteArray, Headers.build {
                             append(HttpHeaders.Accept, "application/json")
                         })
                         append("text_prompts[0][text]", prompt)

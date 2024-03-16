@@ -1,7 +1,6 @@
 package com.vproject.stablediffusion.di
 
 import com.vproject.stablediffusion.database.createDatabase
-import com.vproject.stablediffusion.database.dao.ImageDao
 import com.vproject.stablediffusion.database.sqlDriverFactory
 import com.vproject.stablediffusion.network.KtorStableDiffusionApi
 import com.vproject.stablediffusion.network.StableDiffusionApi
@@ -13,6 +12,8 @@ import com.vproject.stablediffusion.presentation.screen.sample.SampleModel
 import com.vproject.stablediffusion.presentation.screen.home.HomeModel
 import com.vproject.stablediffusion.presentation.screen.detail.DetailModel
 import com.vproject.stablediffusion.app.AppModel
+import com.vproject.stablediffusion.database.dao.ImageToImageDao
+import com.vproject.stablediffusion.database.dao.TextToImageDao
 import com.vproject.stablediffusion.database.dao.UserDataDao
 import com.vproject.stablediffusion.repository.userdata.UserDataRepository
 import com.vproject.stablediffusion.repository.userdata.UserDataRepositoryImpl
@@ -50,8 +51,14 @@ fun viewModelModule() = module {
 }
 
 fun repositoryModule() = module {
-    single<ImageRepository> { ImageRepositoryImpl(stableDiffusionApi = get(), imageDao = get())}
-    single<UserDataRepository> { UserDataRepositoryImpl(get())}
+    single<ImageRepository> {
+        ImageRepositoryImpl(
+            stableDiffusionApi = get(),
+            textToImageDao = get(),
+            imageToImageDao = get()
+        )
+    }
+    single<UserDataRepository> { UserDataRepositoryImpl(get()) }
 }
 
 fun remoteModule() = module {
@@ -61,7 +68,8 @@ fun remoteModule() = module {
 fun localModule() = module {
     factory { sqlDriverFactory() }
     single { createDatabase(driver = get()) }
-    single { ImageDao(stableDiffusionDatabase = get()) }
-    single { UserDataDao(stableDiffusionDatabase = get()) }
 
+    single { TextToImageDao(stableDiffusionDatabase = get()) }
+    single { ImageToImageDao(stableDiffusionDatabase = get()) }
+    single { UserDataDao(stableDiffusionDatabase = get()) }
 }

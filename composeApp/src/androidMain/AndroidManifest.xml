@@ -37,6 +37,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/path_provider" />
         </provider>
+        <provider
+            android:name=".util.ImageViewerFileProvider"
+            android:authorities="example.imageviewer.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"></provider>
     </application>
 
 </manifest>

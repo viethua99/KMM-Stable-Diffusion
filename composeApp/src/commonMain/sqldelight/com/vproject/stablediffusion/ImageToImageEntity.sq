@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS imageToImageEntity (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  originalImage BLOB,
+  generatedImage BLOB,
+  imageStrength REAL NOT NULL,
+  prompt TEXT NOT NULL,
+  styleId TEXT NOT NULL,
+  width INTEGER NOT NULL,
+  height INTEGER NOT NULL,
+  finishReason TEXT NOT NULL,
+  seed INTEGER NOT NULL,
+  timestamp INTEGER NOT NULL
+);
+
+insert:
+INSERT OR REPLACE INTO imageToImageEntity
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectImageById:
+SELECT *
+FROM imageToImageEntity
+WHERE id = :id;
+
+selectAllGeneratedImages:
+SELECT *
+FROM imageToImageEntity
+WHERE finishReason == "SUCCESS";
