@@ -1,4 +1,4 @@
-package com.vproject.stablediffusion.presentation.screen.detail
+package com.vproject.stablediffusion.presentation.screen.project
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -46,53 +46,26 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.StableDiffusionMode
+import com.vproject.stablediffusion.model.StylePreset
+import com.vproject.stablediffusion.model.TestSample
 import com.vproject.stablediffusion.presentation.component.beforeafter.BeforeAfterImage
-import com.vproject.stablediffusion.presentation.screen.sample.SampleUiState
+import com.vproject.stablediffusion.presentation.screen.detail.DetailModel
+import com.vproject.stablediffusion.presentation.screen.detail.DetailUiState
 import com.vproject.stablediffusion.util.rememberClipboardManager
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.launch
 
-class DetailScreen(
-    private val stableDiffusionMode: StableDiffusionMode,
-    private val originalImageByteArray: ByteArray? = null,
-    private val imageStrength: Double? = null,
-    private val prompt: String,
-    private val styleId: String,
-    private val canvasId: String
+
+class ProjectDetailScreen(
+   private val testSample: TestSample
 ) : Screen {
     @Composable
     override fun Content() {
-        val screenModel: DetailModel = getScreenModel()
-        val detailUiState by screenModel.state.collectAsState()
         val localNavigator = LocalNavigator.current
 
-        LaunchedEffect(Unit) {
-            when (stableDiffusionMode) {
-                StableDiffusionMode.TEXT_TO_IMAGE -> {
-                    screenModel.generateTextToImage(prompt, styleId, canvasId)
-                }
-
-                StableDiffusionMode.IMAGE_TO_IMAGE -> {
-                    if (originalImageByteArray != null && imageStrength != null) {
-                        screenModel.generateImageToImage(
-                            originalImageByteArray,
-                            imageStrength,
-                            prompt,
-                            styleId,
-                            canvasId
-                        )
-                    }
-                }
-
-                StableDiffusionMode.AI_INPAINT -> {
-
-                }
-            }
-        }
-
         DetailContent(
-            detailUiState,
+            testSample = testSample,
             onBackClicked = {
                 localNavigator?.pop()
             }
@@ -102,56 +75,16 @@ class DetailScreen(
 
 @Composable
 private fun DetailContent(
-    detailUiState: DetailUiState,
+    testSample: TestSample,
     onBackClicked: () -> Unit = {},
 ) {
-    when (detailUiState) {
-        is DetailUiState.Initial -> {
-            // TODO
-        }
+    ResultContent(testSample, onBackClicked = onBackClicked)
 
-        is DetailUiState.Loading -> {
-            LoadingContent()
-        }
-
-        is DetailUiState.Success -> {
-            ResultContent(detailUiState, onBackClicked = onBackClicked)
-        }
-
-        is DetailUiState.Error -> {
-            Text(detailUiState.message)
-        }
-    }
-}
-
-@Composable
-private fun LoadingContent(modifier: Modifier = Modifier, onBackClick: () -> Unit = {}) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(modifier = Modifier.size(30.dp)) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "Drawing...",
-            style = TextStyle(
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            ),
-        )
-    }
 }
 
 @Composable
 private fun ResultContent(
-    uiState: DetailUiState.Success,
+    testSample: TestSample,
     onBackClicked: () -> Unit = {},
 ) {
     val clipboardManager = rememberClipboardManager()
@@ -168,11 +101,7 @@ private fun ResultContent(
                         rememberScrollState()
                     )
                 ) {
-                    ResultImage(
-                        uiState.projectType,
-                        uiState.originalImageBitmap,
-                        uiState.generatedImageBitmap,
-                        uiState.aspectRatio
+                    ResultImage(testSample
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     SectionHeader("Prompt", leadingIcon = {
@@ -186,7 +115,7 @@ private fun ResultContent(
                         Icon(
                             modifier = Modifier.size(14.dp).clickable {
                                 coroutineScope.launch {
-                                    clipboardManager.setText(uiState.prompt)
+                                    clipboardManager.setText(testSample.prompt)
                                 }
                             },
                             tint = MaterialTheme.colorScheme.onSurface,
@@ -195,7 +124,7 @@ private fun ResultContent(
                         )
                     })
                     Spacer(modifier = Modifier.height(5.dp))
-                    PromptCard(uiState.prompt)
+                    PromptCard(testSample.prompt)
 
                     Spacer(modifier = Modifier.height(10.dp))
                     SectionHeader("Information", leadingIcon = {
@@ -207,7 +136,7 @@ private fun ResultContent(
                         )
                     })
                     Spacer(modifier = Modifier.height(5.dp))
-                    InformationCard(uiState)
+                    InformationCard(testSample)
                     Spacer(Modifier.height(60.dp))
                 }
             }
@@ -258,34 +187,29 @@ private fun DetailTopBar(
 
 @Composable
 private fun ResultImage(
-    projectType: String,
-    originalImageBitmap: ImageBitmap? = null,
-    generatedImageBitmap: ImageBitmap,
-    aspectRatio: Float
+    testSample: TestSample
 ) {
-    if (projectType == "tti") {
+    if (testSample is TestSample.TextToImageSample) {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(aspectRatio)
+                .aspectRatio(testSample.canvasPreset.aspectRatio)
                 .clip(shape = MaterialTheme.shapes.medium),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            bitmap = generatedImageBitmap
+            bitmap = testSample.imageResource
         )
-    } else {
-        if (originalImageBitmap != null) {
-            BeforeAfterImage(
-                enableZoom = false,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .fillMaxWidth()
-                    .aspectRatio(aspectRatio),
-                beforeImage = originalImageBitmap,
-                afterImage = generatedImageBitmap,
-            )
-        }
+    } else if (testSample is TestSample.ImageToImageSample) {
+        BeforeAfterImage(
+            enableZoom = false,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .fillMaxWidth()
+                .aspectRatio(testSample.canvasPreset.aspectRatio),
+            beforeImage = testSample.beforeImageResource,
+            afterImage = testSample.afterImageResource,
+        )
     }
 }
 
@@ -322,7 +246,7 @@ private fun SectionHeader(
 }
 
 @Composable
-private fun InformationCard(uiState: DetailUiState.Success) {
+private fun InformationCard(testSample: TestSample) {
     Card(
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(
@@ -335,11 +259,11 @@ private fun InformationCard(uiState: DetailUiState.Success) {
         Column(Modifier.padding(vertical = 4.dp, horizontal = 4.dp)) {
             InformationItem(
                 title = "Style",
-                content = uiState.styleName,
+                content = testSample.stylePreset.displayName,
             )
             InformationItem(
                 title = "Canvas",
-                content = uiState.canvasName,
+                content = testSample.canvasPreset.id,
             )
 
         }

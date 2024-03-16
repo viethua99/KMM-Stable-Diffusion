@@ -3,8 +3,8 @@ package com.vproject.stablediffusion.model
 enum class CanvasPreset(
     val id: String,
     val aspectRatio: Float,
-    val width: Int,
-    val height: Int
+    val width: Long,
+    val height: Long
 ) {
     THREE_FOUR("3:4", 3 / 4f, 896, 1152),
     ONE_ONE("1:1", 1 / 1f, 1024, 1024),

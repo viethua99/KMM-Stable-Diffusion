@@ -13,27 +13,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             App()
         }
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val url = URL("https://api.stability.ai/v1/generation/stable-diffusion-v1-6/text-to-image")
-//                val urlc =  url.openConnection() as HttpURLConnection;
-//                urlc.connectTimeout = 4000
-//                urlc.connect();
-//                if (urlc.responseCode == 200) {
-//                    Log.d("HELLO", "Success !")
-//                } else {
-//                    Log.d("HELLO", "Failed !")
-//                }
-//            } catch (e1: MalformedURLException) {
-//                Log.d("HELLO", "MalformedURLException !")
-//
-//                e1.printStackTrace()
-//            } catch (e: IOException) {
-//                Log.d("HELLO", "IOException !")
-//                e.printStackTrace()
-//            }
-//        }
     }
 }
 

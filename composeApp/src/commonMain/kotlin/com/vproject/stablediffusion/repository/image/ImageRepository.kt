@@ -9,23 +9,38 @@ interface ImageRepository {
      *
      * @param prompt Prompt content that need to generate.
      * @param styleId The selected style preset.
-     * @param canvasId The selected canvas preset.
+     * @param width The width of requesting image.
+     * @param height The height of requesting image.
      *
      * @return generated image information.
      */
-    suspend fun generateTextToImage(prompt: String, styleId: String, canvasId: String): Result<ProjectInfo>
+    suspend fun generateTextToImage(
+        prompt: String,
+        styleId: String,
+        width: Long,
+        height: Long
+    ): Result<ProjectInfo>
 
     /**
      * Method to request generating images from original image information.
      *
      * @param originalImageByteArray original image byte array that need to generate.
+     * @param imageStrength How much influence the image has on the diffusion process.
      * @param prompt Prompt content that need to generate.
      * @param styleId The selected style preset.
-     * @param canvasId The selected canvas preset.
+     * @param width The width of requesting image.
+     * @param height The height of requesting image.
      *
      * @return generated image information.
      */
-     suspend fun generateImageToImage(originalImageByteArray: ByteArray, prompt: String, styleId: String, canvasId: String): Result<ProjectInfo>
+    suspend fun generateImageToImage(
+        originalImageByteArray: ByteArray,
+        imageStrength: Double,
+        prompt: String,
+        styleId: String,
+        width: Long,
+        height: Long
+    ): Result<ProjectInfo>
 
     /**
      * Method to request getting detail information of an image project.
@@ -34,7 +49,7 @@ interface ImageRepository {
      *
      * @return detail information of requested project
      */
-     suspend fun getProjectDetail(id: Long): ProjectInfo?
+    suspend fun getProjectDetail(id: Long): ProjectInfo?
 
     /**
      * Method to request generated images.

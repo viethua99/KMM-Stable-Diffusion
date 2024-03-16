@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -18,10 +17,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,12 +30,12 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.StableDiffusionMode
-import com.vproject.stablediffusion.presentation.component.CustomIcons
-import com.vproject.stablediffusion.presentation.component.StableDiffusionTopBar
 import com.vproject.stablediffusion.presentation.screen.detail.DetailScreen
 import com.vproject.stablediffusion.presentation.screen.generate.tab.ImageToImageTab
 import com.vproject.stablediffusion.presentation.screen.generate.tab.TextToImageTab
+import com.vproject.stablediffusion.util.rememberClipboardManager
 import dev.icerock.moko.resources.compose.painterResource
+import kotlinx.coroutines.launch
 
 data class GenerateScreen(val stableDiffusionMode: StableDiffusionMode) : Screen {
     @Composable
@@ -50,10 +49,10 @@ data class GenerateScreen(val stableDiffusionMode: StableDiffusionMode) : Screen
                 navigator?.pop()
             },
             onTextToImageDrawClicked = { prompt, styleId, canvasId ->
-                navigator?.push(DetailScreen(stableDiffusionMode, null, prompt, styleId, canvasId))
+                navigator?.push(DetailScreen(stableDiffusionMode, null, null, prompt, styleId, canvasId))
             },
-            onImageToImageDrawClicked = { selectedImageBitmap, prompt, styleId, canvasId ->
-                navigator?.push(DetailScreen(stableDiffusionMode, selectedImageBitmap, prompt, styleId, canvasId))
+            onImageToImageDrawClicked = { selectedImageBitmap, imageStrength, prompt, styleId, canvasId ->
+                navigator?.push(DetailScreen(stableDiffusionMode, selectedImageBitmap, imageStrength, prompt, styleId, canvasId))
             }
         )
     }
@@ -65,7 +64,7 @@ private fun GenerateContent(
     stableDiffusionMode: StableDiffusionMode,
     onBackClicked: () -> Unit = {},
     onTextToImageDrawClicked: (prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _ -> },
-    onImageToImageDrawClicked: (originalImage: ByteArray, prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _, _ -> }
+    onImageToImageDrawClicked: (originalImage: ByteArray, imageStrength: Double, prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _, _, _ -> }
 ) {
     var tabIndex by remember {
         mutableStateOf(

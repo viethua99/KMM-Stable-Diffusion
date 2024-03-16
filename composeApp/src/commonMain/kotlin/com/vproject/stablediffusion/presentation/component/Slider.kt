@@ -12,6 +12,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 /**
@@ -42,11 +43,11 @@ fun CustomSlider(
             modifier = Modifier.weight(9f)
         )
         Text(
-            text = value.roundToInt().toString(),
+            text = ((value * 10.0.pow(2)).roundToInt() / 10.0.pow(2)).toString(),
             style = TextStyle(
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Normal,
-                fontSize = 14.sp
+                fontSize = 12.sp
             ),
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f)

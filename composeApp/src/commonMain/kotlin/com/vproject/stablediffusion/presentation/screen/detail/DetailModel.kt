@@ -12,47 +12,78 @@ class DetailModel(private val imageRepository: ImageRepository) :
     StateScreenModel<DetailUiState>(DetailUiState.Initial) {
     fun generateTextToImage(prompt: String, styleId: String, canvasId: String) =
         screenModelScope.launch {
-            mutableState.value = DetailUiState.Loading
-            imageRepository.generateTextToImage(prompt, styleId, canvasId)
-                .onSuccess { projectInfo ->
-                    val imageBitmap = imageBitmapFromBytes(projectInfo.generatedImage)
-                    mutableState.value = DetailUiState.Success(
-                        "tti",
-                        null,
-                        imageBitmap,
-                        prompt,
-                        StylePreset.entries.find { it.id == styleId }?.displayName ?: "",
-                        CanvasPreset.entries.find { it.id == canvasId }?.id ?: "",
-                        CanvasPreset.entries.find { it.id == canvasId }?.aspectRatio ?: (1 / 1f),
-                    )
-                }
-                .onFailure {
-                    mutableState.value = DetailUiState.Error(it.message ?: "Unknown error")
-                }
-        }
+            val stylePreset = StylePreset.entries.find { it.id == styleId }
+            val canvasPreset = CanvasPreset.entries.find { it.id == canvasId }
 
-    fun generateImageToImage(originalImageByteArray: ByteArray, prompt: String, styleId: String, canvasId: String) =
-        screenModelScope.launch {
-            mutableState.value = DetailUiState.Loading
-            imageRepository.generateImageToImage(originalImageByteArray, prompt, styleId, canvasId)
-                .onSuccess { projectInfo ->
-                    if (projectInfo.originalImage != null) {
-                        val originalImageBitmap = imageBitmapFromBytes(projectInfo.originalImage)
-                        val generatedImageBitmap = imageBitmapFromBytes(projectInfo.generatedImage)
+            if (stylePreset != null && canvasPreset != null) {
+                mutableState.value = DetailUiState.Loading
+                imageRepository.generateTextToImage(
+                    prompt,
+                    styleId,
+                    canvasPreset.width,
+                    canvasPreset.height
+                )
+                    .onSuccess { projectInfo ->
+                        val imageBitmap = imageBitmapFromBytes(projectInfo.generatedImage)
                         mutableState.value = DetailUiState.Success(
-                            "iti",
-                            originalImageBitmap,
-                            generatedImageBitmap,
-                            prompt,
-                            StylePreset.entries.find { it.id == styleId }?.displayName ?: "",
-                            CanvasPreset.entries.find { it.id == canvasId }?.id ?: "",
-                            CanvasPreset.entries.find { it.id == canvasId }?.aspectRatio
-                                ?: (1 / 1f),
+                            projectType = projectInfo.projectType,
+                            generatedImageBitmap = imageBitmap,
+                            prompt = prompt,
+                            styleName = stylePreset.displayName,
+                            canvasName = canvasPreset.id,
+                            aspectRatio = canvasPreset.aspectRatio,
                         )
                     }
-                }
-                .onFailure {
-                    mutableState.value = DetailUiState.Error(it.message ?: "Unknown error")
-                }
+                    .onFailure {
+                        mutableState.value = DetailUiState.Error(it.message ?: "Unknown error")
+                    }
+            } else {
+                mutableState.value = DetailUiState.Error("Unsupported Style or Canvas")
+            }
+        }
+
+    fun generateImageToImage(
+        originalImageByteArray: ByteArray,
+        imageStrength: Double,
+        prompt: String,
+        styleId: String,
+        canvasId: String
+    ) =
+        screenModelScope.launch {
+            val stylePreset = StylePreset.entries.find { it.id == styleId }
+            val canvasPreset = CanvasPreset.entries.find { it.id == canvasId }
+            if (stylePreset != null && canvasPreset != null) {
+                mutableState.value = DetailUiState.Loading
+                imageRepository.generateImageToImage(
+                    originalImageByteArray,
+                    imageStrength,
+                    prompt,
+                    styleId,
+                    canvasPreset.width,
+                    canvasPreset.height
+                )
+                    .onSuccess { projectInfo ->
+                        if (projectInfo.originalImage != null) {
+                            val originalImageBitmap =
+                                imageBitmapFromBytes(projectInfo.originalImage)
+                            val generatedImageBitmap =
+                                imageBitmapFromBytes(projectInfo.generatedImage)
+                            mutableState.value = DetailUiState.Success(
+                                projectType = projectInfo.projectType,
+                                originalImageBitmap = originalImageBitmap,
+                                generatedImageBitmap = generatedImageBitmap,
+                                prompt = prompt,
+                                styleName = stylePreset.displayName,
+                                canvasName = canvasPreset.id,
+                                aspectRatio = canvasPreset.aspectRatio,
+                            )
+                        }
+                    }
+                    .onFailure {
+                        mutableState.value = DetailUiState.Error(it.message ?: "Unknown error")
+                    }
+            } else {
+                mutableState.value = DetailUiState.Error("Unsupported Style or Canvas")
+            }
         }
 }

@@ -24,16 +24,31 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.CanvasPreset
 import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.model.StylePreset
+import com.vproject.stablediffusion.model.TextToImageSample
 import com.vproject.stablediffusion.presentation.component.CanvasList
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.CustomTextField
 import com.vproject.stablediffusion.presentation.component.StepSectionHeader
 import com.vproject.stablediffusion.presentation.component.StyleList
+import dev.icerock.moko.resources.compose.painterResource
 
+private val randomPrompt = listOf(
+    "Dragon New Year poster, highest quality, lanterns, fireworks, lucky red envelope, flying, sky",
+    "Dog, <Masterpiece*Golden Ratio*Sunlight*Spring>",
+    "a bear is fishing, cute, river, forest, flowers, tree, cloud, sun",
+    "(fluorescent colors:1.4), (translucent:1.4), (retro filters:1.4), (fantasy:1.4), candy world disney land ethereal soft fluffy soft landscape forest snowavatar pastel pink sky green blue sparkle ethereal light pastel whimsical light rainbow stars diamonds sparkle gemstone background hyper realistic ultra quality cinematic lighting immense detail full hd painting well lit, diagonal bangs, collared dress, on side masterpiece, best quality, realskin, (portrait:1.5), 1girl, blunt bangs, long hair",
+    "1girl, extremely detailed, 8k wallpaper, rabbit ear, a background of extreme detail, (red eyes (extreme detail))",
+    "English Medieval Witch, <Unique Nose*Blue Eyes*Sitting On A Throne*Elegant*Real Light>, beautiful",
+    "masterpiece, best quality, floating city, clouds, sun",
+    "Masterpiece, high quality, best quality, 4k, ultra detailed, realistic, 1girl, upper body, white swimsuit, (light pink hair), flipped hair, pink eyes, summer, beautiful and detailed face, sun, ray chasing, reflection light",
+    "1 boy, male focus, solo, realistic, shirt, looking at viewer, black hair, blurry, tree, black shirt, blurry background, collared shirt, white shirt, portrait, outdoors, black eyes, upper body, short hair, closed mouth, smile, open clothes, brown eyes",
+    "bustling street market,New Year's celebration,vibrant stalls,traditional decorations,delicacies,festive attire,red lantern,colorful banners,streamers",
+)
 @Composable
 fun TextToImageTab(
     onTextToImageDrawClicked: (prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _ -> },
@@ -51,9 +66,12 @@ fun TextToImageTab(
         ) {
             StepSectionHeader("Enter Prompts", 1)
             Spacer(Modifier.height(10.dp))
-            UploadImageCard(
+            EnterPromptCard(
                 value = promptValue,
                 onValueChange = { promptValue = it },
+                onRandomContentClick = {
+                    promptValue = randomPrompt.random()
+                },
                 onClearContentClick = { promptValue = "" }
             )
 
@@ -92,12 +110,12 @@ fun TextToImageTab(
 }
 
 @Composable
-private fun UploadImageCard(
+private fun EnterPromptCard(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
+    onRandomContentClick: () -> Unit,
     onClearContentClick: () -> Unit
-
 ) {
     CustomTextField(
         onValueChange = onValueChange,
@@ -106,8 +124,9 @@ private fun UploadImageCard(
         hint = "Enter Prompt (You can try to use descriptive statements)",
         leadingIcon = {
             Icon(
+                modifier = Modifier.clickable { onRandomContentClick() },
                 tint = MaterialTheme.colorScheme.onSecondary,
-                imageVector = CustomIcons.DefaultHistory,
+                painter = painterResource(SharedRes.images.ic_dice),
                 contentDescription = null,
             )
         },

@@ -113,7 +113,9 @@ object HomeTab : Tab {
                 }
             },
             onSampleClicked = { id, stableDiffusionMode ->
-                parentNavigator?.push(SampleScreen(id, stableDiffusionMode))
+                if (stableDiffusionMode == StableDiffusionMode.TEXT_TO_IMAGE) {
+                    parentNavigator?.push(SampleScreen(id, stableDiffusionMode))
+                }
             },
             onToggleDarkThemeConfig = screenModel::toggleDarkThemeConfig
         )

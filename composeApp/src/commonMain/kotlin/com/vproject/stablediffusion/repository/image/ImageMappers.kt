@@ -1,9 +1,12 @@
 package com.vproject.stablediffusion.repository.image
 
-import com.vproject.stablediffusion.ImageEntity
+import com.vproject.stablediffusion.ImageToImageEntity
+import com.vproject.stablediffusion.TextToImageEntity
+import com.vproject.stablediffusion.model.CanvasPreset
 import com.vproject.stablediffusion.model.GeneratedImageInfo
 import com.vproject.stablediffusion.model.ProjectInfo
 import com.vproject.stablediffusion.network.response.Artifact
+import com.vproject.stablediffusion.util.getCurrentTimeMillis
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
@@ -13,36 +16,52 @@ fun Artifact.toGeneratedImageInfo() = GeneratedImageInfo(
     seed = this.seed
 )
 
-fun ImageEntity.toProjectInfo() = ProjectInfo(
-    id = this.id,
-    projectType = this.projectType,
-    originalImage = this.originalImage,
-    generatedImage = this.generatedImage,
-    prompt = this.prompt,
-    styleId = this.styleId,
-    canvasId = this.canvasId
-)
-
 @OptIn(ExperimentalEncodingApi::class)
-fun GeneratedImageInfo.toImageEntity() = ImageEntity(
+fun GeneratedImageInfo.toTextToImageEntity(prompt: String, styleId: String, width: Long, height: Long) = TextToImageEntity(
     id = -1,
-    projectType = "",
-    originalImage = null,
     generatedImage = Base64.Default.decode(this.base64),
     finishReason = this.finishReason,
     seed = this.seed,
-    prompt = "",
-    styleId = "",
-    canvasId = ""
+    prompt = prompt,
+    styleId = styleId,
+    width = width,
+    height = height,
+    timestamp = getCurrentTimeMillis()
+)
+
+fun TextToImageEntity.toProjectInfo() = ProjectInfo(
+    id = this.id,
+    projectType = "tti",
+    generatedImage = this.generatedImage ?: byteArrayOf(),
+    prompt = this.prompt,
+    styleId = this.styleId,
+    canvasId = CanvasPreset.entries.find { it.width == this.width && it.height == this.height }?.id ?: "",
+    timestamp = this.timestamp
 )
 
 @OptIn(ExperimentalEncodingApi::class)
-fun GeneratedImageInfo.toProjectInfo() = ProjectInfo(
+fun GeneratedImageInfo.toImageToImageEntity(originalImage: ByteArray, imageStrength: Double, prompt: String, styleId: String, width: Long, height: Long) = ImageToImageEntity(
     id = -1,
-    projectType = "",
-    originalImage = null,
+    originalImage = originalImage,
     generatedImage = Base64.Default.decode(this.base64),
-    prompt = "",
-    styleId = "",
-    canvasId = ""
+    imageStrength = imageStrength,
+    prompt = prompt,
+    styleId = styleId,
+    width = width,
+    height = height,
+    finishReason = this.finishReason,
+    seed = this.seed,
+    timestamp = getCurrentTimeMillis()
+)
+
+fun ImageToImageEntity.toProjectInfo() = ProjectInfo(
+    id = this.id,
+    projectType = "iti",
+    originalImage = this.originalImage,
+    generatedImage = this.generatedImage ?: byteArrayOf(),
+    imageStrength = this.imageStrength,
+    prompt = this.prompt,
+    styleId = this.styleId,
+    canvasId = CanvasPreset.entries.find { it.width == this.width && it.height == this.height }?.id ?: "",
+    timestamp = this.timestamp
 )

@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TextToImageRequest(
-    val height: Int = 1024,
-    val width: Int = 1024,
+    val height: Long = 1024,
+    val width: Long = 1024,
     val text_prompts: List<TextPrompt>,
     val cfg_scale: Int = 5,
     val clip_guidance_preset: String = "FAST_BLUE",

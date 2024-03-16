@@ -42,7 +42,6 @@ import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.TestSample
 import com.vproject.stablediffusion.presentation.component.CustomIcons
 import com.vproject.stablediffusion.presentation.component.beforeafter.BeforeAfterImage
-import com.vproject.stablediffusion.presentation.screen.generate.GenerateModel
 import dev.icerock.moko.resources.compose.painterResource
 
 object ProjectTab : Tab {
@@ -72,7 +71,10 @@ object ProjectTab : Tab {
         }
 
         ProjectContent(
-            projectUiState
+            projectUiState,
+            onTextToImageDrawClicked = { testSample ->
+                parentNavigator?.push(ProjectDetailScreen(testSample))
+            }
         )
     }
 }
@@ -80,7 +82,8 @@ object ProjectTab : Tab {
 @Composable
 private fun ProjectContent(
     projectUiState: ProjectUiState,
-    onMultipleDeleteClicked: () -> Unit = {}
+    onMultipleDeleteClicked: () -> Unit = {},
+    onTextToImageDrawClicked: (testSample: TestSample) -> Unit = { },
 ) {
     Column {
         ProjectTopBar(
@@ -100,7 +103,10 @@ private fun ProjectContent(
                 if (projectUiState.projectList.isEmpty()) {
                     Text("Your project list is empty")
                 } else {
-                    ProjectList(projectUiState)
+                    ProjectList(
+                        projectUiState,
+                        onTextToImageDrawClicked = onTextToImageDrawClicked
+                    )
                 }
             }
 
@@ -144,7 +150,8 @@ private fun ProjectTopBar(
 
 @Composable
 private fun ProjectList(
-    projectUiState: ProjectUiState.Success
+    projectUiState: ProjectUiState.Success,
+    onTextToImageDrawClicked: (testSample: TestSample) -> Unit = { },
 ) {
     LazyVerticalStaggeredGrid(
         modifier = Modifier.padding(vertical = 10.dp, horizontal = 12.dp),
@@ -153,7 +160,7 @@ private fun ProjectList(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         itemsIndexed(projectUiState.projectList) { index, project ->
-            ProjectItem(modifier = Modifier, project)
+            ProjectItem(modifier = Modifier, project, onTextToImageDrawClicked = onTextToImageDrawClicked)
         }
     }
 }
@@ -161,34 +168,35 @@ private fun ProjectList(
 @Composable
 private fun ProjectItem(
     modifier: Modifier = Modifier,
-    textStyle: TestSample
+    testSample: TestSample,
+    onTextToImageDrawClicked: (testSample: TestSample) -> Unit = { },
 ) {
     Column(
         modifier
             .fillMaxWidth()
-            .clickable {},
+            .clickable { onTextToImageDrawClicked(testSample) },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        if (textStyle is TestSample.TextToImageSample) {
+        if (testSample is TestSample.TextToImageSample) {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(textStyle.canvasPreset.aspectRatio)
+                    .aspectRatio(testSample.canvasPreset.aspectRatio)
                     .clip(RoundedCornerShape(15.dp)),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                bitmap = textStyle.imageResource
+                bitmap = testSample.imageResource
             )
-        } else if (textStyle is TestSample.ImageToImageSample) {
+        } else if (testSample is TestSample.ImageToImageSample) {
             BeforeAfterImage(
                 enableZoom = false,
                 modifier = Modifier
                     .clip(RoundedCornerShape(15.dp))
                     .fillMaxWidth()
-                    .aspectRatio(textStyle.canvasPreset.aspectRatio),
-                beforeImage = textStyle.beforeImageResource,
-                afterImage = textStyle.afterImageResource,
+                    .aspectRatio(testSample.canvasPreset.aspectRatio),
+                beforeImage = testSample.beforeImageResource,
+                afterImage = testSample.afterImageResource,
                 contentScale = ContentScale.Crop,
             )
         }
@@ -200,7 +208,7 @@ private fun ProjectItem(
             ),
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
-            text = textStyle.prompt,
+            text = testSample.prompt,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

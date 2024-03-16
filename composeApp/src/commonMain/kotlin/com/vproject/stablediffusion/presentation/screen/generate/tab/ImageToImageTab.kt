@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -47,11 +46,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.vproject.stablediffusion.SharedRes
 import com.vproject.stablediffusion.model.CanvasPreset
-import com.vproject.stablediffusion.model.StableDiffusionMode
 import com.vproject.stablediffusion.model.StylePreset
-import com.vproject.stablediffusion.presentation.component.CanvasList
 import com.vproject.stablediffusion.presentation.component.CustomFilledButton
 import com.vproject.stablediffusion.presentation.component.CustomIcons
+import com.vproject.stablediffusion.presentation.component.CustomSlider
 import com.vproject.stablediffusion.presentation.component.CustomTextField
 import com.vproject.stablediffusion.presentation.component.StepSectionHeader
 import com.vproject.stablediffusion.presentation.component.StyleList
@@ -65,13 +63,13 @@ import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @Composable
 fun ImageToImageTab(
-    onImageToImageDrawClicked: (originalImage: ByteArray, prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _, _ -> }
+    onImageToImageDrawClicked: (originalImage: ByteArray, imageStrength: Double, prompt: String, styleId: String, canvasId: String) -> Unit = { _, _, _, _, _ -> }
 ) {
     var promptValue by remember { mutableStateOf("") }
+    var selectedImageStrength by remember { mutableStateOf(0.45) }
     var selectedStyleId by remember { mutableStateOf(StylePreset.entries[0].id) }
     var selectedCanvasId by remember { mutableStateOf(CanvasPreset.entries[0].id) }
     var selectedImage by remember { mutableStateOf<ByteArray?>(null) }
@@ -90,7 +88,16 @@ fun ImageToImageTab(
                     selectedImage = imageArray
                 })
             Spacer(Modifier.height(10.dp))
-            StepSectionHeader("Enter Prompts", 2)
+            StepSectionHeader("Image Strength", 2)
+            CustomSlider(
+                valueRange = 0f..1f,
+                value = selectedImageStrength.toFloat(),
+                onValueChange = {
+                    selectedImageStrength = it.toDouble()
+                }
+            )
+            Spacer(Modifier.height(5.dp))
+            StepSectionHeader("Enter Prompts", 3)
             Spacer(Modifier.height(10.dp))
             EnterPromptsCard(
                 value = promptValue,
@@ -98,7 +105,7 @@ fun ImageToImageTab(
                 onClearContentClick = { promptValue = "" }
             )
             Spacer(Modifier.height(10.dp))
-            StepSectionHeader("Choose Style", 3)
+            StepSectionHeader("Choose Style", 4)
             Spacer(Modifier.height(10.dp))
             StyleList(
                 modifier = Modifier.fillMaxWidth(),
@@ -106,14 +113,6 @@ fun ImageToImageTab(
                 selectedStyleId = selectedStyleId,
                 onStyleSelected = { styleId -> selectedStyleId = styleId }
             )
-//            StepSectionHeader("Choose Canvas", 4)
-//            CanvasList(
-//                modifier = Modifier.fillMaxWidth(),
-//                canvasList = CanvasPreset.entries.toList(),
-//                selectedCanvasId = selectedCanvasId,
-//                onCanvasSelected = { canvasId -> selectedCanvasId = canvasId }
-//            )
-
             Spacer(Modifier.height(80.dp))
         }
 
@@ -125,6 +124,7 @@ fun ImageToImageTab(
                 selectedImage?.let { nonNullImageArray ->
                     onImageToImageDrawClicked(
                         nonNullImageArray,
+                        selectedImageStrength,
                         promptValue,
                         selectedStyleId,
                         selectedCanvasId
@@ -250,44 +250,47 @@ private fun UploadImageCard(
 
     }
 
-    Column(
-        modifier
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(Color.DarkGray)
-            .clickable {
-                imageSourceOptionDialog = true
-            },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
+    Row(modifier = Modifier.height(100.dp)) {
         if (imageBitmap != null) {
             Image(
                 bitmap = imageBitmap!!,
                 contentDescription = "Profile",
-                modifier = Modifier.size(100.dp).clip(CircleShape).clickable {
-                    imageSourceOptionDialog = true
-                },
+                modifier = Modifier.size(100.dp).clip(RoundedCornerShape(20.dp)),
                 contentScale = ContentScale.Crop
             )
+            Spacer(modifier = Modifier.width(10.dp))
         }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
-                painter = painterResource(SharedRes.images.ic_upload),
-                contentDescription = null
-            )
-            Spacer(Modifier.width(5.dp).fillMaxHeight())
-            Text(
-                style = TextStyle(
-                    color = MaterialTheme.colorScheme.onSecondary,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
-                ),
-                text = "UPLOAD IMAGE",
-                maxLines = 1
-            )
+
+        Column(
+            modifier
+                .weight(1f)
+                .clip(shape = RoundedCornerShape(20.dp))
+                .background(Color.DarkGray)
+                .clickable {
+                    imageSourceOptionDialog = true
+                },
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    modifier = Modifier.size(16.dp),
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    painter = painterResource(SharedRes.images.ic_upload),
+                    contentDescription = null
+                )
+                Spacer(Modifier.width(5.dp).fillMaxHeight())
+                Text(
+                    style = TextStyle(
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp
+                    ),
+                    text = "UPLOAD IMAGE",
+                    maxLines = 1
+                )
+            }
         }
     }
 }
@@ -304,13 +307,6 @@ private fun EnterPromptsCard(
         textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface, fontSize = 10.sp),
         value = value,
         hint = "Enter Prompt (You can try to use descriptive statements)",
-        leadingIcon = {
-            Icon(
-                tint = MaterialTheme.colorScheme.onSecondary,
-                imageVector = CustomIcons.DefaultHistory,
-                contentDescription = null,
-            )
-        },
         trailingIcon = {
             if (value.isNotEmpty()) {
                 Icon(
@@ -342,7 +338,6 @@ private fun DrawingButton(modifier: Modifier = Modifier, enabled: Boolean, onCli
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ImageSourceOptionDialog(
     onDismissRequest: () -> Unit,
@@ -376,7 +371,7 @@ fun ImageSourceOptionDialog(
                 Icon(
                     tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(25.dp),
-                    painter = painterResource(SharedRes.images.ic_dark_mode),
+                    painter = painterResource(SharedRes.images.ic_camera),
                     contentDescription = null
                 )
                 Text(
@@ -398,7 +393,7 @@ fun ImageSourceOptionDialog(
                 Icon(
                     tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(25.dp),
-                    painter = painterResource(SharedRes.images.ic_dark_mode),
+                    painter = painterResource(SharedRes.images.ic_gallery),
                     contentDescription = null
                 )
                 Text(
@@ -414,7 +409,6 @@ fun ImageSourceOptionDialog(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun AlertMessageDialog(
     title: String,
@@ -501,8 +495,6 @@ fun AlertMessageDialog(
                     }
                 }
             }
-
         }
-
     }
 }
