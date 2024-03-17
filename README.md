@@ -56,19 +56,19 @@
 ### Android
 
   <div style="display: flex; width: 100%">
-  <img src="docs/images/android_screenshot_1.png" width="24%"/>
-  <img src="docs/images/android_screenshot_2.png" width="24%"/>
-  <img src="docs/images/android_screenshot_3.png" width="24%"/>
-  <img src="docs/images/android_screenshot_4.png" width="24%"/>
+  <img src="docs/images/android_screenshot_1_v2.png" width="24%"/>
+  <img src="docs/images/android_screenshot_2_v2.png" width="24%"/>
+  <img src="docs/images/android_screenshot_3_v2.png" width="24%"/>
+  <img src="docs/images/android_screenshot_4_v2.png" width="24%"/>
   </div>
 
 ### iOS
 
   <div style="display: flex; width: 100%">
-  <img src="docs/images/ios_screenshot_1.png" width="24%"/>
-  <img src="docs/images/ios_screenshot_2.png" width="24%"/>
-  <img src="docs/images/ios_screenshot_3.png" width="24%"/>
-  <img src="docs/images/ios_screenshot_4.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_1_v2.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_2_v2.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_3_v2.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_4_v2.png" width="24%"/>
   </div>
 
 ## Setup
