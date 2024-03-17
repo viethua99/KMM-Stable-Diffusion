@@ -265,7 +265,7 @@ private fun UploadImageCard(
             modifier
                 .weight(1f)
                 .clip(shape = RoundedCornerShape(20.dp))
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.surface)
                 .clickable {
                     imageSourceOptionDialog = true
                 },
@@ -283,7 +283,7 @@ private fun UploadImageCard(
                 Spacer(Modifier.width(5.dp).fillMaxHeight())
                 Text(
                     style = TextStyle(
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp
                     ),

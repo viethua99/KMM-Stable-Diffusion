@@ -20,24 +20,25 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-## 💡 Download
-Go to the [Releases](https://github.com/viethua99/KMP-Stable-Diffusion/releases) to download the latest APK version.
+## Supporters
+[![Stargazers repo roster for @viethua99/KMP-Stable-Diffusion](https://reporoster.com/stars/dark/viethua99/KMP-Stable-Diffusion)](https://github.com/viethua99/KMP-Stable-Diffusion/stargazers)
 
-## ️🎏 Features
+## Features
+### Stable Diffusion:
 
-| Text To Image                                                 | Image To Image | AI Inpainting |
-|---------------------------------------------------------------|----------------|---------------|
-| <img width="320" src="docs/images/android_tti_feature.gif" /> | Coming soon    | Coming soon   | 
+| Text To Image                                             | Image To Image                                            |
+|-----------------------------------------------------------|-----------------------------------------------------------|
+| <img width="320" src="docs/images/ios_tti_feature.gif" /> | <img width="320" src="docs/images/ios_iti_feature.gif" /> |
 
-## 👀 Screenshots
+### Others:
 
-| Platform | Home (1)                                                       | Home (2)                                                       | Generate                                                       | Detail                                                         |
-|----------|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------|
-| Android  | <img width="320" src="docs/images/android_screenshot_1.png" /> | <img width="320" src="docs/images/android_screenshot_2.png" /> | <img width="320" src="docs/images/android_screenshot_3.png" /> | <img width="320" src="docs/images/android_screenshot_4.png" /> | 
-| iOS      | <img width="320" src="docs/images/ios_screenshot_1.png" />     | <img width="320" src="docs/images/ios_screenshot_2.png" />     | <img width="320" src="docs/images/ios_screenshot_3.png" />     | <img width="320" src="docs/images/ios_screenshot_4.png" />     | 
+| Save Locally                                               | Dark / Light Mode                                             |
+|------------------------------------------------------------|---------------------------------------------------------------|
+| <img width="320" src="docs/images/ios_project_list.gif" /> | <img width="320" src="docs/images/ios_dark_light_mode.gif" /> |
 
 
-## 🎨 Support Styles
+<details>
+<summary>Expand to see supported styles</summary>
 
 | Style        | Sample                                                                        | Style        | Sample                                                                         |
 |--------------|-------------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------|
@@ -49,8 +50,28 @@ Go to the [Releases](https://github.com/viethua99/KMP-Stable-Diffusion/releases)
 | Neon Punk    | <img width="120" height="120" src="docs/images/img_style_neon_punk.png" />    | Low Poly     | <img width="120" height="120" src="docs/images/img_style_low_poly.png" />      |
 | Fantasy Art  | <img width="120" height="120" src="docs/images/img_style_fantasy_art.png" />  | Tile Texture | <img width="120" height="120"  src="docs/images/img_style_tile_texture.png" /> |
 | Digital Art  | <img width="120" height="120" src="docs/images/img_style_digital_art.png" />  |
+</details>
 
-## 🛠 Setup
+## Screenshots
+### Android
+
+  <div style="display: flex; width: 100%">
+  <img src="docs/images/android_screenshot_1.png" width="24%"/>
+  <img src="docs/images/android_screenshot_2.png" width="24%"/>
+  <img src="docs/images/android_screenshot_3.png" width="24%"/>
+  <img src="docs/images/android_screenshot_4.png" width="24%"/>
+  </div>
+
+### iOS
+
+  <div style="display: flex; width: 100%">
+  <img src="docs/images/ios_screenshot_1.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_2.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_3.png" width="24%"/>
+  <img src="docs/images/ios_screenshot_4.png" width="24%"/>
+  </div>
+
+## Setup
 ### Stability AI
 <img src="docs/images/img_stabilityai_logo.png" align="right" width="12%"/>
 
@@ -70,7 +91,7 @@ Select `composeApp` configuration and run the project.
 Select `iOSApp` configuration and run the project.
 <img width="120" src="docs/images/iosapp-run.png" />
 
-## 📂 Technical Dependencies
+## Technical Dependencies
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
 - [Composable Multiplatform](https://jb.gg/compose) for building common UI. It simplifies and accelerates UI development on Android, iOS and Desktop.
 - [Koin](https://insert-koin.io/) for dependency injection.
@@ -80,7 +101,7 @@ Select `iOSApp` configuration and run the project.
 - [Voyager](https://github.com/adrielcafe/voyager) for navigation and screen models.
 
 
-## 📐 Project Structure
+## Project Structure
 ### Common Structure
 ```
 ├── composeApp
@@ -116,11 +137,9 @@ Select `iOSApp` configuration and run the project.
 ### System Design
 ![System Design](docs/images/system-design.png)
 
-## 😍 Find this repository useful?
-Support it by joining __[stargazers](https://github.com/viethua99/KMP-Stable-Diffusion/stargazers)__ for this repository. :star: <br>
-Also, __[follow me](https://github.com/viethua99)__ on GitHub for my next creations! 🤩
+## Download
+Go to the [Releases](https://github.com/viethua99/KMP-Stable-Diffusion/releases) to download the latest APK version.
 
-## 🔓 License
-
+## License
 **KMP-Stable-Diffusion** is distributed under the terms of the Apache License (Version 2.0). See the
 [license](LICENSE) for more information.
