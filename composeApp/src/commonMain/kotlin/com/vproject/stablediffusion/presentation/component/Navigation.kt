@@ -83,7 +83,7 @@ fun RowScope.StableDiffusionNavigationBarItem(
         if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f) else Color.Transparent
 
     val contentColor =
-        if (selected) Color.White else Color.White.copy(alpha = 0.4f)
+        if (selected) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
 
     Box(
         modifier = modifier

@@ -40,7 +40,7 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
         height: Long
     ): ImageResponse {
         return requestHandler {
-            client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image") {
+            client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-v1-6/text-to-image") {
                 contentType(ContentType.Application.Json)
                 header("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
                 setBody(
@@ -72,7 +72,7 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
         stylePreset: String
     ): ImageResponse {
         return requestHandler {
-            client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image") {
+            client.post("$STABILITY_AI_BASE_URL/v1/generation/stable-diffusion-v1-6/image-to-image") {
                 contentType(ContentType.Application.Json)
                 header("Authorization", BuildKonfig.STABLE_DIFFUSION_API_KEY)
                 setBody(MultiPartFormDataContent(
@@ -83,7 +83,10 @@ class KtorStableDiffusionApi(private val client: HttpClient) : StableDiffusionAp
                         append("text_prompts[0][text]", prompt)
                         append("text_prompts[0][weight]", 1)
                         append("style_preset", stylePreset)
-                        append("image_strength", 0.45)
+                        append("image_strength", imageStrength)
+                        append("steps", 40)
+                        append("cfg_scale", 5)
+                        append("seed", 0)
                     }
                 ))
             }

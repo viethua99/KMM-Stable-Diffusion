@@ -98,7 +98,7 @@ private fun StableDiffusionBottomBar(
     tabs: List<Tab>
 ) {
     StableDiffusionNavigationBar(
-        modifier = modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f)),
+        modifier = modifier.background(MaterialTheme.colorScheme.background),
     ) {
         tabs.forEach { tab ->
             val tabNavigator = LocalTabNavigator.current

@@ -16,9 +16,9 @@ actual fun platformModule() = module {
             }
 
             install(HttpTimeout) {
-                requestTimeoutMillis = 120000
-                connectTimeoutMillis = 120000
-                socketTimeoutMillis = 120000
+                requestTimeoutMillis = 60000
+                connectTimeoutMillis = 60000
+                socketTimeoutMillis = 60000
             }
         }
     }
