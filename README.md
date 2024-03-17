@@ -1,4 +1,4 @@
-![KMP-Stable-Diffusion](docs/images/project-header.png)
+![KMP-Stable-Diffusion](docs/images/project_header.png)
 <p align="center">
   <a href="https://github.com/viethua99/KMP-Stable-Diffusion/releases">
      <img src="https://img.shields.io/github/downloads/viethua99/KMP-Stable-Diffusion/total?color=3BB143" alt="Github - viethua99">
