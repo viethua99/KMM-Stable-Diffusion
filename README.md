@@ -1,4 +1,4 @@
-![KMP-Stable-Diffusion](docs/images/project_header.png)
+![KMP-Stable-Diffusion](docs/images/project_header_v2.png)
 <p align="center">
   <a href="https://github.com/viethua99/KMP-Stable-Diffusion/releases">
      <img src="https://img.shields.io/github/downloads/viethua99/KMP-Stable-Diffusion/total?color=3BB143" alt="Github - viethua99">
@@ -23,14 +23,17 @@
 ## Supporters
 [![Stargazers repo roster for @viethua99/KMP-Stable-Diffusion](https://reporoster.com/stars/dark/viethua99/KMP-Stable-Diffusion)](https://github.com/viethua99/KMP-Stable-Diffusion/stargazers)
 
+## Demo Video
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/cgd9NX3nEts/0.jpg)](https://www.youtube.com/watch?v=cgd9NX3nEts)
+
 ## Features
-### Stable Diffusion:
+### Stable Diffusion
 
 | Text To Image                                             | Image To Image                                            |
 |-----------------------------------------------------------|-----------------------------------------------------------|
 | <img width="320" src="docs/images/ios_tti_feature.gif" /> | <img width="320" src="docs/images/ios_iti_feature.gif" /> |
 
-### Others:
+### Others Feature
 
 | Save Locally                                               | Dark / Light Mode                                             |
 |------------------------------------------------------------|---------------------------------------------------------------|
